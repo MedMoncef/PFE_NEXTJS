@@ -9,9 +9,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useMediaQuery } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { useAuth } from '@/context/AuthContext';
 
 function Navbar() {
   const router = useRouter();
+  const { isLoggedIn, logout } = useAuth();
 
   const handleHomeClick = () => {
     router.push('/');
@@ -49,7 +51,12 @@ function Navbar() {
     router.push('/Register');
   };
 
-  const [anchorEl, setAnchorEl] = useState(null);
+  const handleLogoutClick = () => {
+    logout();
+    router.push('/login');
+  };
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
