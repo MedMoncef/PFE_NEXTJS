@@ -1,5 +1,4 @@
 import { useContext,useState,useEffect } from 'react';
-
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import Navbar from '@/components/Navbar';
@@ -17,13 +16,11 @@ const theme = createTheme();
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
-      <theme2>
         <CssBaseline />
         <Navbar />
           <Component {...pageProps} />
         <Footer />
         <ToastContainer />
-      </theme2>
     </ThemeProvider>
   );
 }

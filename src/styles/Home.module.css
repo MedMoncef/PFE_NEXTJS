@@ -276,3 +276,156 @@
     transform: rotate(0deg);
   }
 }
+
+.banner {
+  position: relative;
+  height: 800px;
+  background-size: cover;
+  background-position: center;
+}
+
+.banner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 98, 255, 0.549);
+}
+
+.bannerContent {
+  position: absolute;
+  top: 50%;
+  right: 50px;
+  transform: translateY(-50%);
+  text-align: right;
+  color: #fff;
+}
+
+.bannerContent h1 {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.radioButtons {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.radioButtons input {
+  margin: 0 5px;
+}
+
+.bannerContent {
+  position: absolute;
+  top: 50%;
+  right: 50px;
+  transform: translateY(-50%);
+  text-align: left;
+  width: 40%;
+}
+
+.bannerContent h1 {
+  font-size: 75px;
+  font-weight: 700;
+  font-family: "Nunito Sans", Arial, sans-serif;
+  margin-bottom: 20px;
+}
+
+.bannerContent h2 {
+  font-size: 16px;
+  font-family: "Nunito Sans", Arial, sans-serif;
+  position: relative;
+  letter-spacing: 4px;
+  color: #f5e4c3;
+  text-transform: uppercase;
+}
+
+.servicesSection {
+  padding: 40px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.servicesContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 20px;
+}
+
+.servicesTitle {
+  margin-bottom: 40px;
+}
+
+.servicesSubtitle {
+  font-size: 16px;
+  font-family: "Nunito Sans", Arial, sans-serif;
+  position: relative;
+  letter-spacing: 4px;
+  color: #f5e4c3;
+  text-transform: uppercase;
+}
+
+.servicesGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(250px, 1fr)); /* Update this line */
+  gap: 25px;
+  align-content: start;
+}
+
+.serviceItem {
+  background-color: #ffffff;
+  border-radius: 4px;
+  padding: 20px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  overflow: hidden;
+  width: 80%;
+}
+
+.serviceItem:hover {
+  background-color: #f5e4c3;
+  transform: scale(1.05);
+}
+
+.serviceIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #f5e4c3;
+  color: #ffffff;
+  position: absolute;
+  top: -30px;
+  left: calc(50% - 30px);
+  transform: translateX
+(-50%);
+  transition: background-color 0.3s ease;
+}
+
+.serviceContent {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.serviceHeading {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.serviceDescription {
+  font-size: 14px;
+  color: #666666;
+}

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Table, TableBody,TableCell,TableContainer,TableHead,TableRow,Paper,Button,Dialog,DialogActions,DialogContent,DialogContentText,DialogTitle } from '@mui/material';
 import Link from 'next/link';
 
-import useRouter from "next/router";
+import { useRouter } from 'next/router';
 import Stack from '@mui/material/Stack';
 import But from '@mui/material/Button';
 
@@ -93,7 +93,7 @@ const PatientsList = () => {
                 </Link>
               </TableCell>
               <TableCell>
-                <Link href="/patients/edit/[id]" as={`/patients/edit/${patient.id}`}>
+              <Link href={`/profile?id=${patient.id}`} passHref>
                   <Button color="primary">Edit</Button>
                 </Link>
               </TableCell>

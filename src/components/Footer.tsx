@@ -1,39 +1,212 @@
 import React from 'react';
-import { Box, Flex, Text, Link } from '@chakra-ui/react';
+import { Flex, Text, Link, Box } from '@chakra-ui/react';
 import { FaInstagram, FaFacebook, FaTwitter } from 'react-icons/fa';
 import { IoMdInformationCircleOutline } from 'react-icons/io';
 import { HiOutlineMail } from 'react-icons/hi';
 
 function Footer() {
   return (
-    <Box bg="#424272" py="20px" px="30px">
-      <Flex justify="center" mb="20px">
-        <Link href="https://www.instagram.com" mr="20px" color="white">
-          <FaInstagram size={20} />
-        </Link>
-        <Link href="https://www.facebook.com" mr="20px" color="white">
-          <FaFacebook size={20} />
-        </Link>
-        <Link href="https://www.twitter.com" color="white">
-          <FaTwitter size={20} />
-        </Link>
-      </Flex>
-      <Flex justify="space-between" alignItems="center">
-        <Box textAlign="center">
-          <Text fontSize="sm" fontWeight="medium" color="white">
-            &copy; 2023 My Website
-          </Text>
-          <Text fontSize="xs" color="white">
-            All rights reserved.
-          </Text>
-        </Box>
-        <Flex>
-          <Link href="/about" mr="20px" color="white">
-            <IoMdInformationCircleOutline size={20} />
-          </Link>
-          <Link href="/contact" color="white">
-            <HiOutlineMail size={20} />
-          </Link>
+    <Box
+      bgImage="url('/images/image_2.jpg')"
+      bgSize="cover"
+      bgPosition="center"
+      minHeight="400px"
+      py="50px"
+      px="20px"
+      position="relative"
+    >
+      <Box
+        position="absolute"
+        top="0"
+        left="0"
+        right="0"
+        bottom="0"
+        bg="rgba(0, 46, 120, 0.900)"
+      />
+      <Flex
+        maxW="1200px"
+        mx="auto"
+        justify="space-between"
+        direction={['column', 'column', 'row']}
+        align={['center', 'center', 'flex-start']}
+        position="relative"
+        zIndex="1"
+        padding="70px 0"
+      >
+        <Flex direction="column" mb={['40px', '40px', '0']} justify="left" align="left">
+          <Box maxW="285px" maxH="330px">
+            <Text fontSize="24px" fontWeight="700" fontFamily="Nunito Sans, Arial, sans-serif" mb="40px" color="white" 
+              fontSize="16px"
+              fontFamily="Nunito Sans, Arial, sans-serif"
+              position="relative"
+              letterSpacing="4px"
+              color="#f5e4c3"
+              textTransform="uppercase"
+            >
+              Harbor Lights
+            </Text>
+            <Text color="white">
+              Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.
+            </Text>
+            <Flex mt="20px" justify="left" align="left">
+              <Link
+                as="a"
+                href="https://www.facebook.com"
+                color="white"
+                mr="10px"
+                marginRight="20px"
+                _hover={{ color: '#f5e4c3', transform: 'scale(1.1)' }}
+              >
+                <FaFacebook size={20} />
+              </Link>
+              <Link
+                as="a"
+                href="https://www.twitter.com"
+                color="white"
+                mr="10px"
+                marginRight="20px"
+                _hover={{ color: '#f5e4c3', transform: 'scale(1.1)' }}
+              >
+                <FaTwitter size={20} />
+              </Link>
+              <Link
+                as="a"
+                href="https://www.instagram.com"
+                color="white"
+                _hover={{ color: '#f5e4c3', transform: 'scale(1.1)' }}
+              >
+                <FaInstagram size={20} />
+              </Link>
+            </Flex>
+          </Box>
+        </Flex>
+        <Flex direction="column" mb={['40px', '40px', '0']} ml={['0', '0', '50px']} justify="center" align="center">
+          <Box maxW="285px" maxH="330px">
+            <Text fontSize="24px" fontWeight="700" fontFamily="Nunito Sans, Arial, sans-serif" mb="40px" color="white" 
+              fontSize="16px"
+              fontFamily="Nunito Sans, Arial, sans-serif"
+              position="relative"
+              letterSpacing="4px"
+              color="#f5e4c3"
+              textTransform="uppercase"
+            >
+              Useful Links
+            </Text>
+            <Flex direction="column" justify="left" align="left">
+              <Link
+                as="a"
+                href="/blog"
+                color="white"
+                mr="10px"
+                mb="25px"
+                _hover={{ color: '#f5e4c3', transform: 'scale(1.1)' }}
+              >
+                Blog
+              </Link>
+              <Link
+                as="a"
+                href="/rooms"
+                color="white"
+                mr="10px"
+                mb="25px"
+                _hover={{ color: '#f5e4c3', transform: 'scale(1.1)' }}
+              >
+                Rooms
+              </Link>
+              <Link
+                as="a"
+                href="/amenities"
+                color="white"
+                mr="10px"
+                mb="25px"
+                _hover={{ color: '#f5e4c3', transform: 'scale(1.1)' }}
+              >
+                Amenities
+              </Link>
+              <Link
+                as="a"
+                href="/gift-card"
+                color="white"
+                mb="25px"
+                _hover={{ color: '#f5e4c3', transform: 'scale(1.1)' }}
+              >
+                Gift Card
+              </Link>
+            </Flex>
+          </Box>
+        </Flex>
+        <Flex direction="column" mb={['40px', '40px', '0']} ml={['0', '0', '50px']} justify="center" align="center">
+          <Box maxW="285px" maxH="330px">
+            <Text fontSize="24px" fontWeight="700" fontFamily="Nunito Sans, Arial, sans-serif" mb="40px" color="white" 
+              fontSize="16px"
+              fontFamily="Nunito Sans, Arial, sans-serif"
+              position="relative"
+              letterSpacing="4px"
+              color="#f5e4c3"
+              textTransform="uppercase"
+            >
+              Privacy
+            </Text>
+            <Flex direction="column" justify="left" align="left">
+              <Link
+                as="a"
+                href="/career"
+                color="white"
+                mb="25px"
+                _hover={{ color: '#f5e4c3', transform: 'scale(1.1)' }}
+              >
+                Career
+              </Link>
+              <Link
+                as="a"
+                href="/about-us"
+                color="white"
+                mb="25px"
+                _hover={{ color: '#f5e4c3', transform: 'scale(1.1)' }}
+              >
+                About Us
+              </Link>
+              <Link
+                as="a"
+                href="/contact-us"
+                color="white"
+                mb="25px"
+                _hover={{ color: '#f5e4c3', transform: 'scale(1.1)' }}
+              >
+                Contact Us
+              </Link>
+              <Link
+                as="a"
+                href="/services"
+                color="white"
+                mb="25px"
+                _hover={{ color: '#f5e4c3', transform: 'scale(1.1)' }}
+              >
+                Services
+              </Link>
+            </Flex>
+          </Box>
+        </Flex>
+        <Flex direction="column" justify="left" align="left">
+          <Box maxW="285px" maxH="330px">
+            <Text fontSize="24px" fontWeight="700" fontFamily="Nunito Sans, Arial, sans-serif" mb="40px" color="white" 
+              fontSize="16px"
+              fontFamily="Nunito Sans, Arial, sans-serif"
+              position="relative"
+              letterSpacing="4px"
+              color="#f5e4c3"
+              textTransform="uppercase"
+            >
+              Have a Question?
+            </Text>
+            <Text color="white">
+              203 Fake St. Mountain View, San Francisco, California, USA
+              <br />
+              +2 392 3929 210
+              <br />
+              info@yourdomain.com
+            </Text>
+          </Box>
         </Flex>
       </Flex>
     </Box>

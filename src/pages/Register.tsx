@@ -10,33 +10,37 @@ import Typography from '@mui/material/Typography';
 import { useAuth } from '@/context/AuthContext';
 import { z } from 'zod';
 
-const loginSchema = z.object({
+const registerSchema = z.object({
   email: z.string().email('Invalid email address').nonempty('Email is required'),
   password: z.string().min(6, 'Password must be at least 6 characters').nonempty('Password is required'),
 });
 
-export default function Login() {
-  const { login, isLoggedIn } = useAuth();
+export default function Register() {
+  const { register, isLoggedIn } = useAuth();
   const router = useRouter();
-  const [title, setTitle] = useState('Welcome back, please login!');
+  const [title, setTitle] = useState('Welcome, please register!');
+  const [nom, setNom] = useState(''); // Added state for 'nom'
+  const [prenom, setPrenom] = useState(''); // Added state for 'prenom'
+  const [dateN, setDateN] = useState(''); // Added state for 'dateN'
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [post, setPost] = useState(''); // Added state for 'post'
   const [errors, setErrors] = useState({ email: '', password: '' });
 
-  const resetForm = (event: any) => {
+  const resetForm = (event) => {
     event.preventDefault();
     setEmail('');
     setPassword('');
     setErrors({ email: '', password: '' });
   };
 
-  const handleLogin = (event: any) => {
+  const handleRegister = (event) => {
     event.preventDefault();
     try {
-      loginSchema.parse({ email, password });
-      login(email, password);
-      toast('Welcome Back, Login successfully');
-      router.push('/');
+      registerSchema.parse({ nom, prenom, dateN, email, password, post });
+      register(email, password);
+      // Optional: Show success message or redirect to a success page
+      router.push('/login');
     } catch (error) {
       if (error instanceof z.ZodError) {
         const emailError = error.issues.find((issue) => issue.path[0] === 'email');
@@ -70,8 +74,53 @@ export default function Login() {
               <Typography variant="h4" sx={{ mb: 2 }}>
                 {title}
               </Typography>
-              <form onSubmit={handleLogin}>
+              <form onSubmit={handleRegister}>
                 <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      variant="outlined"
+                      label="Nom"
+                      name="nom"
+                      type="text"
+                      value={nom}
+                      onChange={(event) => setNom(event.target.value)}
+                      error={!!errors.email}
+                      helperText={errors.email}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      variant="outlined"
+                      label="Prénom"
+                      name="prenom"
+                      type="text"
+                      value={prenom}
+                      onChange={(event) => setPrenom(event.target.value)}
+                      error={!!errors.email}
+                      helperText={errors.email}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Grid container spacing={1} alignItems="center">
+                      <Grid item xs={3}>
+                        <Typography align="right" color="grey">Date of Birth:</Typography>
+                      </Grid>
+                      <Grid item xs={9}>
+                        <TextField
+                          fullWidth
+                          variant="outlined"
+                          name="dateN"
+                          type="date" // Consider changing the type to 'date' if appropriate
+                          value={dateN}
+                          onChange={(event) => setDateN(event.target.value)}
+                          error={!!errors.email}
+                          helperText={errors.email}
+                        />
+                      </Grid>
+                    </Grid>
+                  </Grid>
                   <Grid item xs={12}>
                     <TextField
                       fullWidth
@@ -99,9 +148,22 @@ export default function Login() {
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <Button fullWidth variant="contained" color="primary" type="submit">
-                      Connexion
-                    </Button>
+                    <TextField
+                      fullWidth
+                      variant="outlined"
+                      label="Post"
+                      name="post"
+                      type="text"
+                      value={post}
+                      onChange={(event) => setPost(event.target.value)}
+                      error={!!errors.email}
+                      helperText={errors.email}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                  <Button fullWidth variant="contained" color="primary" type="submit">
+                    Register
+                  </Button>
                   </Grid>
                   <Grid item xs={12}>
                     <Button fullWidth variant="outlined" onClick={resetForm}>
@@ -110,16 +172,6 @@ export default function Login() {
                   </Grid>
                 </Grid>
               </form>
-              <Grid container justifyContent="center" alignItems="center" sx={{ mt: 2 }}>
-                <Grid item xs={12}>
-                  <Typography variant="body2">
-                    your email is: {email}
-                  </Typography>
-                  <Typography variant="body2">
-                    your password is: {password}
-                  </Typography>
-                </Grid>
-              </Grid>
             </Paper>
           </Grid>
         </Grid>
