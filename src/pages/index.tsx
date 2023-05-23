@@ -4,24 +4,38 @@ import styles from '@/styles/Home.module.css';
 import { FormControl, FormLabel, Input, Select, Button } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { FastfoodOutlined, DriveEtaOutlined, SpaOutlined, BedOutlined } from '@mui/icons-material';
+import axios from 'axios';
 
-const images = [
-  '/images/bg_1.jpg',
-  '/images/bg_2.jpg',
-  '/images/bg_3.jpg',
-  '/images/bg_4.jpg',
-];
+const API_URL = 'http://localhost:7000/sliders';
 
 export default function Home() {
   const [currentImage, setCurrentImage] = useState(0);
+  const [sliders, setSliders] = useState([]);
+
+  interface Slider {
+    ID_Slider: string,
+    Image: string,
+    Titre: string,
+    Text: string,
+    DateU: Date
+  }
+  
+  const fetchData = async () => {
+    const result = await axios(API_URL);
+    setSliders(result.data);
+  };
+  
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImage((prevImage) => (prevImage + 1) % images.length);
+      setCurrentImage((prevImage) => (prevImage + 1) % sliders.length);
     }, 5000); // Change image every 5 seconds
 
     return () => clearInterval(interval);
-  }, []);
+  }, [sliders]);
 
   const handleRadioChange = (index) => {
     setCurrentImage(index);
@@ -37,22 +51,26 @@ export default function Home() {
       </Head>
 
       <div>
-        <section
-          className={styles.banner}
-          style={{
-            height: '700px',
-            backgroundImage: `url(${images[currentImage]})`,
-          }}
-        >
-          <div className={styles.bannerContent}>
-            <h2>More than a hotel... an experience</h2>
-            <h1>Hotel for the whole family, all year round.</h1>
-          </div>
-
+        <section className={styles.banner}>
+          {sliders.map((slider: Slider, index) => (
+            <div
+              key={slider.ID_Slider}
+              style={{
+                height: '700px',
+                backgroundImage: `url(/images/${slider.Image})`,
+                display: index === currentImage ? 'block' : 'none',
+              }}
+            >
+              <div className={styles.bannerContent}>
+                <h2>{slider.Titre}</h2>
+                <h1>{slider.Text}</h1>
+              </div>
+            </div>
+          ))}
           <div className={styles.radioButtons}>
-            {images.map((image, index) => (
+            {sliders.map((slider: Slider, index) => (
               <input
-                key={index}
+                key={slider.ID_Slider}
                 type="radio"
                 name="slider-radio"
                 checked={currentImage === index}

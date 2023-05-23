@@ -31,9 +31,11 @@ const PatientsList = () => {
     setPatientToDelete(patient);
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
+  
   const deletePatient = async () => {
     try {
       await axios.delete(`${API_URL}${(patientToDelete as Patient).id}/`);

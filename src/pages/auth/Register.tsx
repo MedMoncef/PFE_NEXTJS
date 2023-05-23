@@ -11,36 +11,55 @@ import { useAuth } from '@/context/AuthContext';
 import { z } from 'zod';
 
 const registerSchema = z.object({
+  nom: z.string().nonempty('Nom is required'),
+  prenom: z.string().nonempty('Prénom is required'),
+  dateN: z.string().nonempty('Date of Birth is required'),
   email: z.string().email('Invalid email address').nonempty('Email is required'),
   password: z.string().min(6, 'Password must be at least 6 characters').nonempty('Password is required'),
+  confirmPassword: z.string().nonempty('Confirm Password is required'),
+  id_post: z.string().nonempty('Post is required'),
 });
 
 export default function Register() {
   const { register, isLoggedIn } = useAuth();
   const router = useRouter();
   const [title, setTitle] = useState('Welcome, please register!');
-  const [nom, setNom] = useState(''); // Added state for 'nom'
-  const [prenom, setPrenom] = useState(''); // Added state for 'prenom'
-  const [dateN, setDateN] = useState(''); // Added state for 'dateN'
+  const [nom, setNom] = useState('');
+  const [prenom, setPrenom] = useState('');
+  const [dateN, setDateN] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [post, setPost] = useState(''); // Added state for 'post'
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [id_post, setPost] = useState('');
   const [errors, setErrors] = useState({ email: '', password: '' });
 
   const resetForm = (event) => {
     event.preventDefault();
+    setNom('');
+    setPrenom('');
+    setDateN('');
     setEmail('');
     setPassword('');
+    setConfirmPassword('');
+    setPost('');
     setErrors({ email: '', password: '' });
   };
 
   const handleRegister = (event) => {
     event.preventDefault();
     try {
-      registerSchema.parse({ nom, prenom, dateN, email, password, post });
-      register(email, password);
+      registerSchema.parse({
+        nom,
+        prenom,
+        dateN,
+        email,
+        password,
+        confirmPassword,
+        id_post,
+      });
+  
+      register(nom, prenom, dateN, email, password, confirmPassword, id_post);
       // Optional: Show success message or redirect to a success page
-      router.push('/login');
     } catch (error) {
       if (error instanceof z.ZodError) {
         const emailError = error.issues.find((issue) => issue.path[0] === 'email');
@@ -52,7 +71,8 @@ export default function Register() {
       }
     }
   };
-
+  
+  
   useEffect(() => {
     if (isLoggedIn) {
       router.push('/');
@@ -76,7 +96,7 @@ export default function Register() {
               </Typography>
               <form onSubmit={handleRegister}>
                 <Grid container spacing={2}>
-                <Grid item xs={12}>
+                  <Grid item xs={12}>
                     <TextField
                       fullWidth
                       variant="outlined"
@@ -85,8 +105,6 @@ export default function Register() {
                       type="text"
                       value={nom}
                       onChange={(event) => setNom(event.target.value)}
-                      error={!!errors.email}
-                      helperText={errors.email}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -98,28 +116,18 @@ export default function Register() {
                       type="text"
                       value={prenom}
                       onChange={(event) => setPrenom(event.target.value)}
-                      error={!!errors.email}
-                      helperText={errors.email}
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <Grid container spacing={1} alignItems="center">
-                      <Grid item xs={3}>
-                        <Typography align="right" color="grey">Date of Birth:</Typography>
-                      </Grid>
-                      <Grid item xs={9}>
-                        <TextField
-                          fullWidth
-                          variant="outlined"
-                          name="dateN"
-                          type="date" // Consider changing the type to 'date' if appropriate
-                          value={dateN}
-                          onChange={(event) => setDateN(event.target.value)}
-                          error={!!errors.email}
-                          helperText={errors.email}
-                        />
-                      </Grid>
-                    </Grid>
+                    <TextField
+                      fullWidth
+                      variant="outlined"
+                      label="Date of Birth"
+                      name="dateN"
+                      type="string"
+                      value={dateN}
+                      onChange={(event) => setDateN(event.target.value)}
+                    />
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
@@ -130,7 +138,7 @@ export default function Register() {
                       type="email"
                       value={email}
                       onChange={(event) => setEmail(event.target.value)}
-                      error={!!errors.email}
+                      error={!errors.email}
                       helperText={errors.email}
                     />
                   </Grid>
@@ -143,7 +151,7 @@ export default function Register() {
                       type="password"
                       value={password}
                       onChange={(event) => setPassword(event.target.value)}
-                      error={!!errors.password}
+                      error={!errors.password}
                       helperText={errors.password}
                     />
                   </Grid>
@@ -151,19 +159,28 @@ export default function Register() {
                     <TextField
                       fullWidth
                       variant="outlined"
-                      label="Post"
-                      name="post"
-                      type="text"
-                      value={post}
-                      onChange={(event) => setPost(event.target.value)}
-                      error={!!errors.email}
-                      helperText={errors.email}
+                      label="Confirm Password"
+                      name="confirmPassword"
+                      type="password"
+                      value={confirmPassword}
+                      onChange={(event) => setConfirmPassword(event.target.value)}
                     />
                   </Grid>
                   <Grid item xs={12}>
-                  <Button fullWidth variant="contained" color="primary" type="submit">
-                    Register
-                  </Button>
+                    <TextField
+                      fullWidth
+                      variant="outlined"
+                      label="Post"
+                      name="id_post"
+                      type="text"
+                      value={id_post}
+                      onChange={(event) => setPost(event.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button fullWidth variant="contained" color="primary" type="submit">
+                      Register
+                    </Button>
                   </Grid>
                   <Grid item xs={12}>
                     <Button fullWidth variant="outlined" onClick={resetForm}>

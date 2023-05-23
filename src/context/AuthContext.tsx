@@ -5,7 +5,15 @@ interface AuthContextType {
   isLoggedIn: boolean;
   authToken: string | null;
   login: (email: string, password: string) => void;
-  register: (email: string, password: string) => void; // Add the register function
+  register: (
+    nom: string,
+    prenom: string,
+    dateN: string, // Update the type to string
+    email: string,
+    password: string,
+    confirmPassword: string,
+    id_post: string
+  ) => void;
   logout: () => void;
 }
 
@@ -13,7 +21,7 @@ const AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
   authToken: null,
   login: () => {},
-  register: () => {}, // Initialize the register function
+  register: () => {},
   logout: () => {},
 });
 
@@ -52,9 +60,17 @@ export const AuthProvider: React.FC = ({ children }) => {
     }
   };
 
-  const register = async (email: string, password: string) => {
+  const register = async (nom: string, prenom: string, dateN: string, email: string, password: string, confirmPassword: string, id_post: string) => {
     try {
-      const response = await axios.post('http://localhost:7000/user', { email, password });
+      const response = await axios.post('http://localhost:7000/create_user', {
+        nom,
+        prenom,
+        dateN,
+        email,
+        password,
+        confirmPassword,
+        id_post
+      });
       console.log('Registration successful:', response.data);
     } catch (error) {
       console.error('Registration failed:', error);
