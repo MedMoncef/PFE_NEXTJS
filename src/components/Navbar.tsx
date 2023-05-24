@@ -48,12 +48,12 @@ function Navbar() {
   };
 
   const handleRegisterUserClick = () => {
-    router.push('/Register');
+    router.push('/auth/Register');
   };
 
   const handleLogoutClick = () => {
     logout();
-    router.push('/login');
+    router.push('/auth/login');
   };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
