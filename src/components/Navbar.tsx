@@ -28,15 +28,15 @@ function Navbar() {
   };
 
   const handleAboutClick = () => {
-    router.push('/about');
+    router.push('/Client/about');
   };
 
   const handleBlogClick = () => {
-    router.push('/blog');
+    router.push('/Client/blog');
   };
 
   const handleContactClick = () => {
-    router.push('/contact');
+    router.push('/Client/contact');
   };
 
   const handleLoginClick = () => {
@@ -52,7 +52,7 @@ function Navbar() {
   };
 
   const handleReservationClick = () => {
-    router.push('/reservation');
+    router.push('/Client/reservation');
   };
 
   const handleLogoutClick = () => {

@@ -3,7 +3,11 @@ import { useState, useEffect } from 'react';
 import styles from '@/styles/Home.module.css';
 import { FormControl, FormLabel, Input, Select, Button } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { FastfoodOutlined, DriveEtaOutlined, SpaOutlined, BedOutlined } from '@mui/icons-material';
+import { Typography, Card, CardContent, Grid } from '@mui/material';
+import LocalDiningIcon from '@mui/icons-material/LocalDining';
+import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
+import SpaIcon from '@mui/icons-material/Spa';
+import KingBedIcon from '@mui/icons-material/KingBed';
 import axios from 'axios';
 
 const API_URL = 'http://localhost:7000/sliders';
@@ -163,47 +167,61 @@ export default function Home() {
         </section>
 
 				{/* ========================================================== */}
-		
-				<section className={styles.servicesSection}>
-				<div className={styles.servicesContainer}>
-					<div className={styles.servicesTitle}>
-					<span className={styles.servicesSubtitle}>Welcome to Harbor Lights Hotel</span>
-					<h2>You'll Never Want To Leave</h2>
-					</div>
-					<div className={styles.servicesGrid}>
-					<div className={styles.serviceItem}>
-						<span className={styles.serviceIcon}><NotificationsIcon /></span>
-						<div className={styles.serviceContent}>
-						<h3 className={styles.serviceHeading}>Friendly Service</h3>
-						</div>
-					</div>
-					<div className={styles.serviceItem}>
-						<span className={styles.serviceIcon}><FastfoodOutlined /></span>
-						<div className={styles.serviceContent}>
-						<h3 className={styles.serviceHeading}>Get Breakfast</h3>
-						</div>
-					</div>
-					<div className={styles.serviceItem}>
-						<span className={styles.serviceIcon}><DriveEtaOutlined /></span>
-						<div className={styles.serviceContent}>
-						<h3 className={styles.serviceHeading}>Transfer Services</h3>
-						</div>
-					</div>
-					<div className={styles.serviceItem}>
-						<span className={styles.serviceIcon}><SpaOutlined /></span>
-						<div className={styles.serviceContent}>
-						<h3 className={styles.serviceHeading}>Suits & SPA</h3>
-						</div>
-					</div>
-					<div className={styles.serviceItem}>
-						<span className={styles.serviceIcon}><BedOutlined /></span>
-						<div className={styles.serviceContent}>
-						<h3 className={styles.serviceHeading}>Cozy Rooms</h3>
-						</div>
-					</div>
-					</div>
-				</div>
-				</section>
+        		
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '40px' }}>
+              <Grid container spacing={2} style={{ justifyContent: 'center' }}>
+                <Grid item xs={6} sm={4} md={2}>
+                  <Card>
+                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <NotificationsIcon color="primary" fontSize="large" style={{ marginBottom: '10px' }} />
+                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                        Friendly Service
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={6} sm={4} md={2}>
+                  <Card>
+                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <LocalDiningIcon color="primary" fontSize="large" style={{ marginBottom: '10px' }} />
+                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                        Get Breakfast
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={6} sm={4} md={2}>
+                  <Card>
+                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <AirportShuttleIcon color="primary" fontSize="large" style={{ marginBottom: '10px' }} />
+                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                        Transfer Services
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={6} sm={4} md={2}>
+                  <Card>
+                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <SpaIcon color="primary" fontSize="large" style={{ marginBottom: '10px' }} />
+                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                        Suits & SPA
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={6} sm={4} md={2}>
+                  <Card>
+                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <KingBedIcon color="primary" fontSize="large" style={{ marginBottom: '10px' }} />
+                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                        Cozy Rooms
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </Grid>
+            </div>
 
       </div>
     </>

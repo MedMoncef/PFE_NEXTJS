@@ -429,3 +429,25 @@
   font-size: 14px;
   color: #666666;
 }
+
+.about {
+  text-align: center;
+  margin: 50px;
+}
+
+.about h2 {
+  font-size: 14px;
+  font-family: "Nunito Sans", Arial, sans-serif;
+  position: relative;
+  letter-spacing: 4px;
+  color: rgb(21, 101, 192);
+  text-transform: uppercase;
+}
+
+.about h1 {
+  font-size: 38px;
+  font-weight: 700;
+  position: relative;
+  line-height: 1.5;
+  font-family: "Nunito Sans", Arial, sans-serif;
+}
