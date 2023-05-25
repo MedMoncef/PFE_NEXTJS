@@ -51,6 +51,10 @@ function Navbar() {
     router.push('/auth/Register');
   };
 
+  const handleReservationClick = () => {
+    router.push('/reservation');
+  };
+
   const handleLogoutClick = () => {
     logout();
     router.push('/auth/login');
