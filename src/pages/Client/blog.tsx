@@ -64,33 +64,33 @@ export default function Blog() {
         {blogs.map((blog: Blog, index) => (
           <Grid item xs={12} sm={6} md={4} key={blog.ID_Blog}>
             <Card style={{ width: '75%' }}>
-            <a href="blog-single.html">
-              <CardMedia
-                component="img"
-                alt="Blog Image"
-                height="200"
-                image='/images/Rooms/${blog.Image}'
-              />
-            </a>
-            <CardContent style={{ textAlign: 'center' }}>
-              <Typography variant="subtitle2">{blog.DateU}</Typography>
-              <Typography variant="subtitle2">Admin</Typography>
-              <Typography variant="subtitle2">
-                <span className="icon-chat"></span> {blog.ID_Blog}
-              </Typography>
-              <Typography variant="h6" component="h3" style={{ textAlign: 'center' }}>
-                <a href="#">{blog.Titre}</a>
-              </Typography>
-              <Typography variant="body2" style={{ textAlign: 'justify' }}>
-                {blog.Content}
-              </Typography>
-              <Button variant="contained" color="secondary" style={{ margin: '10px' }}>
-                More info
-              </Button>
-            </CardContent>
+              <a href="blog-single.html">
+                <CardMedia
+                  component="img"
+                  alt="Blog Image"
+                  height="200"
+                  image={`/images/Rooms/${blog.Image}`}
+                />
+              </a>
+              <CardContent style={{ textAlign: 'center' }}>
+              <Typography variant="subtitle2">{blog.DateU.toLocaleDateString()}</Typography>
+                <Typography variant="subtitle2">Admin</Typography>
+                <Typography variant="subtitle2">
+                  <span className="icon-chat"></span> {blog.ID_Blog}
+                </Typography>
+                <Typography variant="h6" component="h3" style={{ textAlign: 'center' }}>
+                  <a href="#">{blog.Titre}</a>
+                </Typography>
+                <Typography variant="body2" style={{ textAlign: 'justify' }}>
+                  {blog.Content}
+                </Typography>
+                <Button variant="contained" color="secondary" style={{ margin: '10px' }}>
+                  More info
+                </Button>
+              </CardContent>
             </Card>
           </Grid>
-          ))}
+        ))}
 
 
 

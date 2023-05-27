@@ -18,19 +18,30 @@ interface ReservationFormData {
   Duree: number;
 }
 
+interface BlogFormData {
+  ID_Blog: string;
+  Image: string;
+  Titre: string;
+  Content: string;
+  DateU: string;
+}
+
 interface AuthContextType {
   submitContactForm: (nom: string, email: string, sujet: string, message: string) => void;
   submitReservationForm: (formData: ReservationFormData) => void;
+  submitBlogForm: (formData: BlogFormData) => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
   submitContactForm: () => {},
   submitReservationForm: () => {},
+  submitBlogForm: () => {}
 });
 
 export const useClient = () => useContext(AuthContext);
 
 export const ClientProvider: React.FC = ({ children }) => {
+
   const submitContactForm = async (nom: string, email: string, sujet: string, message: string) => {
     const formData: ContactFormData = {
       ID_Contact: '',
@@ -63,8 +74,20 @@ export const ClientProvider: React.FC = ({ children }) => {
     }
   };
 
+  const submitBlogForm = async (formData: BlogFormData) => {
+    try {
+      // Make an HTTP request to submit the blog form data
+      await axios.post('http://localhost:7000/blogs', formData);
+      console.log('Blog form submitted successfully');
+      // Handle success, show confirmation message, etc.
+    } catch (error) {
+      console.error('Blog form submission failed:', error);
+      // Handle submission failure, show error message, etc.
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ submitContactForm, submitReservationForm }}>
+    <AuthContext.Provider value={{ submitContactForm, submitReservationForm, submitBlogForm }}>
       {children}
     </AuthContext.Provider>
   );
