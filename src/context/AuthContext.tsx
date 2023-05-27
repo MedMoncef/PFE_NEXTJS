@@ -3,7 +3,7 @@ import axios from 'axios';
 
 interface AuthContextType {
   isLoggedIn: boolean;
-  authToken: string | null;
+  token: string | null;
   login: (email: string, password: string) => void;
   register: (
     nom: string,
@@ -19,7 +19,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
-  authToken: null,
+  token: null,
   login: () => {},
   register: () => {},
   logout: () => {},
@@ -29,13 +29,13 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider: React.FC = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [authToken, setAuthToken] = useState<string | null>(null);
+  const [token, settoken] = useState<string | null>(null);
 
   // Check authentication state after page refresh to get the token inside the useAuthContext
   const checkAuthState = () => {
-    const storedToken = localStorage.getItem('authToken');
+    const storedToken = localStorage.getItem('token');
     if (storedToken) {
-      setAuthToken(storedToken);
+      settoken(storedToken);
       setIsLoggedIn(true);
     }
   };
@@ -47,13 +47,13 @@ export const AuthProvider: React.FC = ({ children }) => {
   const login = async (email: string, password: string) => {
     try {
       const response = await axios.post(
-        'http://localhost:7000/user',
+        'http://localhost:7000/loginUser',
         { email, password }
       );
-      const { auth_token } = response.data;
-      setAuthToken(auth_token);
+      const { token } = response.data;
+      settoken(token);
       setIsLoggedIn(true);
-      localStorage.setItem('authToken', auth_token);
+      localStorage.setItem('token', token);
     } catch (error) {
       console.error('Login failed:', error);
       // Handle login failure, show error message, etc.
@@ -79,13 +79,13 @@ export const AuthProvider: React.FC = ({ children }) => {
   };
 
   const logout = () => {
-    setAuthToken(null);
+    settoken(null);
     setIsLoggedIn(false);
-    localStorage.removeItem('authToken');
+    localStorage.removeItem('token');
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, authToken, login, register, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, token, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

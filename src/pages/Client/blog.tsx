@@ -7,8 +7,30 @@ import { toast } from 'react-toastify';
 import Paper from '@mui/material/Paper';
 import { useClient } from '@/context/ClientContext';
 import { z } from 'zod';
+import axios from 'axios';
 
-export default function Home() {
+const API_URL = 'http://localhost:7000/blogs';
+export default function Blog() {
+  const [blogs, setBlogs] = useState([]);
+
+  interface Blog {
+    ID_Blog: string,
+    Image: string,
+    Titre: string,
+    Content: string,
+    DateU: Date
+  }
+
+  const fetchData = async () => {
+    const result = await axios(API_URL);
+    setBlogs(result.data);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+
 
   return (
     <>
@@ -38,37 +60,39 @@ export default function Home() {
         </section>
 
         <Grid container spacing={2} style={{ margin: '50px', display: 'flex', justifyContent: 'center' }}>
-          <Grid item xs={12} sm={6} md={4}>
 
+        {blogs.map((blog: Blog, index) => (
+          <Grid item xs={12} sm={6} md={4} key={blog.ID_Blog}>
             <Card style={{ width: '75%' }}>
-
             <a href="blog-single.html">
               <CardMedia
                 component="img"
                 alt="Blog Image"
                 height="200"
-                image="/images/Rooms/room-1.jpg"
+                image='/images/Rooms/${blog.Image}'
               />
             </a>
             <CardContent style={{ textAlign: 'center' }}>
-              <Typography variant="subtitle2">Oct. 30, 2019</Typography>
+              <Typography variant="subtitle2">{blog.DateU}</Typography>
               <Typography variant="subtitle2">Admin</Typography>
               <Typography variant="subtitle2">
-                <span className="icon-chat"></span> 3
+                <span className="icon-chat"></span> {blog.ID_Blog}
               </Typography>
               <Typography variant="h6" component="h3" style={{ textAlign: 'center' }}>
-                <a href="#">Even the all-powerful Pointing has no control about the blind texts</a>
+                <a href="#">{blog.Titre}</a>
               </Typography>
               <Typography variant="body2" style={{ textAlign: 'justify' }}>
-                A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
+                {blog.Content}
               </Typography>
               <Button variant="contained" color="secondary" style={{ margin: '10px' }}>
                 More info
               </Button>
             </CardContent>
-
             </Card>
           </Grid>
+          ))}
+
+
 
           <Grid item xs={12} sm={6} md={4}>
             <Card style={{ width: '75%' }}>

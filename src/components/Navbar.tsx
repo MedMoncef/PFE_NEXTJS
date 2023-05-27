@@ -40,7 +40,7 @@ function Navbar() {
   };
 
   const handleLoginClick = () => {
-    router.push('/login');
+    router.push('/auth/login');
   };
 
   const handleRegisterClick = () => {
