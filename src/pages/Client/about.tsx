@@ -10,6 +10,15 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Image from 'next/image';
 import 'tailwindcss/tailwind.css';
 
+const stylesD = {
+  card: {
+    backgroundImage: `url(/images/Images/image_6.jpg)`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    padding: '2rem',
+    color: 'white',
+  },
+};
 // Custom theme with water-themed colors
 const theme = createTheme({
   palette: {
@@ -130,55 +139,57 @@ export default function Home() {
                   Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.
                   </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                
+                <Grid item xs={12} sm={12}>
                 <Image
                     src="/images/About/about-2.jpg" // Replace with your image path
                     alt="Right Side (Image)"
-                    width={200} // Set your desired image width
-                    height={300} // Set your desired image height
+                    width={400} // Set your desired image width
+                    height={600} // Set your desired image height
                   />
                   <Image
                     src="/images/About/about-1.jpg" // Replace with your image path
                     alt="Right Side (Image)"
-                    width={200} // Set your desired image width
-                    height={300} // Set your desired image height
+                    width={400} // Set your desired image width
+                    height={600} // Set your desired image height
                   />
                 </Grid>
               </Grid>
             </Container>
 
-              <Grid item xs={12} md={6}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h4" gutterBottom style={{ color: theme.palette.primary.main }}>
-                      Contact Information
-                    </Typography>
-                    <Typography variant="body1">
-                      <strong>Address:</strong> 123 Ocean Avenue, Waterfront City
-                    </Typography>
-                    <Typography variant="body1">
-                      <strong>Phone:</strong> +1 123 456 7890
-                    </Typography>
-                    <Typography variant="body1">
-                      <strong>Email:</strong> info@harborhotel.com
-                    </Typography>
-                    <Typography variant="body1">
-                      <strong>Follow us:</strong>{' '}
-                      <Link href="#" color="secondary">
-                        Facebook
-                      </Link>{' '}
-                      |{' '}
-                      <Link href="#" color="secondary">
-                        Instagram
-                      </Link>{' '}
-                      |{' '}
-                      <Link href="#" color="secondary">
-                        Twitter
-                      </Link>
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
+            <Grid item xs={12} md={12}>
+          <Card style={stylesD.card}>
+            <CardContent>
+              <Typography variant="h4" gutterBottom>
+                Contact Information
+              </Typography>
+              <Typography variant="body1">
+                <strong>Address:</strong> 123 Ocean Avenue, Waterfront City
+              </Typography>
+              <Typography variant="body1">
+                <strong>Phone:</strong> +1 123 456 7890
+              </Typography>
+              <Typography variant="body1">
+                <strong>Email:</strong> info@harborhotel.com
+              </Typography>
+              <Typography variant="body1">
+                <strong>Follow us:</strong>{' '}
+                <Link href="#" color="secondary">
+                  Facebook
+                </Link>{' '}
+                |{' '}
+                <Link href="#" color="secondary">
+                  Instagram
+                </Link>{' '}
+                |{' '}
+                <Link href="#" color="secondary">
+                  Twitter
+                </Link>
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+
             </Grid>
           </section>
         </ThemeProvider>
