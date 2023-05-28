@@ -125,37 +125,42 @@ export default function Home() {
             <Grid container spacing={2}>
 
 
-            <Container maxWidth="lg" sx={{ paddingTop: 4, paddingBottom: 4 }}>
-              <Grid container spacing={4}>
-                <Grid item xs={12} sm={4} className={styles.about}>
-                  <Typography variant="h2" gutterBottom>
-                    ABOUT HARBOR LIGHTS HOTEL
-                  </Typography>
-                  <Typography variant="h1" gutterBottom>
-                  Harbor Lights Hotel the Most Recommended Hotel All Over the World
-                  </Typography>
-                  <Typography variant="body1">
-                  Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. 
-                  Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.
-                  </Typography>
-                </Grid>
-                
-                <Grid item xs={12} sm={12}>
-                <Image
-                    src="/images/About/about-2.jpg" // Replace with your image path
-                    alt="Right Side (Image)"
-                    width={400} // Set your desired image width
-                    height={600} // Set your desired image height
-                  />
-                  <Image
-                    src="/images/About/about-1.jpg" // Replace with your image path
-                    alt="Right Side (Image)"
-                    width={400} // Set your desired image width
-                    height={600} // Set your desired image height
-                  />
-                </Grid>
-              </Grid>
-            </Container>
+            <div>
+      <section>
+        <Grid container>
+          <Grid item md={6}>
+            <div className={styles.about}>
+              <Typography variant="h4" component="span">Welcome to Harbor Lights Hotel</Typography>
+              <Typography variant="h2">You'll Never Want To Leave</Typography>
+            </div>
+          </Grid>
+          <Grid item md={5}>
+            <div>
+              <img src="/images/About/about-1.jpg" alt="Image 1" width="50%"/>
+              <img src="/images/About/about-2.jpg" alt="Image 2" width="50%"/>
+            </div>
+          </Grid>
+        </Grid>
+      </section>
+
+      <section>
+        <Grid container>
+        <Grid item md={6}>
+            <div>
+              <img src="/images/About/testimony-img.jpg" alt="Image 3" width="50%"/>
+            </div>
+          </Grid>
+          <Grid item md={6}>
+            <div className={styles.about}>
+              <Typography variant="h4" component="span">About Harbor Lights Hotel</Typography>
+              <Typography variant="h2">Harbor Lights Hotel the Most Recommended Hotel All Over the World</Typography>
+              <Typography variant="body1">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</Typography>
+              <p><a href="#">Reserve Your Room Now</a></p>
+            </div>
+          </Grid>
+        </Grid>
+      </section>
+    </div>
 
             <Grid item xs={12} md={12}>
           <Card style={stylesD.card}>

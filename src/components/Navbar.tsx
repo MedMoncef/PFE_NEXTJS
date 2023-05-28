@@ -207,9 +207,11 @@ function Navbar() {
                 Contact
               </MenuItem>
 
+              {isLoggedIn ? (
+
               <MenuItem onClick={() => {
                     handleMenuClose();
-                    handleRegisterUserClick();
+                    handleLogoutClick();
                   }}
                   sx={{
                     fontSize: '14px',
@@ -224,8 +226,51 @@ function Navbar() {
                     },
                   }}  
                   >
-                    Register
+                    Logout
               </MenuItem>
+              ) : (
+                <>
+                      <MenuItem onClick={() => {
+                        handleMenuClose();
+                        handleRegisterUserClick();
+                      }}
+                      sx={{
+                        fontSize: '14px',
+                        paddingTop: '1.5rem',
+                        paddingBottom: '1.5rem',
+                        paddingLeft: '20px',
+                        paddingRight: '20px',
+                        fontWeight: 600,
+                        '&:hover': {
+                          color: '#f5e4c3',
+                          transform: 'scale(1.1)',
+                        },
+                      }}  
+                      >
+                        Register
+                  </MenuItem>
+
+                    <MenuItem onClick={() => {
+                      handleMenuClose();
+                      handleLoginClick();
+                    }}
+                    sx={{
+                      fontSize: '14px',
+                      paddingTop: '1.5rem',
+                      paddingBottom: '1.5rem',
+                      paddingLeft: '20px',
+                      paddingRight: '20px',
+                      fontWeight: 600,
+                      '&:hover': {
+                        color: '#f5e4c3',
+                        transform: 'scale(1.1)',
+                      },
+                    }}  
+                    >
+                      Login
+                </MenuItem>
+                </>
+                )}
             </Menu>
           </>
         ) : (
@@ -313,33 +358,51 @@ function Navbar() {
                 }}>
               Contact
             </Button>
-            <Button color="inherit" onClick={handleLoginClick} sx={{ fontSize: '14px',
-                  paddingTop: '1.5rem',
-                  paddingBottom: '1.5rem',
-                  paddingLeft: '20px',
-                  paddingRight: '20px',
-                  fontWeight: 300,
-                  '&:hover': {
-                    color: '#f5e4c3',
-                    transform: 'scale(1.1)',
-                  },
-                }}>
-              Login
-            </Button>
-            <Button color="inherit" onClick={handleRegisterUserClick} sx={{ fontSize: '14px',
-                  paddingTop: '1.5rem',
-                  paddingBottom: '1.5rem',
-                  paddingLeft: '20px',
-                  paddingRight: '20px',
-                  fontWeight: 300,
-                  '&:hover': {
-                    color: '#f5e4c3',
-                    transform: 'scale(1.1)',
-                  },
-                }}>
-              Register
-            </Button>
-          </>
+            {isLoggedIn ? (
+                <Button color="inherit" onClick={handleLogoutClick} sx={{ fontSize: '14px',
+                      paddingTop: '1.5rem',
+                      paddingBottom: '1.5rem',
+                      paddingLeft: '20px',
+                      paddingRight: '20px',
+                      fontWeight: 300,
+                      '&:hover': {
+                        color: '#f5e4c3',
+                        transform: 'scale(1.1)',
+                      },
+                    }}>
+                  Logout
+                </Button>
+            ) : (
+              <>
+              <Button color="inherit" onClick={handleLoginClick} sx={{ fontSize: '14px',
+                    paddingTop: '1.5rem',
+                    paddingBottom: '1.5rem',
+                    paddingLeft: '20px',
+                    paddingRight: '20px',
+                    fontWeight: 300,
+                    '&:hover': {
+                      color: '#f5e4c3',
+                      transform: 'scale(1.1)',
+                    },
+                  }}>
+                Login
+              </Button>
+              <Button color="inherit" onClick={handleRegisterUserClick} sx={{ fontSize: '14px',
+                    paddingTop: '1.5rem',
+                    paddingBottom: '1.5rem',
+                    paddingLeft: '20px',
+                    paddingRight: '20px',
+                    fontWeight: 300,
+                    '&:hover': {
+                      color: '#f5e4c3',
+                      transform: 'scale(1.1)',
+                    },
+                  }}>
+                Register
+              </Button>
+              </>
+              )}
+           </>
         )}
       </Toolbar>
     </AppBar>

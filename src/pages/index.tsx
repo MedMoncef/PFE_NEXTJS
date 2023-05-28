@@ -36,7 +36,7 @@ export default function Home() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prevImage) => (prevImage + 1) % sliders.length);
-    }, 5000); // Change image every 5 seconds
+    }, 4000); // Change image every 5 seconds
 
     return () => clearInterval(interval);
   }, [sliders]);
