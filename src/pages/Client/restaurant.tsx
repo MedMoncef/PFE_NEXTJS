@@ -78,7 +78,7 @@ export default function Home() {
       </Head>
 
       <div>
-        <section className={styles.banner} style={{ height: '600px' }}>
+        <section className={styles.banner} style={{ height: '500px auto' }}>
           <div
             style={{
               height: '600px',
@@ -90,72 +90,11 @@ export default function Home() {
           >
             <div className={styles.bannerContent}>
               <h2><Link style={{ color: '#f5e4c3' }} href="/">Home</Link></h2>
-              <h1>About Us</h1>
+              <h1>Restaurant</h1>
             </div>
           </div>
         </section>
         
-        <div className={styles.about}>
-          <h2>WELCOME TO HARBOR LIGHTS HOTEL</h2>
-          <h1>You'll Never Want To Leave</h1>
-        </div>
-
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '40px' }}>
-              <Grid container spacing={2} style={{ justifyContent: 'center' }}>
-                <Grid item xs={6} sm={4} md={2}>
-                  <Card>
-                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <NotificationsIcon color="primary" fontSize="large" style={{ marginBottom: '10px' }} />
-                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                        Friendly Service
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-                <Grid item xs={6} sm={4} md={2}>
-                  <Card>
-                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <LocalDiningIcon color="primary" fontSize="large" style={{ marginBottom: '10px' }} />
-                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                        Get Breakfast
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-                <Grid item xs={6} sm={4} md={2}>
-                  <Card>
-                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <AirportShuttleIcon color="primary" fontSize="large" style={{ marginBottom: '10px' }} />
-                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                        Transfer Services
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-                <Grid item xs={6} sm={4} md={2}>
-                  <Card>
-                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <SpaIcon color="primary" fontSize="large" style={{ marginBottom: '10px' }} />
-                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                        Suits & SPA
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-                <Grid item xs={6} sm={4} md={2}>
-                  <Card>
-                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <KingBedIcon color="primary" fontSize="large" style={{ marginBottom: '10px' }} />
-                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                        Cozy Rooms
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              </Grid>
-            </div>
-
-            
         <ThemeProvider theme={theme}>
           <section style={{ padding: '50px' }}>
             <Grid container spacing={2}>
@@ -181,9 +120,8 @@ export default function Home() {
                 </div>
               </Container>
               <Container maxWidth="sm">
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <img src="/images/About/about-1.jpg" alt="Image 1" style={{ width: '50%', height: 'auto' }} />
-                  <img src="/images/About/about-2.jpg" alt="Image 2" style={{ width: '50%', height: 'auto' }} />
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10%' }}>
+                  <img src="/images/Resto/resto1.jpg" alt="Image 1" style={{ width: '100%', height: 'auto' }} />
                 </div>
               </Container>
             </React.Fragment>

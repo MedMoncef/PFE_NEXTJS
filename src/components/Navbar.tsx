@@ -24,7 +24,7 @@ function Navbar() {
   };
 
   const handleRestaurantClick = () => {
-    router.push('/restaurant');
+    router.push('/Client/restaurant');
   };
 
   const handleAboutClick = () => {
