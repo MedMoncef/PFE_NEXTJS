@@ -86,10 +86,15 @@ export default function Home() {
           </div>
         </section>
 
+        <div className={styles.about}>
+          <h2>WELCOME TO HARBOR LIGHTS HOTEL</h2>
+          <h1>Message us or call, we'll answer</h1>
+        </div>
+
         {/* Contact Information */}
         <section>
 
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '5%', marginTop: '5%' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '5%' }}>
                 <div>
                     <iframe
                     src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12837.362651451496!2d10.724349!3d36.4493228!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x130299a2da4fe895%3A0x81375888b980e5d8!2sIMSET%20NABEUL!5e0!3m2!1sfr!2stn!4v1684870791988!5m2!1sfr!2stn"
@@ -146,7 +151,7 @@ export default function Home() {
           </div>
 
 
-          <Grid item xs={12} md={12}>
+        <Grid item xs={12} md={12} style={{ padding: '50px' }}>
           <Card style={stylesD.card}>
             <CardContent style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
               <Typography variant="h4" gutterBottom>

@@ -469,3 +469,9 @@
   line-height: 1.5;
   font-family: "Nunito Sans", Arial, sans-serif;
 }
+
+.roomsFilter :hover {
+  background-color: rgb(21, 101, 192);
+  color: white;
+  cursor: pointer;
+}

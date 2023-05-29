@@ -2,29 +2,32 @@ import Head from 'next/head';
 import { Typography, Link, Card, CardContent, Grid, createTheme, ThemeProvider, CardMedia, Button, Container, Box, CssBaseline, CardActions } from '@mui/material';
 import styles from '@/styles/Home.module.css';
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { toast } from 'react-toastify';
-import Paper from '@mui/material/Paper';
-import { useClient } from '@/context/ClientContext';
-import { z } from 'zod';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:7000/blogs';
+const API_URL = 'http://localhost:7000/rooms';
 
 export default function Blog() {
-  const [blogs, setBlogs] = useState([]);
+  const [rooms, setRooms] = useState([]);
 
-  interface Blog {
-    ID_Blog: string,
-    Image: string,
-    Titre: string,
-    Content: string,
-    DateU: Date
+  interface Room {
+    ID_Rooms: String,
+    Room_Number: String,
+    Floor_Number: String,
+    Name: String,
+    Image: String,
+    Description: String,
+    Max: Number,
+    View: String,
+    Size: String,
+    Bed_Number: String,
+    Type: String,
+    Rating: Number,
+    Price: Number,
   }
 
   const fetchData = async () => {
     const result = await axios(API_URL);
-    setBlogs(result.data);
+    setRooms(result.data);
   };
 
   useEffect(() => {
@@ -60,26 +63,94 @@ export default function Blog() {
           </div>
         </section>
 
+        <div className={styles.about}>
+          <h2>HARBOR LIGHT'S ROOMS</h2>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'center', margin: '3% 10%' }}>
+              <Grid container spacing={2} style={{ justifyContent: 'center' }}>
+                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
+                  <Card>
+                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                          Standard Room
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
+                  <Card>
+                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                        Deluxe Room
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
+                  <Card>
+                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                        Suite
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
+                  <Card>
+                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                        Executive Room
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
+                  <Card>
+                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                        Family Room
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+
+                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
+                  <Card>
+                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                        Specialty Rooms
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+
+              </Grid>
+            </div>
+
         <Grid container spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
-          <Card sx={{ maxWidth: 350, margin: '0 2%' }}>
+
+        {rooms.map((room: Room, index) => (
+          <Card sx={{ maxWidth: 350, margin: '2% 2%' }} key={room.ID_Rooms}>
             <CardMedia
               sx={{ height: 250 }}
-              image="/images/Rooms/room-1.jpg"
-              title="Standard Room"
+              image={`/images/Rooms/${room.Image}`}
+              title="Standard Single"
             />
             <CardContent>
                 <div className={styles.rooms}>
-                  <h1>Standard Room</h1>
-                  <h2>50$ per night</h2>
+                  <h1>{room.Name}</h1>
+                  <h2>{room.Price}$ per night</h2>
                 </div>
               <Typography variant="body2" color="text.secondary">
-                Our Standard Room is a comfortable and affordable option at $100 per night. It features a cozy queen-size bed, private bathroom, TV, free Wi-Fi, and amenities like a mini fridge and coffee maker. Enjoy a restful stay with access to our 24-hour front desk and on-site restaurant for breakfast. Perfect for leisure and business travelers.
+                {room.Description}
               </Typography>
             </CardContent>
             <CardActions>
               <Button size="small">Learn More</Button>
             </CardActions>
           </Card>
+        ))}
 
         </Grid>
 
