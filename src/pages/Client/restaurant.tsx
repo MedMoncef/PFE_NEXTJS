@@ -36,19 +36,22 @@ const theme = createTheme({
 
 export default function Home() {
   const [currentImage, setCurrentImage] = useState(0);
-  const [testimonies, setTestimonies] = useState([]);
+  const [menus, setMenus] = useState([]);
 
-  interface Testimony {
-    IdTestimony: string,
-    comment: string,
-    name: string,
-    image: string,
-    title: string
+  interface Menu {
+    ID_Menu: string,
+    Image: string,
+    Nom: string,
+    Description: string,
+    Type: {
+        type: String,
+        enum: ['Breakfast', 'Appetizers and Starters', 'Main Courses', 'Desserts', 'Beverages']
+      }
   }
 
   const fetchData = async () => {
     const result = await axios(API_URL);
-    setTestimonies(result.data);
+    setMenus(result.data);
   };
 
   useEffect(() => {
@@ -57,11 +60,11 @@ export default function Home() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImage((prevImage) => (prevImage + 1) % testimonies.length);
+      setCurrentImage((prevImage) => (prevImage + 1) % menus.length);
     }, 4000); // Change image every 5 seconds
 
     return () => clearInterval(interval);
-  }, [testimonies]);
+  }, [menus]);
 
   const handleRadioChange = (index) => {
     setCurrentImage(index);
@@ -107,7 +110,7 @@ export default function Home() {
                     ABOUT HARBOR LIGHTS HOTEL
                   </Typography>
                   <Typography variant="h4" style={{ textAlign: 'left', marginTop: '20px' }}>
-                    Harbor Lights Hotel the Most Recommended Hotel All Over the World
+                    Harbor Lights Hotel Restaurants
                   </Typography>
                   <p style={{ textAlign: 'left', marginTop: '50px' }}>
                     Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.
@@ -125,87 +128,6 @@ export default function Home() {
                 </div>
               </Container>
             </React.Fragment>
-
-            <React.Fragment>
-              <CssBaseline />
-              <Container maxWidth="sm" style={{ marginTop: '40px', marginBottom: '40px' }}>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', backgroundColor: '#2f89fc' }}>
-                  <img src="/images/About/testimony-img.jpg" alt="Image 3" style={{ width: '70%', height: 'auto' }} />
-                </div>
-              </Container>
-              <Container maxWidth="sm">
-                <div className={styles.about}>
-                  <Typography variant="h2" style={{ textAlign: 'left' }}>
-                    TESTIMONY
-                  </Typography>
-                  <Typography variant="h4" style={{ textAlign: 'left', marginTop: '20px' }}>
-                    Happy Customer
-                  </Typography>
-
-                  {testimonies.map((testimony: Testimony, index) => (
-                    <div key={testimony.IdTestimony} style={{display: index === currentImage ? 'block' : 'none',}}>
-                          <Card sx={{ display: 'flex', marginBottom: '5%', marginTop: '20%' }}>
-                            <CardMedia
-                              component="img"
-                              sx={{ width: 151 }}
-                              image={`/images/Users/${testimony.image}`}
-                              alt="Live from space album cover"
-                            />
-                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                              <CardContent sx={{ flex: '1 0 auto' }}>
-                                <Typography component="div" variant="h5">
-                                  {testimony.name}
-                                </Typography>
-                                <Typography variant="subtitle1" color="text.secondary" component="div">
-                                 {testimony.title}
-                                </Typography>
-                              </CardContent>
-                            </Box>
-                          </Card>
-
-                            <p style={{ textAlign: 'left', marginTop: '50px' }}>
-                                &quot;{testimony.comment}&quot;
-                            </p>
-                    </div>
-                  ))}
-
-                </div>
-              </Container>
-            </React.Fragment>
-
-
-        <Grid item xs={12} md={12}>
-          <Card style={stylesD.card}>
-            <CardContent style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-              <Typography variant="h4" gutterBottom>
-                Contact Information
-              </Typography>
-              <Typography variant="body1">
-                <strong>Address:</strong> 123 Ocean Avenue, Waterfront City
-              </Typography>
-              <Typography variant="body1">
-                <strong>Phone:</strong> +1 123 456 7890
-              </Typography>
-              <Typography variant="body1">
-                <strong>Email:</strong> info@harborhotel.com
-              </Typography>
-              <Typography variant="body1">
-                <strong>Follow us:</strong>{' '}
-                <Link href="#" color="secondary">
-                  Facebook
-                </Link>{' '}
-                |{' '}
-                <Link href="#" color="secondary">
-                  Instagram
-                </Link>{' '}
-                |{' '}
-                <Link href="#" color="secondary">
-                  Twitter
-                </Link>
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
 
             </Grid>
           </section>
