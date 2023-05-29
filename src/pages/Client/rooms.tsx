@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { Typography, TextField, Button, Link, Box, Card, CardContent, CardMedia, Grid } from '@mui/material';
+import { Typography, Link, Card, CardContent, Grid, createTheme, ThemeProvider, CardMedia, Button, Container, Box, CssBaseline, CardActions } from '@mui/material';
 import styles from '@/styles/Home.module.css';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
@@ -10,6 +10,7 @@ import { z } from 'zod';
 import axios from 'axios';
 
 const API_URL = 'http://localhost:7000/blogs';
+
 export default function Blog() {
   const [blogs, setBlogs] = useState([]);
 
@@ -54,45 +55,34 @@ export default function Blog() {
           >
             <div className={styles.bannerContent}>
               <h2><Link style={{ color: '#f5e4c3' }} href="/">Home</Link></h2>
-              <h1>Our Stories</h1>
+              <h1>Rooms</h1>
             </div>
           </div>
         </section>
 
-        <Grid container spacing={2} style={{ margin: '50px', display: 'flex', justifyContent: 'center' }}>
-
-        {blogs.map((blog: Blog, index) => (
-          <Grid item xs={12} sm={6} md={4} key={blog.ID_Blog}>
-            <Card style={{ width: '75%' }}>
-              <a href="blog-single.html">
-                <CardMedia
-                  component="img"
-                  alt="Blog Image"
-                  height="200"
-                  image={`/images/Images/${blog.Image}`}
-                />
-              </a>
-              <CardContent style={{ textAlign: 'center' }}>
-                <Typography variant="subtitle2">{blog.DateU}</Typography>
-                <Typography variant="subtitle2">Admin</Typography>
-                <Typography variant="subtitle2">
-                  <span className="icon-chat"></span> {blog.ID_Blog}
-                </Typography>
-                <Typography variant="h6" component="h3" style={{ textAlign: 'center' }}>
-                  <a href="#">{blog.Titre}</a>
-                </Typography>
-                <Typography variant="body2" style={{ textAlign: 'justify' }}>
-                  {blog.Content}
-                </Typography>
-                <Button variant="contained" color="secondary" style={{ margin: '10px' }}>
-                  More info
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
+        <Grid container spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
+          <Card sx={{ maxWidth: 350, margin: '0 2%' }}>
+            <CardMedia
+              sx={{ height: 250 }}
+              image="/images/Rooms/room-1.jpg"
+              title="Standard Room"
+            />
+            <CardContent>
+                <div className={styles.rooms}>
+                  <h1>Standard Room</h1>
+                  <h2>50$ per night</h2>
+                </div>
+              <Typography variant="body2" color="text.secondary">
+                Our Standard Room is a comfortable and affordable option at $100 per night. It features a cozy queen-size bed, private bathroom, TV, free Wi-Fi, and amenities like a mini fridge and coffee maker. Enjoy a restful stay with access to our 24-hour front desk and on-site restaurant for breakfast. Perfect for leisure and business travelers.
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small">Learn More</Button>
+            </CardActions>
+          </Card>
 
         </Grid>
+
       </div>
     </>
   );
