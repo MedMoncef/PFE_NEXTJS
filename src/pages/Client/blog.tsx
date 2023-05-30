@@ -60,8 +60,8 @@ export default function Blog() {
         </section>
 
         <div className={styles.about}>
-          <h2>WELCOME TO HARBOR LIGHTS HOTEL</h2>
-          <h1>Our blogs and stories</h1>
+          <h2>READ BLOG</h2>
+          <h1>Recent Blog</h1>
         </div>
 
         <Grid container spacing={2} style={{ margin: '50px', display: 'flex', justifyContent: 'center' }}>

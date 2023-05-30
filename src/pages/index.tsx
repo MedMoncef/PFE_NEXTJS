@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import styles from '@/styles/Home.module.css';
-import { FormControl, FormLabel, Input, Select, Typography, Link, Card, CardContent, Grid, createTheme, ThemeProvider, CardMedia, Button, Container, Box, CssBaseline } from '@mui/material';
+import { FormControl, FormLabel, Input, Select, Typography, Link, Card, CardContent, Grid, createTheme, ThemeProvider, CardMedia, Button, Container, Box, CssBaseline, CardActions } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import LocalDiningIcon from '@mui/icons-material/LocalDining';
 import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
@@ -12,6 +12,7 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:7000/sliders';
 const API_URL2 = 'http://localhost:7000/testimony';
+const API_URL3 = 'http://localhost:7000/rooms';
 
 const stylesD = {
   card: {
@@ -39,6 +40,7 @@ export default function Home() {
   const [sliders, setSliders] = useState([]);
   const [currentImage2, setCurrentImage2] = useState(0);
   const [testimonies, setTestimonies] = useState([]);
+  const [rooms, setRooms] = useState([]);
 
   interface Testimony {
     IdTestimony: string,
@@ -56,11 +58,29 @@ export default function Home() {
     DateU: Date
   }
   
+  interface Room {
+    ID_Rooms: String,
+    Room_Number: String,
+    Floor_Number: String,
+    Name: String,
+    Image: String,
+    Description: String,
+    Max: Number,
+    View: String,
+    Size: String,
+    Bed_Number: String,
+    Type: String,
+    Rating: Number,
+    Price: Number,
+  }
+
   const fetchData = async () => {
     const result = await axios(API_URL);
     const result2 = await axios(API_URL2);
+    const result3 = await axios(API_URL3);
     setSliders(result.data);
     setTestimonies(result2.data);
+    setRooms(result3.data);
   };
   
   useEffect(() => {
@@ -343,6 +363,98 @@ export default function Home() {
             </Grid>
           </section>
         </ThemeProvider>
+
+
+        <div className={styles.about}>
+          <h2>HARBOR LIGHT'S ROOMS</h2>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'center', margin: '3% 10%' }}>
+              <Grid container spacing={2} style={{ justifyContent: 'center' }}>
+                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
+                  <Card>
+                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                          Standard Room
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
+                  <Card>
+                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                        Deluxe Room
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
+                  <Card>
+                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                        Suite
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
+                  <Card>
+                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                        Executive Room
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
+                  <Card>
+                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                        Family Room
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+
+                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
+                  <Card>
+                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                        Specialty Rooms
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+
+              </Grid>
+            </div>
+
+        <Grid container spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
+
+        {rooms.map((room: Room, index) => (
+          <Card sx={{ maxWidth: 350, margin: '2% 2%' }} key={room.ID_Rooms}>
+            <CardMedia
+              sx={{ height: 250 }}
+              image={`/images/Rooms/${room.Image}`}
+              title="Standard Single"
+            />
+            <CardContent>
+                <div className={styles.rooms}>
+                  <h1>{room.Name}</h1>
+                  <h2>{room.Price}$ per night</h2>
+                </div>
+              <Typography variant="body2" color="text.secondary">
+                {room.Description}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small">Learn More</Button>
+            </CardActions>
+          </Card>
+        ))}
+
+        </Grid>
 
       </div>
     </>
