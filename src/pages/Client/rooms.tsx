@@ -3,6 +3,8 @@ import { Typography, Link, Card, CardContent, Grid, createTheme, ThemeProvider, 
 import styles from '@/styles/Home.module.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 const API_URL = 'http://localhost:7000/rooms';
 
@@ -151,7 +153,7 @@ export default function Blog() {
             </CardActions>
           </Card>
         ))}
-
+            <Pagination count={10} variant="outlined" color="primary" />
         </Grid>
 
       </div>
