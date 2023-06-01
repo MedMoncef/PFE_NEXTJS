@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Typography, Link, Card, CardContent, Grid, createTheme, ThemeProvider, CardMedia, Button, Container, Box, CssBaseline, CardActions, FormControl, FormLabel, Input, Select } from '@mui/material';
 import styles from '@/styles/Home.module.css';
 import Pagination from '@mui/material/Pagination';
+import { useRouter } from 'next/router';
 
 const API_URL = 'http://localhost:7000/rooms';
 const API_URL1 = 'http://localhost:7000/roomTypes';
@@ -20,7 +21,10 @@ export default function Blog() {
   const [selectedRoomType, setSelectedRoomType] = useState('');
   const [selectedView, setSelectedView] = useState('');
 
+  const router = useRouter();
+
   interface Room {
+    _id: String;
     ID_Rooms: string;
     Room_Number: string;
     Floor_Number: string;
@@ -96,11 +100,6 @@ export default function Blog() {
     // Filter by room type
     if (selectedRoomType) {
       filtered = filtered.filter((room: Room) => room.Type === selectedRoomType);
-    }
-
-    // Filter by view
-    if (selectedView) {
-      filtered = filtered.filter((room: Room) => room.View === selectedView);
     }
 
     setTotalPages(Math.ceil(filtered.length / ITEMS_PER_PAGE));
@@ -212,7 +211,7 @@ export default function Blog() {
               <CardMedia
                 sx={{ height: 250 }}
                 image={`/images/Rooms/${room.Image}`}
-                title="Standard Single"
+                title="Room image"
               />
               <CardContent>
                 <div className={styles.rooms}>
@@ -224,8 +223,8 @@ export default function Blog() {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small">Learn More</Button>
-              </CardActions>
+              <Button size="small" onClick={() => router.push(`/Client/${room._id}`)}>Reserver</Button>
+            </CardActions>
             </Card>
           ))}
         </Grid>
