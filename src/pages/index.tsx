@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import styles from '@/styles/Home.module.css';
-import { FormControl, FormLabel, Input, Select, Typography, Link, Card, CardContent, Grid, createTheme, ThemeProvider, CardMedia, Button, Container, Box, CssBaseline, CardActions } from '@mui/material';
+import { FormControl, FormLabel, Input, Select, Typography, Stack, Card, CardContent, Grid, createTheme, ThemeProvider, CardMedia, Button, Container, Box, CssBaseline, CardActions } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import LocalDiningIcon from '@mui/icons-material/LocalDining';
 import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
@@ -557,13 +557,44 @@ export default function Home() {
 
 
 
-          <div style={{ padding: '3% 0'}}>
+          <div>
               <div className={styles.about}>
                   <h2>HARBORLIGHTS PHOTOS</h2>
                   <h1>Instagram</h1>
               </div>
 
-            
+            <Stack direction="row" spacing={0}>
+              <CardMedia
+                component="img"
+                sx={{ height: 200 }}
+                image={`/images/Insta/insta-1.jpg`}
+                alt="Insta Image 1"
+              />
+              <CardMedia
+                component="img"
+                sx={{ height: 200 }}
+                image={`/images/Insta/insta-2.jpg`}
+                alt="Insta Image 2"
+              />
+              <CardMedia
+                component="img"
+                sx={{ height: 200 }}
+                image={`/images/Insta/insta-3.jpg`}
+                alt="Insta Image 3"
+              />
+              <CardMedia
+                component="img"
+                sx={{ height: 200 }}
+                image={`/images/Insta/insta-4.jpg`}
+                alt="Insta Image 4"
+              />
+              <CardMedia
+                component="img"
+                sx={{ height: 200 }}
+                image={`/images/Insta/insta-5.jpg`}
+                alt="Insta Image 5"
+              />
+            </Stack>
           </div>
       </div>
     </>
