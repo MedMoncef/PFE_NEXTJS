@@ -122,8 +122,8 @@ export default function Home() {
 
         <div style={{backgroundColor: '#f8f9fa', padding: '3% 0'}}>
           <div className={styles.about}>
-            <h2>HARBORLIGHTS RESTO MENU</h2>
-            <h1>Our Specialties</h1>
+            <h2>HARBORLIGHTS RESTAURANT MENU</h2>
+            <h1>Today's Specialties</h1>
           </div>
 
           <Grid container spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
@@ -140,15 +140,13 @@ export default function Home() {
                     <CardContent sx={{ flex: '1 0 auto' }}>
                       <Typography component="div" variant="h5">
                         {menu.Nom}
+                        <div style={{ display: 'flex', width: '80px', color: '#2f89fc', textAlign: 'right', fontSize: '20px', fontWeight: '600' }}>
+                         $ {menu.Prix}
+                        </div>
                       </Typography>
                       <Typography variant="subtitle1" color="text.secondary" component="div">
                         {menu.Description}
                       </Typography>
-                      <CardActions sx={{ justifyContent: 'flex-end' }}>
-                        <Typography component="div" variant="h6">
-                          {menu.Prix}$
-                        </Typography>
-                      </CardActions>
                     </CardContent>
                   </Box>
               </Card>

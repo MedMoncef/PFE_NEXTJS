@@ -9,22 +9,15 @@ import SpaIcon from '@mui/icons-material/Spa';
 import KingBedIcon from '@mui/icons-material/KingBed';
 import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
+import { useRouter } from 'next/router';
 
 
 const API_URL = 'http://localhost:7000/sliders';
+const API_URL1 = 'http://localhost:7000/menus';
 const API_URL2 = 'http://localhost:7000/testimony';
 const API_URL3 = 'http://localhost:7000/rooms';
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 3;
 
-const stylesD = {
-  card: {
-    backgroundImage: `url(/images/Images/image_6.jpg)`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    padding: '2rem',
-    color: 'white',
-  },
-};
 // Custom theme with water-themed colors
 const theme = createTheme({
   palette: {
@@ -45,6 +38,14 @@ export default function Home() {
   const [rooms, setRooms] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [filteredRooms, setFilteredRooms] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
+  const [selectedPrice, setSelectedPrice] = useState('');
+  const [selectedRoomType, setSelectedRoomType] = useState('');
+  const [selectedView, setSelectedView] = useState('');
+  const [menus, setMenus] = useState([]);
+
+  const router = useRouter();
 
   interface Testimony {
     IdTestimony: string,
@@ -63,27 +64,40 @@ export default function Home() {
   }
   
   interface Room {
-    ID_Rooms: String,
-    Room_Number: String,
-    Floor_Number: String,
-    Name: String,
-    Image: String,
-    Description: String,
-    Max: Number,
-    View: String,
-    Size: String,
-    Bed_Number: String,
-    Type: String,
-    Rating: Number,
-    Price: Number,
+    _id: String;
+    ID_Rooms: string;
+    Room_Number: string;
+    Floor_Number: string;
+    Name: string;
+    Image: string;
+    Description: string;
+    Max: number;
+    View: string;
+    Size: string;
+    Bed_Number: string;
+    Type: string;
+    Rating: number;
+    Price: number;
   }
+
+  interface Menu {
+    ID_Menu: string,
+    Image: string,
+    Nom: string,
+    Description: string,
+    Prix: Number,
+    Type: string
+  }
+
 
   const fetchData = async () => {
     const result = await axios(API_URL);
+    const result1 = await axios(API_URL1);
     const result2 = await axios(API_URL2);
     const result3 = await axios(API_URL3);
     setTotalPages(Math.ceil(result.data.length / ITEMS_PER_PAGE));
     setSliders(result.data);
+    setMenus(result1.data);
     setTestimonies(result2.data);
     setRooms(result3.data);
   };
@@ -105,8 +119,21 @@ export default function Home() {
     setCurrentImage(index);
   };
 
+  useEffect(() => {
+    filterRooms();
+  }, [rooms, searchValue, selectedPrice, selectedRoomType, selectedView]);
+
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
+  };
+
+
+  const filterRooms = () => {
+    let filtered = rooms;
+
+    setTotalPages(Math.ceil(filtered.length / ITEMS_PER_PAGE));
+    setFilteredRooms(filtered);
+    setCurrentPage(1);
   };
 
   const getDisplayedRooms = () => {
@@ -240,6 +267,8 @@ export default function Home() {
         </section>
 
 				{/* ========================================================== */}
+
+        <div style={{backgroundColor: '#f8f9fa', padding: '3% 0'}}>
         		
         <div className={styles.about}>
           <h2>WELCOME TO HARBOR LIGHTS HOTEL</h2>
@@ -381,80 +410,28 @@ export default function Home() {
             </Grid>
           </section>
         </ThemeProvider>
-
-
-        <div className={styles.about}>
-          <h2>HARBOR LIGHT'S ROOMS</h2>
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'center', margin: '3% 10%' }}>
-              <Grid container spacing={2} style={{ justifyContent: 'center' }}>
-                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
-                  <Card>
-                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                          Standard Room
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
-                  <Card>
-                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                        Deluxe Room
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
-                  <Card>
-                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                        Suite
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
-                  <Card>
-                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                        Executive Room
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
-                  <Card>
-                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                        Family Room
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
+				{/* ========================================================== */}
 
-                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
-                  <Card>
-                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                        Specialty Rooms
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
+        <div style={{marginBottom: '5%'}}>
+        <div className={styles.about}>
+          <h2>HARBOR LIGHTS ROOMS</h2>
+          <h1>Hotel Master's Rooms</h1>
+                  <div style={{ textAlign: 'center', marginTop: '3%' }}>
+                    <Button variant="contained" color="secondary" onClick={() => router.push(`/Client/rooms`)}>
+                      View more
+                    </Button>
+                  </div>
+        </div>
 
-              </Grid>
-            </div>
-
-            <Grid container spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
+        <Grid container spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
           {getDisplayedRooms().map((room: Room, index) => (
-            <Card sx={{ maxWidth: 350, margin: '2% 2%' }} key={room.ID_Rooms}>
+            <Card sx={{ maxWidth: 350, margin: '2% 2%' }} key={room.ID_Rooms} style={{ alignSelf: 'flex' }}>
               <CardMedia
                 sx={{ height: 250 }}
                 image={`/images/Rooms/${room.Image}`}
-                title="Standard Single"
+                title="Room image"
               />
               <CardContent>
                 <div className={styles.rooms}>
@@ -466,8 +443,8 @@ export default function Home() {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small">Learn More</Button>
-              </CardActions>
+              <Button size="small" onClick={() => router.push(`/Client/${room._id}`)}>Reserver</Button>
+            </CardActions>
             </Card>
           ))}
         </Grid>
@@ -475,6 +452,68 @@ export default function Home() {
         <Box display="flex" justifyContent="center" marginBottom={5}>
           <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} />
         </Box>
+
+      </div>
+
+
+      <div style={{backgroundColor: '#f8f9fa', padding: '3% 0'}}>
+          <div className={styles.about}>
+            <h2>HARBORLIGHTS RESTAURANT MENU</h2>
+            <h1>Today's Specialties</h1>
+            <div style={{ textAlign: 'center', marginTop: '3%' }}>
+                    <Button variant="contained" color="primary" onClick={() => router.push(`/Client/restaurant`)}>
+                      View more
+                    </Button>
+                  </div>
+          </div>
+
+          <Grid container spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
+            {menus.slice(0, 4).map((menu: Menu, index) => (
+              <Card sx={{ display: 'flex', margin: '2% 2%', width: '40%' }} key={menu.ID_Menu}>
+                <CardMedia
+                  component="img"
+                  sx={{ width: 150, height: 150, backgroundColor: 'black' }} // Adjust the width and height as desired
+                  image={`/images/Menu/${menu.Image}`}
+                  alt="Menu Item"
+                />
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <CardContent sx={{ flex: '1 0 auto' }}>
+                    <Typography component="div" variant="h5">
+                      {menu.Nom}
+                      <div style={{ display: 'flex', width: '80px', color: '#2f89fc', textAlign: 'right', fontSize: '20px', fontWeight: '600' }}>
+                        $ {menu.Prix}
+                      </div>
+                    </Typography>
+                    <Typography variant="subtitle1" color="text.secondary" component="div">
+                      {menu.Description}
+                    </Typography>
+                  </CardContent>
+                </Box>
+              </Card>
+            ))}
+          </Grid>
+        </div>
+
+
+        <div style={{ padding: '3% 0'}}>
+          <div className={styles.about}>
+            <h2>HARBORLIGHTS BLOGS</h2>
+            <h1>Recent Blog</h1>
+            <div style={{ textAlign: 'center', marginTop: '3%' }}>
+                    <Button variant="outlined" color="primary" onClick={() => router.push(`/Client/blog`)}>
+                      View more
+                    </Button>
+                  </div>
+          </div>
+
+        
+        
+        
+        
+        
+        
+        </div>
+
 
       </div>
     </>

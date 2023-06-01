@@ -76,9 +76,6 @@ export default function Blog() {
     setSelectedRoomType(event.target.value);
   };
 
-  const handleViewChange = (event) => {
-    setSelectedView(event.target.value);
-  };
 
   const filterRooms = () => {
     let filtered = rooms;
@@ -161,7 +158,7 @@ export default function Blog() {
           }}
         >
           <FormControl fullWidth>
-            <FormLabel htmlFor="search">Search</FormLabel>
+            <FormLabel htmlFor="search">Recherche</FormLabel>
             <Input
               id="search"
               type="text"
@@ -172,7 +169,7 @@ export default function Blog() {
           </FormControl>
 
           <FormControl fullWidth>
-            <FormLabel htmlFor="price">Tri</FormLabel>
+            <FormLabel htmlFor="price">Prix</FormLabel>
             <Select
               native
               id="price"
@@ -186,7 +183,7 @@ export default function Blog() {
           </FormControl>
 
           <FormControl fullWidth>
-            <FormLabel htmlFor="room">Room</FormLabel>
+            <FormLabel htmlFor="room">Type de Chambres</FormLabel>
             <Select
               native
               id="room"
@@ -201,6 +198,7 @@ export default function Blog() {
               ))}
             </Select>
           </FormControl>
+
         </div>
       </section>
 
