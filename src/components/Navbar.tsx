@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,6 +14,7 @@ import { useAuth } from '@/context/AuthContext';
 function Navbar() {
   const router = useRouter();
   const { isLoggedIn, logout } = useAuth();
+  const [hasScrolled, setHasScrolled] = useState(false);
 
   const handleHomeClick = () => {
     router.push('/');
@@ -72,8 +73,24 @@ function Navbar() {
 
   const isSmallScreen = useMediaQuery((theme:any) => theme.breakpoints.down('md'));
 
+  const handleScroll = () => {
+    if (window.pageYOffset > 0) {
+      setHasScrolled(true);
+    } else {
+      setHasScrolled(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
-    <AppBar position="static" sx={{ backgroundColor: 'rgba(0, 46, 120, 0.900)', boxShadow: 'none'}}>
+    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 9999 }}>
+    <AppBar position="static" sx={{ backgroundColor: hasScrolled ? 'rgba(0, 98, 255, 0.400)' : 'transparent', boxShadow: 'none'}}>
       <Toolbar>
         {isSmallScreen ? (
           <>
@@ -406,6 +423,7 @@ function Navbar() {
         )}
       </Toolbar>
     </AppBar>
+    </div>
   );
 }
 

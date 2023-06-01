@@ -1,15 +1,17 @@
 import Head from 'next/head';
-import { Typography, Link, Card, CardContent, Grid, createTheme, ThemeProvider, CardMedia, Button, Container, Box, CssBaseline, CardActions } from '@mui/material';
+import { Typography, Link, Card, CardContent, Grid, createTheme, ThemeProvider, CardMedia, Button, Container, Box, CssBaseline, CardActions, FormControl, FormLabel, Input, Select } from '@mui/material';
 import styles from '@/styles/Home.module.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
 
 const API_URL = 'http://localhost:7000/rooms';
+const API_URL1 = 'http://localhost:7000/roomTypes';
 const ITEMS_PER_PAGE = 6;
 
 export default function Blog() {
   const [rooms, setRooms] = useState([]);
+  const [RoomType, setRoomTypes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -29,10 +31,17 @@ export default function Blog() {
     Price: Number,
   }
 
+  interface RoomType {
+    ID_RoomType: String,
+    Name: String,
+  }
+
   const fetchData = async () => {
     const result = await axios(API_URL);
+    const result1 = await axios(API_URL1);
     setTotalPages(Math.ceil(result.data.length / ITEMS_PER_PAGE));
     setRooms(result.data);
+    setRoomTypes(result.data);
   };
 
   useEffect(() => {
@@ -82,66 +91,60 @@ export default function Blog() {
           <h2>HARBOR LIGHT'S ROOMS</h2>
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'center', margin: '3% 10%' }}>
-              <Grid container spacing={2} style={{ justifyContent: 'center' }}>
-                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
-                  <Card>
-                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                          Standard Room
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
-                  <Card>
-                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                        Deluxe Room
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
-                  <Card>
-                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                        Suite
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
-                  <Card>
-                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                        Executive Room
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
-                  <Card>
-                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                        Family Room
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
+        <section
+            style={{
+              padding: '40px',
+              backgroundColor: '#f9f9f9',
+              textAlign: 'center',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                margin: '0 5%',
+                gap: '25px',
+              }}
+            >
+              <FormControl fullWidth>
+                <FormLabel htmlFor="search">Search</FormLabel>
+                <Input id="search" type="text" placeholder="Search..." />
+              </FormControl>
 
-                <Grid item xs={6} sm={4} md={3} className={styles.roomsFilter}>
-                  <Card>
-                    <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                        Specialty Rooms
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
+              <FormControl fullWidth>
+                <FormLabel htmlFor="price">Tri</FormLabel>
+                <Select native id="price">
+                  <option value="any">...</option>
+                  <option value="lowest">Le moins cher</option>
+                  <option value="highest">Le plus cher</option>
+                </Select>
+              </FormControl>
 
-              </Grid>
+              <FormControl fullWidth>
+                <FormLabel htmlFor="room">Room</FormLabel>
+                <Select native id="room">
+                  <option value="standard">Standard Room</option>
+                  <option value="deluxe">Deluxe Room</option>
+                  <option value="suite">Suite</option>
+                  <option value="executive">Executive Room</option>
+                  <option value="family">Family Room</option>
+                  <option value="specialty">Specialty Rooms</option>
+                </Select>
+              </FormControl>
+
+              <FormControl fullWidth>
+                <FormLabel htmlFor="views">Views</FormLabel>
+                <Select native id="views">
+                  <option value="any">Any</option>
+                  <option value="beach">Beach View</option>
+                  <option value="pool">Pool View</option>
+                  <option value="city">City View</option>
+                  <option value="mountain">Mountain View</option>
+                </Select>
+              </FormControl>
+
             </div>
+          </section>
 
             <Grid container spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
           {getDisplayedRooms().map((room: Room, index) => (
