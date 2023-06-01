@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import styles from '@/styles/Home.module.css';
-import { FormControl, FormLabel, Input, Select, Typography, Stack, Card, CardContent, Grid, createTheme, ThemeProvider, CardMedia, Button, Container, Box, CssBaseline, CardActions } from '@mui/material';
+import { FormControl, FormLabel, Input, Select, ListItem, ListItemAvatar, ListItemText, Avatar, Typography, Stack, Card, CardContent, Grid, createTheme, ThemeProvider, CardMedia, Button, Container, Box, CssBaseline, CardActions } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import LocalDiningIcon from '@mui/icons-material/LocalDining';
 import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
@@ -9,9 +9,8 @@ import SpaIcon from '@mui/icons-material/Spa';
 import KingBedIcon from '@mui/icons-material/KingBed';
 import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
-import { useRouter } from 'next/router';
 import Carousel from 'react-material-ui-carousel';
-
+import { useRouter } from 'next/router';
 
 const API_URL = 'http://localhost:7000/sliders';
 const API_URL1 = 'http://localhost:7000/menus';
@@ -47,7 +46,6 @@ export default function Home() {
   const [selectedView, setSelectedView] = useState('');
   const [menus, setMenus] = useState([]);
   const [blogs, setBlogs] = useState([]);
-
   const router = useRouter();
 
   interface Testimony {
@@ -386,7 +384,7 @@ export default function Home() {
                   <img src="/images/About/testimony-img.jpg" alt="Image 3" style={{ width: '70%', height: 'auto' }} />
                 </div>
               </Container>
-              <Container maxWidth="sm">
+              <Container maxWidth="sm" style={{}}>
                 <div className={styles.about}>
                   <Typography variant="h2" style={{ textAlign: 'left' }}>
                     TESTIMONY
@@ -421,7 +419,6 @@ export default function Home() {
                             </p>
                     </div>
                   ))}
-
                 </div>
               </Container>
 

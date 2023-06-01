@@ -10,6 +10,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Image from 'next/image';
 import 'tailwindcss/tailwind.css';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 const API_URL = 'http://localhost:7000/testimony';
 
@@ -37,6 +38,7 @@ const theme = createTheme({
 export default function Home() {
   const [currentImage, setCurrentImage] = useState(0);
   const [testimonies, setTestimonies] = useState([]);
+  const router = useRouter();
 
   interface Testimony {
     IdTestimony: string,
@@ -174,7 +176,7 @@ export default function Home() {
                     Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.
                   </p>
                   <div style={{ textAlign: 'left', marginTop: '50px' }}>
-                    <Button variant="contained" color="secondary">
+                    <Button variant="contained" color="secondary" onClick={() => router.push(`/Client/rooms`)}>
                       Reserve Your Room Now
                     </Button>
                   </div>
