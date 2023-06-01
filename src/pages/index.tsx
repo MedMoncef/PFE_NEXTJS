@@ -8,11 +8,13 @@ import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
 import SpaIcon from '@mui/icons-material/Spa';
 import KingBedIcon from '@mui/icons-material/KingBed';
 import axios from 'axios';
+import Pagination from '@mui/material/Pagination';
 
 
 const API_URL = 'http://localhost:7000/sliders';
 const API_URL2 = 'http://localhost:7000/testimony';
 const API_URL3 = 'http://localhost:7000/rooms';
+const ITEMS_PER_PAGE = 6;
 
 const stylesD = {
   card: {
@@ -41,6 +43,8 @@ export default function Home() {
   const [currentImage2, setCurrentImage2] = useState(0);
   const [testimonies, setTestimonies] = useState([]);
   const [rooms, setRooms] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   interface Testimony {
     IdTestimony: string,
@@ -78,6 +82,7 @@ export default function Home() {
     const result = await axios(API_URL);
     const result2 = await axios(API_URL2);
     const result3 = await axios(API_URL3);
+    setTotalPages(Math.ceil(result.data.length / ITEMS_PER_PAGE));
     setSliders(result.data);
     setTestimonies(result2.data);
     setRooms(result3.data);
@@ -98,6 +103,16 @@ export default function Home() {
 
   const handleRadioChange = (index) => {
     setCurrentImage(index);
+  };
+
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+  };
+
+  const getDisplayedRooms = () => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return rooms.slice(startIndex, endIndex);
   };
 
   return (
@@ -430,31 +445,33 @@ export default function Home() {
               </Grid>
             </div>
 
-        <Grid container spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
-
-        {rooms.map((room: Room, index) => (
-          <Card sx={{ maxWidth: 350, margin: '2% 2%' }} key={room.ID_Rooms}>
-            <CardMedia
-              sx={{ height: 250 }}
-              image={`/images/Rooms/${room.Image}`}
-              title="Standard Single"
-            />
-            <CardContent>
+            <Grid container spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
+          {getDisplayedRooms().map((room: Room, index) => (
+            <Card sx={{ maxWidth: 350, margin: '2% 2%' }} key={room.ID_Rooms}>
+              <CardMedia
+                sx={{ height: 250 }}
+                image={`/images/Rooms/${room.Image}`}
+                title="Standard Single"
+              />
+              <CardContent>
                 <div className={styles.rooms}>
                   <h1>{room.Name}</h1>
                   <h2>{room.Price}$ per night</h2>
                 </div>
-              <Typography variant="body2" color="text.secondary">
-                {room.Description}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small">Learn More</Button>
-            </CardActions>
-          </Card>
-        ))}
-
+                <Typography variant="body2" color="text.secondary">
+                  {room.Description}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small">Learn More</Button>
+              </CardActions>
+            </Card>
+          ))}
         </Grid>
+
+        <Box display="flex" justifyContent="center" marginBottom={5}>
+          <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} />
+        </Box>
 
       </div>
     </>

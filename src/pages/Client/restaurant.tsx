@@ -2,40 +2,18 @@ import Head from 'next/head';
 import { Typography, Link, Card, CardContent, Grid, createTheme, ThemeProvider, CardMedia, Button, Container, Box, CssBaseline } from '@mui/material';
 import styles from '@/styles/Home.module.css';
 import React, { useState, useEffect } from 'react';
-import LocalDiningIcon from '@mui/icons-material/LocalDining';
-import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
-import SpaIcon from '@mui/icons-material/Spa';
-import KingBedIcon from '@mui/icons-material/KingBed';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import Image from 'next/image';
+import { useTheme } from '@mui/material/styles';
 import 'tailwindcss/tailwind.css';
 import axios from 'axios';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import Pagination from '@mui/material/Pagination';
 
-const API_URL = 'http://localhost:7000/testimony';
-
-const stylesD = {
-  card: {
-    backgroundImage: `url(/images/Images/image_6.jpg)`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    padding: '2rem',
-    color: 'white',
-  },
-};
-// Custom theme with water-themed colors
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#1565c0', // Blue color for primary elements
-    },
-    secondary: {
-      main: '#4dd0e1', // Teal color for secondary elements
-    },
-  },
-});
+const API_URL = 'http://localhost:7000/menus';
 
 export default function Home() {
   const [currentImage, setCurrentImage] = useState(0);
+  const [menuAd, setMenuAd] = useState([]);
   const [menus, setMenus] = useState([]);
 
   interface Menu {
@@ -43,10 +21,8 @@ export default function Home() {
     Image: string,
     Nom: string,
     Description: string,
-    Type: {
-        type: String,
-        enum: ['Breakfast', 'Appetizers and Starters', 'Main Courses', 'Desserts', 'Beverages']
-      }
+    Prix: Number,
+    Type: string
   }
 
   const fetchData = async () => {
@@ -60,16 +36,20 @@ export default function Home() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImage((prevImage) => (prevImage + 1) % menus.length);
+      setCurrentImage((prevImage) => (prevImage + 1) % menuAd.length);
     }, 4000); // Change image every 5 seconds
 
     return () => clearInterval(interval);
-  }, [menus]);
+  }, [menuAd]);
 
-  const handleRadioChange = (index) => {
-    setCurrentImage(index);
-  };
 
+    const images = [
+      '/images/Resto/resto1.jpg',
+      '/images/Resto/resto2.jpg',
+      '/images/Resto/resto3.jpg',
+    ];
+
+    const theme = useTheme();
 
   return (
     <>
@@ -81,7 +61,7 @@ export default function Home() {
       </Head>
 
       <div>
-        <section className={styles.banner} style={{ height: '500px auto' }}>
+        <section className={styles.banner} style={{ height: '600px' }}>
           <div
             style={{
               height: '600px',
@@ -104,7 +84,7 @@ export default function Home() {
 
             <React.Fragment>
               <CssBaseline />
-              <Container maxWidth="sm" style={{ marginBottom: '40px' }}>
+              <Container maxWidth="sm" style={{ marginBottom: '1%', marginTop: '1%' }}>
                 <div className={styles.about}>
                   <Typography variant="h2" style={{ textAlign: 'left' }}>
                     ABOUT HARBOR LIGHTS HOTEL
@@ -112,26 +92,69 @@ export default function Home() {
                   <Typography variant="h4" style={{ textAlign: 'left', marginTop: '20px' }}>
                     Harbor Lights Hotel Restaurants
                   </Typography>
-                  <p style={{ textAlign: 'left', marginTop: '50px' }}>
+                  <p style={{ textAlign: 'left', marginTop: '25px' }}>
                     Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.
+                    
+                    A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
                   </p>
                   <div style={{ textAlign: 'left', marginTop: '50px' }}>
                     <Button variant="contained" color="secondary">
-                      Reserve Your Room Now
+                      More Info
                     </Button>
                   </div>
                 </div>
               </Container>
               <Container maxWidth="sm">
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10%' }}>
-                  <img src="/images/Resto/resto1.jpg" alt="Image 1" style={{ width: '100%', height: 'auto' }} />
-                </div>
+                <Carousel showArrows={false} showStatus={false} showThumbs={false} autoPlay interval={3000} infiniteLoop>
+                  {images.map((image, index) => (
+                    <div key={index} style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10%' }}>
+                      <img src={image} alt={`Image ${index + 1}`} />
+                    </div>
+                  ))}
+                </Carousel>
               </Container>
             </React.Fragment>
 
             </Grid>
           </section>
         </ThemeProvider>
+
+
+        <div style={{backgroundColor: '#f8f9fa', padding: '3% 0'}}>
+          <div className={styles.about}>
+            <h2>HARBORLIGHTS RESTO MENU</h2>
+            <h1>Our Specialties</h1>
+          </div>
+
+          <Grid container spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
+
+            {menus.map((menu: Menu, index) => (
+              <Card sx={{ display: 'flex', margin: '2% 2%', width: '40%' }} key={menu.ID_Menu}>
+              <CardMedia
+                  component="img"
+                  sx={{ width: 150, height: 150, backgroundColor: 'black' }} // Adjust the width and height as desired
+                  image={`/images/Menu/${menu.Image}`}
+                  alt="Menu Item"
+                />
+                  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <CardContent sx={{ flex: '1 0 auto' }}>
+                      <Typography component="div" variant="h5">
+                        {menu.Nom}
+                      </Typography>
+                      <Typography variant="subtitle1" color="text.secondary" component="div">
+                        {menu.Description}
+                      </Typography>
+                      <Typography component="div" variant="h6">
+                        {menu.Prix}
+                      </Typography>
+                    </CardContent>
+                  </Box>
+              </Card>
+          ))}
+
+        </Grid>
+
+        </div>
       </div>
     </>
   );

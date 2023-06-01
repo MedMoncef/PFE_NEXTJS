@@ -4,12 +4,14 @@ import styles from '@/styles/Home.module.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
 
 const API_URL = 'http://localhost:7000/rooms';
+const ITEMS_PER_PAGE = 6;
 
 export default function Blog() {
   const [rooms, setRooms] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   interface Room {
     ID_Rooms: String,
@@ -29,6 +31,7 @@ export default function Blog() {
 
   const fetchData = async () => {
     const result = await axios(API_URL);
+    setTotalPages(Math.ceil(result.data.length / ITEMS_PER_PAGE));
     setRooms(result.data);
   };
 
@@ -36,6 +39,16 @@ export default function Blog() {
     fetchData();
   }, []);
 
+
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+  };
+
+  const getDisplayedRooms = () => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return rooms.slice(startIndex, endIndex);
+  };
 
 
   return (
@@ -130,31 +143,33 @@ export default function Blog() {
               </Grid>
             </div>
 
-        <Grid container spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
-
-        {rooms.map((room: Room, index) => (
-          <Card sx={{ maxWidth: 350, margin: '2% 2%' }} key={room.ID_Rooms}>
-            <CardMedia
-              sx={{ height: 250 }}
-              image={`/images/Rooms/${room.Image}`}
-              title="Standard Single"
-            />
-            <CardContent>
+            <Grid container spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
+          {getDisplayedRooms().map((room: Room, index) => (
+            <Card sx={{ maxWidth: 350, margin: '2% 2%' }} key={room.ID_Rooms}>
+              <CardMedia
+                sx={{ height: 250 }}
+                image={`/images/Rooms/${room.Image}`}
+                title="Standard Single"
+              />
+              <CardContent>
                 <div className={styles.rooms}>
                   <h1>{room.Name}</h1>
                   <h2>{room.Price}$ per night</h2>
                 </div>
-              <Typography variant="body2" color="text.secondary">
-                {room.Description}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small">Learn More</Button>
-            </CardActions>
-          </Card>
-        ))}
-            <Pagination count={10} variant="outlined" color="primary" />
+                <Typography variant="body2" color="text.secondary">
+                  {room.Description}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small">Learn More</Button>
+              </CardActions>
+            </Card>
+          ))}
         </Grid>
+
+        <Box display="flex" justifyContent="center" marginBottom={5}>
+          <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} />
+        </Box>
 
       </div>
     </>
