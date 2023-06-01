@@ -10,12 +10,14 @@ import KingBedIcon from '@mui/icons-material/KingBed';
 import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
 import { useRouter } from 'next/router';
+import Carousel from 'react-material-ui-carousel';
 
 
 const API_URL = 'http://localhost:7000/sliders';
 const API_URL1 = 'http://localhost:7000/menus';
 const API_URL2 = 'http://localhost:7000/testimony';
 const API_URL3 = 'http://localhost:7000/rooms';
+const API_URL4 = 'http://localhost:7000/blogs';
 const ITEMS_PER_PAGE = 3;
 
 // Custom theme with water-themed colors
@@ -44,6 +46,7 @@ export default function Home() {
   const [selectedRoomType, setSelectedRoomType] = useState('');
   const [selectedView, setSelectedView] = useState('');
   const [menus, setMenus] = useState([]);
+  const [blogs, setBlogs] = useState([]);
 
   const router = useRouter();
 
@@ -89,17 +92,27 @@ export default function Home() {
     Type: string
   }
 
+  interface Blog {
+    ID_Blog: string,
+    Image: string,
+    Titre: string,
+    Content: string,
+    DateU: Date
+  }
+
 
   const fetchData = async () => {
     const result = await axios(API_URL);
     const result1 = await axios(API_URL1);
     const result2 = await axios(API_URL2);
     const result3 = await axios(API_URL3);
+    const result4 = await axios(API_URL4);
     setTotalPages(Math.ceil(result.data.length / ITEMS_PER_PAGE));
     setSliders(result.data);
     setMenus(result1.data);
     setTestimonies(result2.data);
     setRooms(result3.data);
+    setBlogs(result4.data);
   };
   
   useEffect(() => {
@@ -141,6 +154,11 @@ export default function Home() {
     const endIndex = startIndex + ITEMS_PER_PAGE;
     return rooms.slice(startIndex, endIndex);
   };
+
+  const blogSets = [];
+  for (let i = 0; i < blogs.length; i += 3) {
+    blogSets.push(blogs.slice(i, i + 3));
+  }
 
   return (
     <>
@@ -506,15 +524,47 @@ export default function Home() {
                   </div>
           </div>
 
-        
-        
-        
-        
-        
-        
-        </div>
+          <Carousel>
+            {blogSets.map((blogSet, index) => (
+              <Grid container spacing={2} key={index} style={{ display: 'flex', justifyContent: 'center', margin: '0 3.5%' }}>
+                {blogSet.map((blog: Blog) => (
+                  <Grid item xs={12} sm={6} md={4} key={blog.ID_Blog}>
+                    <Card sx={{ maxWidth: 345 }}>
+                      <CardMedia
+                        component="img"
+                        sx={{ height: 140 }}
+                        image={`/images/Images/${blog.Image}`}
+                        alt="Blog Image"
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                          {blog.Titre}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {blog.Content}
+                        </Typography>
+                      </CardContent>
+                      <CardActions>
+                        <Button size="small">Learn More</Button>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            ))}
+          </Carousel>        
+          </div>
 
 
+
+          <div style={{ padding: '3% 0'}}>
+              <div className={styles.about}>
+                  <h2>HARBORLIGHTS PHOTOS</h2>
+                  <h1>Instagram</h1>
+              </div>
+
+            
+          </div>
       </div>
     </>
   );
