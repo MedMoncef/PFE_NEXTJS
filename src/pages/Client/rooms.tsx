@@ -1,8 +1,8 @@
 import Head from 'next/head';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Typography, Link, Card, CardContent, Grid, createTheme, ThemeProvider, CardMedia, Button, Container, Box, CssBaseline, CardActions, FormControl, FormLabel, Input, Select } from '@mui/material';
 import styles from '@/styles/Home.module.css';
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
 
 const API_URL = 'http://localhost:7000/rooms';
@@ -11,52 +11,107 @@ const ITEMS_PER_PAGE = 6;
 
 export default function Blog() {
   const [rooms, setRooms] = useState([]);
-  const [RoomType, setRoomTypes] = useState([]);
+  const [filteredRooms, setFilteredRooms] = useState([]);
+  const [roomTypes, setRoomTypes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchValue, setSearchValue] = useState('');
+  const [selectedPrice, setSelectedPrice] = useState('');
+  const [selectedRoomType, setSelectedRoomType] = useState('');
+  const [selectedView, setSelectedView] = useState('');
 
   interface Room {
-    ID_Rooms: String,
-    Room_Number: String,
-    Floor_Number: String,
-    Name: String,
-    Image: String,
-    Description: String,
-    Max: Number,
-    View: String,
-    Size: String,
-    Bed_Number: String,
-    Type: String,
-    Rating: Number,
-    Price: Number,
+    ID_Rooms: string;
+    Room_Number: string;
+    Floor_Number: string;
+    Name: string;
+    Image: string;
+    Description: string;
+    Max: number;
+    View: string;
+    Size: string;
+    Bed_Number: string;
+    Type: string;
+    Rating: number;
+    Price: number;
   }
 
   interface RoomType {
-    ID_RoomType: String,
-    Name: String,
+    ID_RoomType: string;
+    Name: string;
   }
 
   const fetchData = async () => {
     const result = await axios(API_URL);
     const result1 = await axios(API_URL1);
-    setTotalPages(Math.ceil(result.data.length / ITEMS_PER_PAGE));
     setRooms(result.data);
-    setRoomTypes(result.data);
+    setRoomTypes(result1.data);
   };
 
   useEffect(() => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    filterRooms();
+  }, [rooms, searchValue, selectedPrice, selectedRoomType, selectedView]);
 
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
   };
 
+  const handleSearchChange = (event) => {
+    setSearchValue(event.target.value);
+  };
+
+  const handlePriceChange = (event) => {
+    setSelectedPrice(event.target.value);
+  };
+
+  const handleRoomTypeChange = (event) => {
+    setSelectedRoomType(event.target.value);
+  };
+
+  const handleViewChange = (event) => {
+    setSelectedView(event.target.value);
+  };
+
+  const filterRooms = () => {
+    let filtered = rooms;
+
+    // Filter by search value
+    if (searchValue) {
+      filtered = filtered.filter((room: Room) =>
+        room.Name.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    }
+
+    // Filter by price
+    if (selectedPrice === 'lowest') {
+      filtered = filtered.sort((a: Room, b: Room) => a.Price - b.Price);
+    } else if (selectedPrice === 'highest') {
+      filtered = filtered.sort((a: Room, b: Room) => b.Price - a.Price);
+    }
+
+    // Filter by room type
+    if (selectedRoomType) {
+      filtered = filtered.filter((room: Room) => room.Type === selectedRoomType);
+    }
+
+    // Filter by view
+    if (selectedView) {
+      filtered = filtered.filter((room: Room) => room.View === selectedView);
+    }
+
+    setTotalPages(Math.ceil(filtered.length / ITEMS_PER_PAGE));
+    setFilteredRooms(filtered);
+    setCurrentPage(1);
+  };
+
   const getDisplayedRooms = () => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
-    return rooms.slice(startIndex, endIndex);
+    return filteredRooms.slice(startIndex, endIndex);
   };
 
 
@@ -92,59 +147,64 @@ export default function Blog() {
         </div>
 
         <section
-            style={{
-              padding: '40px',
-              backgroundColor: '#f9f9f9',
-              textAlign: 'center',
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                margin: '0 5%',
-                gap: '25px',
-              }}
+        style={{
+          padding: '40px',
+          backgroundColor: '#f9f9f9',
+          textAlign: 'center',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            margin: '0 5%',
+            gap: '25px',
+          }}
+        >
+          <FormControl fullWidth>
+            <FormLabel htmlFor="search">Search</FormLabel>
+            <Input
+              id="search"
+              type="text"
+              placeholder="Search..."
+              value={searchValue}
+              onChange={handleSearchChange}
+            />
+          </FormControl>
+
+          <FormControl fullWidth>
+            <FormLabel htmlFor="price">Tri</FormLabel>
+            <Select
+              native
+              id="price"
+              value={selectedPrice}
+              onChange={handlePriceChange}
             >
-              <FormControl fullWidth>
-                <FormLabel htmlFor="search">Search</FormLabel>
-                <Input id="search" type="text" placeholder="Search..." />
-              </FormControl>
+              <option value="">...</option>
+              <option value="highest">Le moins cher</option>
+              <option value="lowest">Le plus cher</option>
+            </Select>
+          </FormControl>
 
-              <FormControl fullWidth>
-                <FormLabel htmlFor="price">Tri</FormLabel>
-                <Select native id="price">
-                  <option value="any">...</option>
-                  <option value="lowest">Le moins cher</option>
-                  <option value="highest">Le plus cher</option>
-                </Select>
-              </FormControl>
+          <FormControl fullWidth>
+            <FormLabel htmlFor="room">Room</FormLabel>
+            <Select
+              native
+              id="room"
+              value={selectedRoomType}
+              onChange={handleRoomTypeChange}
+            >
+              <option value="">Any</option>
+              {roomTypes.map((roomType: RoomType) => (
+                <option key={roomType.ID_RoomType} value={roomType.Name}>
+                  {roomType.Name}
+                </option>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+      </section>
 
-              <FormControl fullWidth>
-                <FormLabel htmlFor="room">Room</FormLabel>
-                <Select native id="room">
-                  <option value="standard">Standard Room</option>
-                  <option value="deluxe">Deluxe Room</option>
-                  <option value="suite">Suite</option>
-                  <option value="executive">Executive Room</option>
-                  <option value="family">Family Room</option>
-                  <option value="specialty">Specialty Rooms</option>
-                </Select>
-              </FormControl>
-
-              <FormControl fullWidth>
-                <FormLabel htmlFor="views">Views</FormLabel>
-                <Select native id="views">
-                  <option value="any">Any</option>
-                  <option value="beach">Beach View</option>
-                  <option value="pool">Pool View</option>
-                  <option value="city">City View</option>
-                  <option value="mountain">Mountain View</option>
-                </Select>
-              </FormControl>
-
-            </div>
-          </section>
 
             <Grid container spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
           {getDisplayedRooms().map((room: Room, index) => (

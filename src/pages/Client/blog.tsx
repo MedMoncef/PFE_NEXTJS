@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { Typography, TextField, Button, Link, Box, Card, CardContent, CardMedia, Grid } from '@mui/material';
+import { Typography, TextField, Button, Link, Box, Card, CardContent, CardMedia, Grid, CardActions } from '@mui/material';
 import styles from '@/styles/Home.module.css';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
@@ -64,40 +64,36 @@ export default function Blog() {
           <h1>Recent Blog</h1>
         </div>
 
+     
         <Grid container spacing={2} style={{ margin: '50px', display: 'flex', justifyContent: 'center' }}>
 
-        {blogs.map((blog: Blog, index) => (
-          <Grid item xs={12} sm={6} md={4} key={blog.ID_Blog}>
-            <Card style={{ width: '75%' }}>
-              <a href="blog-single.html">
-                <CardMedia
-                  component="img"
-                  alt="Blog Image"
-                  height="200"
-                  image={`/images/Images/${blog.Image}`}
-                />
-              </a>
-              <CardContent style={{ textAlign: 'center' }}>
-                <Typography variant="subtitle2">{blog.DateU}</Typography>
-                <Typography variant="subtitle2">Admin</Typography>
-                <Typography variant="subtitle2">
-                  <span className="icon-chat"></span> {blog.ID_Blog}
+            {blogs.map((blog: Blog, index) => (
+              <Grid item xs={12} sm={6} md={4} key={blog.ID_Blog}>
+            <Card sx={{ maxWidth: 345 }}>
+              <CardMedia
+                sx={{ height: 140 }}
+                image={`/images/Images/${blog.Image}`}
+                title="green iguana"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {blog.Titre}
                 </Typography>
-                <Typography variant="h6" component="h3" style={{ textAlign: 'center' }}>
-                  <a href="#">{blog.Titre}</a>
-                </Typography>
-                <Typography variant="body2" style={{ textAlign: 'justify' }}>
+                <Typography variant="body2" color="text.secondary">
                   {blog.Content}
                 </Typography>
-                <Button variant="contained" color="secondary" style={{ margin: '10px' }}>
-                  More info
-                </Button>
               </CardContent>
+              <CardActions>
+                <Button size="small">Learn More</Button>
+              </CardActions>
             </Card>
-          </Grid>
-        ))}
+            </Grid>
+            ))}
 
         </Grid>
+
+
+
       </div>
     </>
   );

@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { Typography, Link, Card, CardContent, Grid, createTheme, ThemeProvider, CardMedia, Button, Container, Box, CssBaseline } from '@mui/material';
+import { CardActions, Typography, Link, Card, CardContent, Grid, createTheme, ThemeProvider, CardMedia, Button, Container, Box, CssBaseline } from '@mui/material';
 import styles from '@/styles/Home.module.css';
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
@@ -144,9 +144,11 @@ export default function Home() {
                       <Typography variant="subtitle1" color="text.secondary" component="div">
                         {menu.Description}
                       </Typography>
-                      <Typography component="div" variant="h6">
-                        {menu.Prix}
-                      </Typography>
+                      <CardActions sx={{ justifyContent: 'flex-end' }}>
+                        <Typography component="div" variant="h6">
+                          {menu.Prix}$
+                        </Typography>
+                      </CardActions>
                     </CardContent>
                   </Box>
               </Card>
