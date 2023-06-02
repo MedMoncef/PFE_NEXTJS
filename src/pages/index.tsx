@@ -17,6 +17,7 @@ const API_URL1 = 'http://localhost:7000/menus';
 const API_URL2 = 'http://localhost:7000/testimony';
 const API_URL3 = 'http://localhost:7000/rooms';
 const API_URL4 = 'http://localhost:7000/blogs';
+const API_URL5 = 'http://localhost:7000/roomTypes';
 const ITEMS_PER_PAGE = 3;
 
 // Custom theme with water-themed colors
@@ -42,11 +43,13 @@ export default function Home() {
   const [filteredRooms, setFilteredRooms] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [selectedPrice, setSelectedPrice] = useState('');
-  const [selectedRoomType, setSelectedRoomType] = useState('');
   const [selectedView, setSelectedView] = useState('');
   const [menus, setMenus] = useState([]);
   const [blogs, setBlogs] = useState([]);
   const router = useRouter();
+  const [roomTypes, setRoomTypes] = useState([]);
+  const [selectedRoomType, setSelectedRoomType] = useState('');
+  const [chambres, setChambres] = useState([]);
 
   interface Testimony {
     IdTestimony: string,
@@ -98,6 +101,10 @@ export default function Home() {
     DateU: Date
   }
 
+  interface RoomType {
+    ID_RoomType: string;
+    Name: string;
+  }
 
   const fetchData = async () => {
     const result = await axios(API_URL);
@@ -105,12 +112,14 @@ export default function Home() {
     const result2 = await axios(API_URL2);
     const result3 = await axios(API_URL3);
     const result4 = await axios(API_URL4);
+    const result5 = await axios(API_URL5);
     setTotalPages(Math.ceil(result.data.length / ITEMS_PER_PAGE));
     setSliders(result.data);
     setMenus(result1.data);
     setTestimonies(result2.data);
     setRooms(result3.data);
     setBlogs(result4.data);
+    setRoomTypes(result5.data);
   };
   
   useEffect(() => {
@@ -157,6 +166,12 @@ export default function Home() {
   for (let i = 0; i < blogs.length; i += 3) {
     blogSets.push(blogs.slice(i, i + 3));
   }
+
+  const handleRoomTypeChange = (event) => {
+    setSelectedRoomType(event.target.value);
+    const filteredChambres = rooms.filter((room) => room.Type === event.target.value);
+    setChambres(filteredChambres);
+  };
 
   return (
     <>
@@ -233,28 +248,33 @@ export default function Home() {
             </FormControl>
 
             <FormControl fullWidth>
-              <FormLabel htmlFor="room">Room</FormLabel>
-              <Select native id="room">
-                <option value="suite">Suite</option>
-                <option value="family-room">Family Room</option>
-                <option value="deluxe-room">Deluxe Room</option>
-                <option value="classic-room">Classic Room</option>
-                <option value="superior-room">Superior Room</option>
-                <option value="luxury-room">Luxury Room</option>
-              </Select>
-            </FormControl>
+            <FormLabel htmlFor="room">Type de Chambres</FormLabel>
+            <Select
+              native
+              id="room"
+              value={selectedRoomType}
+              onChange={handleRoomTypeChange}
+            >
+              <option value="">Any</option>
+              {roomTypes.map((roomType: RoomType) => (
+                <option key={roomType.ID_RoomType} value={roomType.Name}>
+                  {roomType.Name}
+                </option>
+              ))}
+            </Select>
+          </FormControl>
 
-            <FormControl fullWidth>
-              <FormLabel htmlFor="guests">Guests</FormLabel>
-              <Select native id="guests">
-                <option value="1">1 Adult</option>
-                <option value="2">2 Adult</option>
-                <option value="3">3 Adult</option>
-                <option value="4">4 Adult</option>
-                <option value="5">5 Adult</option>
-                <option value="6">6 Adult</option>
-              </Select>
-            </FormControl>
+          <FormControl fullWidth>
+            <FormLabel htmlFor="Chambres">Chambre</FormLabel>
+            <Select native id="Chambres">
+              <option value="">Choisissez un type</option>
+              {chambres.map((chambre) => (
+                <option key={chambre._id} value={chambre.Name}>
+                  {chambre.Name}
+                </option>
+              ))}
+            </Select>
+        </FormControl>
 
             <Button
               variant="contained"
