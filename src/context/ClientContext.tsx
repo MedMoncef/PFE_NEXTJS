@@ -65,7 +65,7 @@ export const ClientProvider: React.FC = ({ children }) => {
   const submitReservationForm = async (formData: ReservationFormData) => {
     try {
       // Make an HTTP request to submit the reservation form data
-      await axios.post('http://localhost:7000/reservation', formData);
+      await axios.post('http://localhost:7000/create_reservation', formData);
       console.log('Reservation form submitted successfully');
       // Handle success, show confirmation message, etc.
     } catch (error) {

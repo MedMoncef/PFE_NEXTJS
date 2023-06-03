@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { Card, CardContent, CardMedia, Typography, Button, Grid, Link, FormControl, FormLabel, Input, Select, Container } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Button, Grid, Link, FormControl, FormLabel, Input, Container, CircularProgress, Box, FormHelperText } from '@mui/material';
 import 'tailwindcss/tailwind.css';
 import styles from '@/styles/Home.module.css';
 import Head from 'next/head';
@@ -33,6 +33,9 @@ export default function Room() {
   const [cin, setCIN] = useState('');
   const [checkinDate, setCheckinDate] = useState('');
   const [checkoutDate, setCheckoutDate] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [success, setSuccess] = useState(false);
 
 
   interface Reservation {
@@ -51,8 +54,11 @@ export default function Room() {
     setCheckoutDate('');
   };
 
+
+
   const handleReservation = async (event) => {
     event.preventDefault();
+    setIsSubmitting(true);
     try {
       ReservationSchema.parse({
         firstName,
@@ -62,6 +68,7 @@ export default function Room() {
         checkinDate,
         checkoutDate,
       });
+      setErrors({}); // Clear out any previous errors
   
       const formData = {
         firstName,
@@ -72,11 +79,19 @@ export default function Room() {
         checkoutDate,
       };
       
-        await submitReservationForm(formData);
-      // Optional: Show success message or redirect to a success page
+      await submitReservationForm(formData);
+      setSuccess(true);
     } catch (error) {
-      console.log('error submit');
+      if (error instanceof z.ZodError) {
+        setErrors(error.errors.reduce((acc, curr) => {
+          acc[curr.path[0]] = curr.message;
+          return acc;
+        }, {}));
+      } else {
+        console.log('error submit');
+      }
     }
+    setIsSubmitting(false);
   };
   
 
@@ -141,29 +156,31 @@ export default function Room() {
                 <h2>HARBOR LIGHT'S Reservation</h2>
             </div>
             
-
-            {room && (
         <>
         <Container>
           <Grid container spacing={0} className="bg-blue-50" sx={{ maxWidth: 2000, margin: '2% auto' }}>
-            <Grid item xs={12} md={6}>
-              <Card>
+          <Grid item xs={12} md={6}>
+            <Card>
+              {room && (
                 <CardMedia sx={{ height: 450 }} image={`/images/Rooms/${room.Image}`} title={room.Name} />
-              </Card>
-           </Grid>
+              )}
+            </Card>
+          </Grid>
 
            <Card>
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div" className="text-blue-700">
-                  {room.Name} - 
-                  {availableRooms !== null && (
-                    <span style={{ marginLeft: '0.5rem' }}>({availableRooms} Chambres Disponible)</span>
-                  )}
-                </Typography>
-              
-                <Typography variant="body2" color="text.secondary">
-                  {room.Description}
-                </Typography>
+           <CardContent>
+              {room && (
+                <>
+                  <Typography gutterBottom variant="h5" component="div" className="text-blue-700">
+                    {room.Name} - 
+                    {availableRooms !== null && (
+                      <span style={{ marginLeft: '0.5rem' }}>({availableRooms} Chambres Disponible)</span>
+                    )}
+                  </Typography>
+                  
+                  <Typography variant="body2" color="text.secondary">
+                    {room.Description}
+                  </Typography>
               
                 <Typography variant="body1" color="text.primary">
                   <strong>Max:</strong> {room.Max} people
@@ -184,7 +201,9 @@ export default function Room() {
                 <Typography variant="body1" color="text.primary">
                   <strong>View:</strong> {room.View}
                 </Typography>
-            </CardContent>
+                </>
+                )}
+              </CardContent>
           </Card>
 
             
@@ -194,22 +213,26 @@ export default function Room() {
             <h2>Reserve this room</h2>
           </div>
 
+          {success && (
+            <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column">
+              <Typography variant="h4" color="primary" gutterBottom>
+                Reservation Successful!
+              </Typography>
+              <Typography variant="subtitle1">
+                We have received your reservation. You will get an email confirmation soon.
+              </Typography>
+            </Box>
+          )}
+
           <Grid item xs={12} md={6} style={{margin: '5% 0'}}>
-            <form
-              onSubmit={handleReservation}
+            <form onSubmit={handleReservation} style={{ padding: '40px', backgroundColor: '#f9f9f9', textAlign: 'center' }}>            
+            <div
               style={{
-                padding: '40px',
-                backgroundColor: '#f9f9f9',
-                textAlign: 'center',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '25px',
               }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: '25px',
-                }}
               >
                 <FormControl fullWidth>
                   <FormLabel htmlFor="first_name">First Name</FormLabel>
@@ -298,14 +321,13 @@ export default function Room() {
                     letterSpacing: '4px',
                     color: '#f5e4c3',
                     textTransform: 'uppercase',
+                    mt: 2
                   }}
+                  disabled={isSubmitting}
                 >
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <span style={{ fontSize: '16px' }}>
-                      Reserve
-                    </span>
-                  </div>
+                  {isSubmitting ? <CircularProgress size={24}/> : "Reserve"}
                 </Button>
+
                 <Button
                   onClick={resetForm}
                   variant="contained"
@@ -318,20 +340,17 @@ export default function Room() {
                     letterSpacing: '4px',
                     color: '#f5e4c3',
                     textTransform: 'uppercase',
+                    mt: 2
                   }}
+                  disabled={isSubmitting}
                 >
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <span style={{ fontSize: '16px' }}>
-                      Reset
-                    </span>
-                  </div>
+                  Reset
                 </Button>
-              </div>
-            </form>
+                </div>
+              </form>
             </Grid>
           </Container>
         </>
-      )}
     </>
   );
 }
