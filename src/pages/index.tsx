@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import styles from '@/styles/Home.module.css';
-import { FormControl, FormLabel, Input, Select, ListItem, ListItemAvatar, ListItemText, Avatar, Typography, Stack, Card, CardContent, Grid, createTheme, ThemeProvider, CardMedia, Button, Container, Box, CssBaseline, CardActions } from '@mui/material';
+import { FormControl, FormLabel, Input, Select, Typography, Stack, Card, CardContent, Grid, createTheme, ThemeProvider, CardMedia, Button, Container, Box, CssBaseline, CardActions } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import LocalDiningIcon from '@mui/icons-material/LocalDining';
 import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';

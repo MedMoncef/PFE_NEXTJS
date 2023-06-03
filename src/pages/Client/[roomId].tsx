@@ -5,6 +5,7 @@ import { Card, CardContent, CardMedia, Typography, Button, Grid, Link, FormContr
 import 'tailwindcss/tailwind.css';
 import styles from '@/styles/Home.module.css';
 import Head from 'next/head';
+import { useClient } from '@/context/ClientContext';
 
 const API_URL = 'http://localhost:7000';
 const ROOMS_ENDPOINT = '/rooms';
@@ -13,16 +14,51 @@ const RESERVATIONS_ENDPOINT = '/reservation';
 export default function Room() {
   const router = useRouter();
   const { roomId } = router.query;
-
+  const { submitReservationForm } = useClient();
   const [room, setRoom] = useState(null);
   const [availableRooms, setAvailableRooms] = useState(null);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [cin, setCIN] = useState('');
+  const [checkinDate, setCheckinDate] = useState('');
+  const [checkoutDate, setCheckoutDate] = useState('');
 
 
-  interface Testimony {
+  interface Reservation {
     ID_Rooms: string,
     Date_Debut: Date,
     Date_Fin: Date,
   }
+
+  const resetForm = (event) => {
+    event.preventDefault();
+    setFirstName('');
+    setLastName('');
+    setEmail('');
+    setCIN('');
+    setCheckinDate('');
+    setCheckoutDate('');
+  };
+
+  const handleReservation = (event) => {
+    event.preventDefault();
+    try {
+      ReservationSchema.parse({
+        firstName,
+        lastName,
+        email,
+        cin,
+        checkinDate,
+        checkoutDate,
+      });
+  
+      submitReservationForm(firstName, lastName, email, cin, checkinDate, checkoutDate);
+      // Optional: Show success message or redirect to a success page
+    } catch (error) {
+      console.log("error submit");
+    }
+  };
 
 
   useEffect(() => {
@@ -144,7 +180,8 @@ export default function Room() {
           </div>
 
           <Grid item xs={12} md={6} style={{margin: '5% 0'}}>
-            <section
+            <form
+              onSubmit={handleReservation}
               style={{
                 padding: '40px',
                 backgroundColor: '#f9f9f9',
@@ -165,6 +202,8 @@ export default function Room() {
                     id="first_name"
                     type="text"
                     placeholder="First Name"
+                    value={firstName}
+                    onChange={(event) => setFirstName(event.target.value)}
                   />
                 </FormControl>
 
@@ -174,6 +213,8 @@ export default function Room() {
                     id="last_name"
                     type="text"
                     placeholder="Last Name"
+                    value={lastName}
+                    onChange={(event) => setLastName(event.target.value)}
                   />
                 </FormControl>
 
@@ -183,6 +224,8 @@ export default function Room() {
                     id="email"
                     type="email"
                     placeholder="Email"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
                   />
                 </FormControl>
 
@@ -192,6 +235,8 @@ export default function Room() {
                     id="cin"
                     type="text"
                     placeholder="CIN"
+                    value={cin}
+                    onChange={(event) => setCIN(event.target.value)}
                   />
                 </FormControl>
 
@@ -209,6 +254,8 @@ export default function Room() {
                       id="checkin_date"
                       type="date"
                       placeholder="Check-in date"
+                      value={checkinDate}
+                      onChange={(event) => setCheckinDate(event.target.value)}
                     />
                   </FormControl>
 
@@ -218,6 +265,8 @@ export default function Room() {
                       id="checkout_date"
                       type="date"
                       placeholder="Check-out date"
+                      value={checkoutDate}
+                      onChange={(event) => setCheckoutDate(event.target.value)}
                     />
                   </FormControl>
                 </div>
@@ -242,8 +291,28 @@ export default function Room() {
                     </span>
                   </div>
                 </Button>
+                <Button
+                  onClick={resetForm}
+                  variant="contained"
+                  color="primary"
+                  sx={{
+                    flex: '1 0 auto',
+                    fontSize: '16px',
+                    fontFamily: 'Nunito Sans, Arial, sans-serif',
+                    position: 'relative',
+                    letterSpacing: '4px',
+                    color: '#f5e4c3',
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <span style={{ fontSize: '16px' }}>
+                      Reset
+                    </span>
+                  </div>
+                </Button>
               </div>
-            </section>
+            </form>
             </Grid>
           </Container>
         </>
