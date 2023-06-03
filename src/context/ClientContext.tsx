@@ -10,12 +10,13 @@ interface ContactFormData {
 }
 
 interface ReservationFormData {
-  ID_Reservation: string;
+  firstName: String,
+  lastName: String,
+  Email: String,
+  CIN: String,
   ID_Rooms: string;
-  People: number;
   Date_Debut: string;
   Date_Fin: string;
-  Duree: number;
 }
 
 interface BlogFormData {

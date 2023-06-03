@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import axios from 'axios';
+import axios, { all } from 'axios';
 import { Card, CardContent, CardMedia, Typography, Button, Grid, Link, FormControl, FormLabel, Input, Container, CircularProgress, Box, FormHelperText } from '@mui/material';
 import 'tailwindcss/tailwind.css';
 import styles from '@/styles/Home.module.css';
@@ -15,10 +15,10 @@ const RESERVATIONS_ENDPOINT = '/reservation';
 const ReservationSchema = z.object({
   firstName: z.string().nonempty('First name is required'),
   lastName: z.string().nonempty('Last name is required'),
-  email: z.string().email('Invalid email address').nonempty('Email is required'),
-  cin: z.string().nonempty('CIN is required'),
-  checkinDate: z.string().nonempty('Check-in date is required'),
-  checkoutDate: z.string().nonempty('Check-out date is required'),
+  Email: z.string().email('Invalid email address').nonempty('Email is required'),
+  CIN: z.string().nonempty('CIN is required'),
+  Date_Debut: z.string().nonempty('Check-in date is required'),
+  Date_Fin: z.string().nonempty('Check-out date is required'),
 });
 
 export default function Room() {
@@ -29,21 +29,17 @@ export default function Room() {
   const [availableRooms, setAvailableRooms] = useState(null);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [cin, setCIN] = useState('');
-  const [checkinDate, setCheckinDate] = useState('');
-  const [checkoutDate, setCheckoutDate] = useState('');
+  const [Email, setEmail] = useState('');
+  const [CIN, setCIN] = useState('');
+  const [ID_Rooms, setIdRooms] = useState('');
+  const [Date_Debut, setCheckinDate] = useState('');
+  const [Date_Fin, setCheckoutDate] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
-
-
-  interface Reservation {
-    ID_Rooms: string,
-    Date_Debut: Date,
-    Date_Fin: Date,
-  }
-
+  const [errorMessageTitle, setErrorMessageTitle] = useState('');
+  const [errorMessageText, setErrorMessageText] = useState('');
+  
   const resetForm = (event) => {
     event.preventDefault();
     setFirstName('');
@@ -54,8 +50,6 @@ export default function Room() {
     setCheckoutDate('');
   };
 
-
-
   const handleReservation = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
@@ -63,23 +57,60 @@ export default function Room() {
       ReservationSchema.parse({
         firstName,
         lastName,
-        email,
-        cin,
-        checkinDate,
-        checkoutDate,
+        Email,
+        CIN,
+        ID_Rooms,
+        Date_Debut,
+        Date_Fin,
       });
       setErrors({}); // Clear out any previous errors
   
       const formData = {
         firstName,
         lastName,
-        email,
-        cin,
-        checkinDate,
-        checkoutDate,
+        Email,
+        CIN,
+        ID_Rooms,
+        Date_Debut,
+        Date_Fin,
       };
-      
-      await submitReservationForm(formData);
+  
+      const response = await axios.get(`${API_URL}${RESERVATIONS_ENDPOINT}`, {
+        params: { ID_Rooms: ID_Rooms },
+      });
+      const reservations = response.data;
+  
+      let hasOverlap = false;
+      for (let reservation of reservations) {
+        if (
+          new Date(reservation.Date_Fin) >= new Date(Date_Debut)
+        ) {
+          hasOverlap = true;
+          break;
+        }
+      }
+
+      if (availableRooms <= 0) {
+        if (hasOverlap) {
+          setErrorMessageTitle("No Rooms available at that time!");
+          setErrorMessageText(
+            "We are sorry for the inconvenience, please choose a different room or come back again another time."
+          );
+        } else {
+          await submitReservationForm(formData);
+          setErrorMessageTitle("Reservation Successful!");
+          setErrorMessageText(
+            "We have received your reservation. You will get an email confirmation soon."
+          );
+        }
+      } else {
+        await submitReservationForm(formData);
+        setErrorMessageTitle("Reservation Successful!");
+        setErrorMessageText(
+          "We have received your reservation. You will get an email confirmation soon."
+        );
+      }
+
       setSuccess(true);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -93,13 +124,14 @@ export default function Room() {
     }
     setIsSubmitting(false);
   };
-  
+        
 
 
   useEffect(() => {
     if (roomId) {
       axios.get(`${API_URL}${ROOMS_ENDPOINT}/${roomId}`).then((res) => {
         setRoom(res.data);
+        setIdRooms(Array.isArray(roomId) ? roomId.join(", ") : roomId);
       });
     }
   }, [roomId]);
@@ -112,7 +144,7 @@ export default function Room() {
             params: { type: room.Type },
           });
           const reservations = response.data;
-          const reservedRoomIds = reservations.map((reservation) => reservation.ID_Rooms);
+          const reservedRoomIds = reservations.map((reservation) => reservation.roomId);
           const availableRooms = room.Max - reservedRoomIds.length;
           setAvailableRooms(availableRooms);
         } catch (error) {
@@ -123,9 +155,9 @@ export default function Room() {
       fetchAvailableRooms();
     }
   }, [room]);
-
-
-  return (
+  
+  
+ return (
     <>
       <Head>
         <title>Reservation</title>
@@ -213,16 +245,16 @@ export default function Room() {
             <h2>Reserve this room</h2>
           </div>
 
-          {success && (
-            <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column">
+          {success ? (
+            <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" style={{margin: '5% 0'}}>
               <Typography variant="h4" color="primary" gutterBottom>
-                Reservation Successful!
+                {errorMessageTitle}
               </Typography>
               <Typography variant="subtitle1">
-                We have received your reservation. You will get an email confirmation soon.
+                {errorMessageText}
               </Typography>
             </Box>
-          )}
+          ) : (
 
           <Grid item xs={12} md={6} style={{margin: '5% 0'}}>
             <form onSubmit={handleReservation} style={{ padding: '40px', backgroundColor: '#f9f9f9', textAlign: 'center' }}>            
@@ -262,7 +294,7 @@ export default function Room() {
                     id="email"
                     type="email"
                     placeholder="Email"
-                    value={email}
+                    value={Email}
                     onChange={(event) => setEmail(event.target.value)}
                   />
                 </FormControl>
@@ -273,7 +305,7 @@ export default function Room() {
                     id="cin"
                     type="text"
                     placeholder="CIN"
-                    value={cin}
+                    value={CIN}
                     onChange={(event) => setCIN(event.target.value)}
                   />
                 </FormControl>
@@ -292,7 +324,7 @@ export default function Room() {
                       id="checkin_date"
                       type="date"
                       placeholder="Check-in date"
-                      value={checkinDate}
+                      value={Date_Debut}
                       onChange={(event) => setCheckinDate(event.target.value)}
                     />
                   </FormControl>
@@ -303,7 +335,7 @@ export default function Room() {
                       id="checkout_date"
                       type="date"
                       placeholder="Check-out date"
-                      value={checkoutDate}
+                      value={Date_Fin}
                       onChange={(event) => setCheckoutDate(event.target.value)}
                     />
                   </FormControl>
@@ -314,6 +346,7 @@ export default function Room() {
                   color="primary"
                   type="submit"
                   sx={{
+                    width: '100%',
                     flex: '1 0 auto',
                     fontSize: '16px',
                     fontFamily: 'Nunito Sans, Arial, sans-serif',
@@ -333,6 +366,7 @@ export default function Room() {
                   variant="contained"
                   color="primary"
                   sx={{
+                    width: '100%',
                     flex: '1 0 auto',
                     fontSize: '16px',
                     fontFamily: 'Nunito Sans, Arial, sans-serif',
@@ -349,6 +383,7 @@ export default function Room() {
                 </div>
               </form>
             </Grid>
+          )}
           </Container>
         </>
     </>
