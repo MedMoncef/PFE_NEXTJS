@@ -6,10 +6,20 @@ import 'tailwindcss/tailwind.css';
 import styles from '@/styles/Home.module.css';
 import Head from 'next/head';
 import { useClient } from '@/context/ClientContext';
+import { z } from 'zod';
 
 const API_URL = 'http://localhost:7000';
 const ROOMS_ENDPOINT = '/rooms';
 const RESERVATIONS_ENDPOINT = '/reservation';
+
+const ReservationSchema = z.object({
+  firstName: z.string().nonempty('First name is required'),
+  lastName: z.string().nonempty('Last name is required'),
+  email: z.string().email('Invalid email address').nonempty('Email is required'),
+  cin: z.string().nonempty('CIN is required'),
+  checkinDate: z.string().nonempty('Check-in date is required'),
+  checkoutDate: z.string().nonempty('Check-out date is required'),
+});
 
 export default function Room() {
   const router = useRouter();
@@ -41,7 +51,7 @@ export default function Room() {
     setCheckoutDate('');
   };
 
-  const handleReservation = (event) => {
+  const handleReservation = async (event) => {
     event.preventDefault();
     try {
       ReservationSchema.parse({
@@ -53,12 +63,22 @@ export default function Room() {
         checkoutDate,
       });
   
-      submitReservationForm(firstName, lastName, email, cin, checkinDate, checkoutDate);
+      const formData = {
+        firstName,
+        lastName,
+        email,
+        cin,
+        checkinDate,
+        checkoutDate,
+      };
+      
+        await submitReservationForm(formData);
       // Optional: Show success message or redirect to a success page
     } catch (error) {
-      console.log("error submit");
+      console.log('error submit');
     }
   };
+  
 
 
   useEffect(() => {
@@ -88,11 +108,6 @@ export default function Room() {
       fetchAvailableRooms();
     }
   }, [room]);
-
-  const handleReservation = (roomId) => {
-    // Add your reservation logic here, e.g., redirect to a reservation page
-  };
-
 
 
   return (
