@@ -129,10 +129,10 @@ export default function Home() {
           <Grid container spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
 
             {menus.map((menu: Menu, index) => (
-              <Card sx={{ display: 'flex', margin: '2% 2%', width: '40%' }} key={menu.ID_Menu}>
+            <Card sx={{ maxWidth: 350, margin: '2% 2%' }} key={menu.ID_Menu} style={{ alignSelf: 'flex' }}>
               <CardMedia
                   component="img"
-                  sx={{ width: 150, height: 150, backgroundColor: 'black' }} // Adjust the width and height as desired
+                  sx={{ height: 200 }}
                   image={`/images/Menu/${menu.Image}`}
                   alt="Menu Item"
                 />
