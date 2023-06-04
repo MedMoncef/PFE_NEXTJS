@@ -33,7 +33,7 @@ function Navbar() {
   };
 
   const handleBlogClick = () => {
-    router.push('/Client/blog');
+    router.push('/Client/Blog/blogs');
   };
 
   const handleContactClick = () => {

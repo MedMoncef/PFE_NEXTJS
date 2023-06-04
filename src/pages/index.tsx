@@ -545,7 +545,7 @@ export default function Home() {
             <h2>HARBORLIGHTS BLOGS</h2>
             <h1>Recent Blog</h1>
             <div style={{ textAlign: 'center', marginTop: '3%' }}>
-                    <Button variant="outlined" color="primary" onClick={() => router.push(`/Client/blog`)}>
+                    <Button variant="outlined" color="primary" onClick={() => router.push(`/Client/Blog/blogs`)}>
                       View more
                     </Button>
                   </div>

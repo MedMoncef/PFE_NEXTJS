@@ -11,6 +11,24 @@ export default function Blog() {
 
   const router = useRouter();
 
+  interface Blog {
+    _id: string,
+    ID_Blog: string,
+    Image: string,
+    Titre: string,
+    Content: string,
+    DateU: Date
+  }
+
+  const fetchData = async () => {
+    const result = await axios(API_URL);
+    setBlogs(result.data);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <>
       <Head>
@@ -33,7 +51,7 @@ export default function Blog() {
           >
             <div className={styles.bannerContent}>
               <h2><Link style={{ color: '#f5e4c3' }} href="/">Home</Link></h2>
-              <h1>Blog Detail</h1>
+              <h1>Our Stories</h1>
             </div>
           </div>
         </section>
@@ -61,7 +79,7 @@ export default function Blog() {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small" onClick={() => router.push(`/Client/${blog._id}`)}>Learn More</Button>
+                <Button size="small" onClick={() => router.push(`/Client/Blog/${blog._id}`)}>Learn More</Button>
               </CardActions>
             </Card>
             ))}
