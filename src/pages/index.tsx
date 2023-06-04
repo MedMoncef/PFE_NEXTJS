@@ -389,7 +389,7 @@ export default function Home() {
                     Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.
                   </p>
                   <div style={{ textAlign: 'left', marginTop: '50px' }}>
-                    <Button variant="contained" color="secondary" onClick={() => router.push(`/Client/rooms`)}>
+                    <Button variant="contained" color="secondary" onClick={() => router.push(`/Client/Room/rooms`)}>
                       Reserve Your Room Now
                     </Button>
                   </div>
@@ -459,7 +459,7 @@ export default function Home() {
           <h2>HARBOR LIGHTS ROOMS</h2>
           <h1>Hotel Master's Rooms</h1>
                   <div style={{ textAlign: 'center', marginTop: '3%' }}>
-                    <Button variant="contained" color="secondary" onClick={() => router.push(`/Client/rooms`)}>
+                    <Button variant="contained" color="secondary" onClick={() => router.push(`/Client/Room/rooms`)}>
                       View more
                     </Button>
                   </div>

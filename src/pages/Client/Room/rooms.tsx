@@ -221,7 +221,7 @@ export default function Blog() {
                 </Typography>
               </CardContent>
               <CardActions>
-              <Button size="small" onClick={() => router.push(`/Client/${room._id}`)}>Reserver</Button>
+              <Button size="small" onClick={() => router.push(`/Client/Room/${room._id}`)}>Reserver</Button>
             </CardActions>
             </Card>
           ))}
