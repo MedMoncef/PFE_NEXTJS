@@ -177,8 +177,8 @@ export default function Blog() {
               onChange={handlePriceChange}
             >
               <option value="">...</option>
-              <option value="highest">Le moins cher</option>
-              <option value="lowest">Le plus cher</option>
+              <option value="lowest">Le moins cher</option>
+              <option value="highest">Le plus cher</option>
             </Select>
           </FormControl>
 

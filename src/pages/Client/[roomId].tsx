@@ -196,54 +196,58 @@ export default function Room() {
             </div>
             
         <>
-        <Container>
-          <Grid container spacing={0} className="bg-blue-50" sx={{ maxWidth: 2000, margin: '2% auto' }}>
-          <Grid item xs={12} md={6}>
-            <Card>
-              {room && (
-                <CardMedia sx={{ height: 450 }} image={`/images/Rooms/${room.Image}`} title={room.Name} />
-              )}
-            </Card>
-          </Grid>
+        <Grid>
+        <Grid container spacing={0} className="bg-blue-50" sx={{ maxWidth: 2000, margin: '2% auto' }}>
+  <Grid item xs={12} md={6}>
+    <Card>
+      {room && (
+        <CardMedia sx={{ height: 450 }} image={`/images/Rooms/${room.Image}`} title={room.Name} />
+      )}
+    </Card>
+  </Grid>
 
-           <Card>
-           <CardContent>
-              {room && (
-                <>
-                  <Typography gutterBottom variant="h5" component="div" className="text-blue-700">
-                      <span style={{ marginLeft: '0.5rem' }}>{room.Name}</span>
-                  </Typography>
-                  
-                  <Typography variant="body2" color="text.secondary">
-                    {room.Description}
-                  </Typography>
-              
-                <Typography variant="body1" color="text.primary">
-                  <strong>Max:</strong> {room.Max} people
-                </Typography>
-              
-                <Typography variant="body1" color="text.primary">
-                  <strong>Size:</strong> {room.Size} sqm
-                </Typography>
-              
-                <Typography variant="body1" color="text.primary">
-                  <strong>Bed Number:</strong> {room.Bed_Number}
-                </Typography>
-              
-                <Typography variant="body1" color="text.primary">
-                  <strong>Price:</strong> ${room.Price} per night
-                </Typography>
-              
-                <Typography variant="body1" color="text.primary">
-                  <strong>View:</strong> {room.View}
-                </Typography>
-                </>
-                )}
-              </CardContent>
-          </Card>
+  <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column' }}>
+    <Card sx={{ height: '100%' }}>
+      <CardContent sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+        {room && (
+          <>
+            <div>
+              <Typography gutterBottom variant="h5" component="div" className="text-blue-700" sx={{ marginBottom: '1rem' }}>
+                {room.Name}
+              </Typography>
 
-            
-          </Grid>
+              <Typography variant="body2" color="text.secondary" sx={{ marginBottom: '1.5rem' }}>
+                {room.Description}
+              </Typography>
+            </div>
+
+            <div>
+              <Typography variant="body1" color="text.primary" sx={{ marginBottom: '2rem' }}>
+                <strong>Max:</strong> {room.Max} people
+              </Typography>
+
+              <Typography variant="body1" color="text.primary" sx={{ marginBottom: '2rem' }}>
+                <strong>Size:</strong> {room.Size} sqm
+              </Typography>
+
+              <Typography variant="body1" color="text.primary" sx={{ marginBottom: '2rem' }}>
+                <strong>Bed Number:</strong> {room.Bed_Number}
+              </Typography>
+
+              <Typography variant="body1" color="text.primary" sx={{ marginBottom: '2rem' }}>
+                <strong>Price:</strong> ${room.Price} per night
+              </Typography>
+
+              <Typography variant="body1" color="text.primary" sx={{ marginBottom: '2rem' }}>
+                <strong>View:</strong> {room.View}
+              </Typography>
+            </div>
+          </>
+        )}
+      </CardContent>
+    </Card>
+  </Grid>
+</Grid>
 
           <div className={styles.about}>
             <h2>Reserve this room</h2>
@@ -407,7 +411,7 @@ export default function Room() {
               </form>
             </Grid>
           )}
-          </Container>
+          </Grid>
         </>
     </>
   );

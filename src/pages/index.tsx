@@ -219,7 +219,7 @@ export default function Home() {
 
   			{/* ========================================================== */}
 
-        <section
+{/*         <section
           style={{
             padding: '40px',
             backgroundColor: '#f9f9f9',
@@ -306,7 +306,7 @@ export default function Home() {
             </Button>
           </div>
         </section>
-
+ */}
 				{/* ========================================================== */}
 
         <div style={{backgroundColor: '#f8f9fa', padding: '3% 0'}}>
@@ -389,7 +389,7 @@ export default function Home() {
                     Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.
                   </p>
                   <div style={{ textAlign: 'left', marginTop: '50px' }}>
-                    <Button variant="contained" color="secondary">
+                    <Button variant="contained" color="secondary" onClick={() => router.push(`/Client/rooms`)}>
                       Reserve Your Room Now
                     </Button>
                   </div>
