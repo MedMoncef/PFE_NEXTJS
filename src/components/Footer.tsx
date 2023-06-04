@@ -1,8 +1,6 @@
 import React from 'react';
 import { Flex, Text, Link, Box } from '@chakra-ui/react';
 import { FaInstagram, FaFacebook, FaTwitter } from 'react-icons/fa';
-import { IoMdInformationCircleOutline } from 'react-icons/io';
-import { HiOutlineMail } from 'react-icons/hi';
 
 function Footer() {
   return (
@@ -35,9 +33,11 @@ function Footer() {
       >
         <Flex direction="column" mb={['40px', '40px', '0']} justify="left" align="left">
           <Box maxW="285px" maxH="330px">
-            <Text fontSize="24px" fontWeight="700" fontFamily="Nunito Sans, Arial, sans-serif" mb="40px" color="white" 
+            <Text
               fontSize="16px"
+              fontWeight="700"
               fontFamily="Nunito Sans, Arial, sans-serif"
+              marginBottom="40px"
               position="relative"
               letterSpacing="4px"
               color="#f5e4c3"
@@ -46,7 +46,8 @@ function Footer() {
               Harbor Lights
             </Text>
             <Text color="white">
-              Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.
+              Far far away, behind the word mountains, far from the countries Vokalia and
+              Consonantia, there live the blind texts.
             </Text>
             <Flex mt="20px" justify="left" align="left">
               <Link
@@ -82,9 +83,11 @@ function Footer() {
         </Flex>
         <Flex direction="column" mb={['40px', '40px', '0']} ml={['0', '0', '50px']} justify="center" align="center">
           <Box maxW="285px" maxH="330px">
-            <Text fontSize="24px" fontWeight="700" fontFamily="Nunito Sans, Arial, sans-serif" mb="40px" color="white" 
+            <Text
               fontSize="16px"
+              fontWeight="700"
               fontFamily="Nunito Sans, Arial, sans-serif"
+              marginBottom="40px"
               position="relative"
               letterSpacing="4px"
               color="#f5e4c3"
@@ -95,9 +98,44 @@ function Footer() {
             <Flex direction="column" justify="left" align="left">
               <Link
                 as="a"
+                href="/home"
+                color="white"
+                mb="25px"
+                _hover={{ color: '#f5e4c3', transform: 'scale(1.1)' }}
+              >
+                Home
+              </Link>
+              <Link
+                as="a"
+                href="/rooms"
+                color="white"
+                mb="25px"
+                _hover={{ color: '#f5e4c3', transform: 'scale(1.1)' }}
+              >
+                Our Rooms
+              </Link>
+              <Link
+                as="a"
+                href="/restaurant"
+                color="white"
+                mb="25px"
+                _hover={{ color: '#f5e4c3', transform: 'scale(1.1)' }}
+              >
+                Restaurant
+              </Link>
+              <Link
+                as="a"
+                href="/about"
+                color="white"
+                mb="25px"
+                _hover={{ color: '#f5e4c3', transform: 'scale(1.1)' }}
+              >
+                About Us
+              </Link>
+              <Link
+                as="a"
                 href="/blog"
                 color="white"
-                mr="10px"
                 mb="25px"
                 _hover={{ color: '#f5e4c3', transform: 'scale(1.1)' }}
               >
@@ -105,41 +143,23 @@ function Footer() {
               </Link>
               <Link
                 as="a"
-                href="/rooms"
-                color="white"
-                mr="10px"
-                mb="25px"
-                _hover={{ color: '#f5e4c3', transform: 'scale(1.1)' }}
-              >
-                Rooms
-              </Link>
-              <Link
-                as="a"
-                href="/amenities"
-                color="white"
-                mr="10px"
-                mb="25px"
-                _hover={{ color: '#f5e4c3', transform: 'scale(1.1)' }}
-              >
-                Amenities
-              </Link>
-              <Link
-                as="a"
-                href="/gift-card"
+                href="/contact"
                 color="white"
                 mb="25px"
                 _hover={{ color: '#f5e4c3', transform: 'scale(1.1)' }}
               >
-                Gift Card
+                Contact
               </Link>
             </Flex>
           </Box>
         </Flex>
         <Flex direction="column" mb={['40px', '40px', '0']} ml={['0', '0', '50px']} justify="center" align="center">
           <Box maxW="285px" maxH="330px">
-            <Text fontSize="24px" fontWeight="700" fontFamily="Nunito Sans, Arial, sans-serif" mb="40px" color="white" 
+            <Text
               fontSize="16px"
+              fontWeight="700"
               fontFamily="Nunito Sans, Arial, sans-serif"
+              marginBottom="40px"
               position="relative"
               letterSpacing="4px"
               color="#f5e4c3"
@@ -189,9 +209,11 @@ function Footer() {
         </Flex>
         <Flex direction="column" justify="left" align="left">
           <Box maxW="285px" maxH="330px">
-            <Text fontSize="24px" fontWeight="700" fontFamily="Nunito Sans, Arial, sans-serif" mb="40px" color="white" 
+            <Text
               fontSize="16px"
+              fontWeight="700"
               fontFamily="Nunito Sans, Arial, sans-serif"
+              marginBottom="40px"
               position="relative"
               letterSpacing="4px"
               color="#f5e4c3"

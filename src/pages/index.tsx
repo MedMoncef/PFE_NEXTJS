@@ -168,8 +168,8 @@ export default function Home() {
   }
 
   const menuSets = [];
-  for (let i = 0; i < menus.length; i += 4) {
-    menuSets.push(menus.slice(i, i + 4));
+  for (let i = 0; i < menus.length; i += 3) {
+    menuSets.push(menus.slice(i, i + 3));
   }
 
   const handleRoomTypeChange = (event) => {
@@ -508,14 +508,14 @@ export default function Home() {
           </div>
 
 
-          <Carousel sx={{ marginBottom: '2%' }}>
+          <Carousel sx={{ marginTop: '2%' }}>
         {menuSets.map((menuSet, index) => (
-          <Grid container key={index} spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
-            {menuSet.map((menu: Menu) => (
-              <Card sx={{ display: 'flex', margin: '2% 2%', width: '40%' }} key={menu.ID_Menu}>
-                <CardMedia
+        <Grid container key={index} spacing={2} style={{ margin: '0 0', display: 'flex', justifyContent: 'center' }}>
+          {menuSet.map((menu: Menu) => (
+            <Card sx={{ maxWidth: 350, margin: '0 2%' }} key={menu.ID_Menu} style={{ alignSelf: 'flex' }}>
+              <CardMedia
                   component="img"
-                  sx={{ width: 150, height: 150, backgroundColor: 'black' }} // Adjust the width and height as desired
+                  sx={{ height: 200 }}
                   image={`/images/Menu/${menu.Image}`}
                   alt="Menu Item"
                 />
@@ -551,15 +551,14 @@ export default function Home() {
                   </div>
           </div>
 
-          <Carousel sx={{ margin: '0 2%' }}>
+          <Carousel sx={{ margin: '3% 2%' }}>
             {blogSets.map((blogSet, index) => (
-              <Grid container spacing={2} key={index} style={{ display: 'flex', justifyContent: 'center', margin: '0 3.5%' }}>
-                {blogSet.map((blog: Blog) => (
-                  <Grid item xs={12} sm={6} md={4} key={blog.ID_Blog}>
-                    <Card sx={{ maxWidth: 345 }}>
-                      <CardMedia
+            <Grid container key={index} spacing={2} style={{ margin: '0 0', display: 'flex', justifyContent: 'center' }}>
+              {blogSet.map((blog: Blog) => (
+                <Card sx={{ maxWidth: 350, margin: '0 2%' }} key={blog.ID_Blog} style={{ alignSelf: 'flex' }}>
+                    <CardMedia
                         component="img"
-                        sx={{ height: 140 }}
+                        sx={{ height: 200 }}
                         image={`/images/Images/${blog.Image}`}
                         alt="Blog Image"
                       />
@@ -575,7 +574,6 @@ export default function Home() {
                         <Button size="small">Learn More</Button>
                       </CardActions>
                     </Card>
-                  </Grid>
                 ))}
               </Grid>
             ))}

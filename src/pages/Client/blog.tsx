@@ -65,13 +65,12 @@ export default function Blog() {
         </div>
 
      
-        <Grid container spacing={2} style={{ margin: '50px', display: 'flex', justifyContent: 'center' }}>
+        <Grid container spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
 
             {blogs.map((blog: Blog, index) => (
-              <Grid item xs={12} sm={6} md={4} key={blog.ID_Blog}>
-            <Card sx={{ maxWidth: 345 }}>
+            <Card sx={{ maxWidth: 350, margin: '2% 2%' }} key={blog.ID_Blog}>
               <CardMedia
-                sx={{ height: 140 }}
+                sx={{ height: 200 }}
                 image={`/images/Images/${blog.Image}`}
                 title="green iguana"
               />
@@ -87,7 +86,6 @@ export default function Blog() {
                 <Button size="small">Learn More</Button>
               </CardActions>
             </Card>
-            </Grid>
             ))}
 
         </Grid>
