@@ -167,6 +167,11 @@ export default function Home() {
     blogSets.push(blogs.slice(i, i + 3));
   }
 
+  const menuSets = [];
+  for (let i = 0; i < menus.length; i += 4) {
+    menuSets.push(menus.slice(i, i + 4));
+  }
+
   const handleRoomTypeChange = (event) => {
     setSelectedRoomType(event.target.value);
     const filteredChambres = rooms.filter((room) => room.Type === event.target.value);
@@ -502,8 +507,11 @@ export default function Home() {
                   </div>
           </div>
 
-          <Grid container spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
-            {menus.slice(0, 4).map((menu: Menu, index) => (
+
+          <Carousel sx={{ marginBottom: '2%' }}>
+        {menuSets.map((menuSet, index) => (
+          <Grid container key={index} spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
+            {menuSet.map((menu: Menu) => (
               <Card sx={{ display: 'flex', margin: '2% 2%', width: '40%' }} key={menu.ID_Menu}>
                 <CardMedia
                   component="img"
@@ -527,6 +535,8 @@ export default function Home() {
               </Card>
             ))}
           </Grid>
+          ))}
+          </Carousel>  
         </div>
 
 
@@ -541,7 +551,7 @@ export default function Home() {
                   </div>
           </div>
 
-          <Carousel>
+          <Carousel sx={{ margin: '0 2%' }}>
             {blogSets.map((blogSet, index) => (
               <Grid container spacing={2} key={index} style={{ display: 'flex', justifyContent: 'center', margin: '0 3.5%' }}>
                 {blogSet.map((blog: Blog) => (

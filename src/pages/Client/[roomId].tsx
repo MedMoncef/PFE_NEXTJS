@@ -204,10 +204,7 @@ export default function Room() {
               {room && (
                 <>
                   <Typography gutterBottom variant="h5" component="div" className="text-blue-700">
-                    {room.Name} - 
-                    {availableRooms !== null && (
-                      <span style={{ marginLeft: '0.5rem' }}>({availableRooms} Chambres Disponible)</span>
-                    )}
+                      <span style={{ marginLeft: '0.5rem' }}>{room.Name}</span>
                   </Typography>
                   
                   <Typography variant="body2" color="text.secondary">
