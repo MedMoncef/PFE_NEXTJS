@@ -257,6 +257,25 @@ export default function Room() {
               <Typography variant="subtitle1">
                 {errorMessageText}
               </Typography>
+
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{
+                      flex: '1 0 auto',
+                      fontSize: '16px',
+                      fontFamily: 'Nunito Sans, Arial, sans-serif',
+                      position: 'relative',
+                      letterSpacing: '4px',
+                      color: '#f5e4c3',
+                      textTransform: 'uppercase',
+                      mt: 2
+                    }}
+                    onClick={() => setSuccess(false)} // Add the onClick event handler
+                  >
+                    Try again
+                  </Button>
+                  
             </Box>
           ) : (
 
