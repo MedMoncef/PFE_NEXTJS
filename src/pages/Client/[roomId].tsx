@@ -79,16 +79,23 @@ export default function Room() {
         params: { ID_Rooms: ID_Rooms },
       });
       const reservations = response.data;
-  
+      
       let hasOverlap = false;
       for (let reservation of reservations) {
+        const existingStartDate = new Date(reservation.Date_Debut);
+        const existingEndDate = new Date(reservation.Date_Fin);
+        const newStartDate = new Date(Date_Debut);
+        const newEndDate = new Date(Date_Fin);
+      
         if (
-          new Date(reservation.Date_Fin) >= new Date(Date_Debut)
+          (newStartDate >= existingStartDate && newStartDate <= existingEndDate) ||
+          (newEndDate >= existingStartDate && newEndDate <= existingEndDate) ||
+          (newStartDate <= existingStartDate && newEndDate >= existingEndDate)
         ) {
           hasOverlap = true;
           break;
         }
-      }
+      }      
 
       if (availableRooms <= 0) {
         if (hasOverlap) {
