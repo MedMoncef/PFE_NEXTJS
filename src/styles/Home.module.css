@@ -475,3 +475,27 @@
   color: white;
   cursor: pointer;
 }
+
+.blog {
+  text-align: center;
+  margin: 1%;
+  width: 50%;
+  float: left;
+}
+
+.blog h2 {
+  font-size: 14px;
+  font-family: "Nunito Sans", Arial, sans-serif;
+  position: relative;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.blog h1 {
+  font-size: 38px;
+  font-weight: 700;
+  position: relative;
+  line-height: 1.5;
+  font-family: "Nunito Sans", Arial, sans-serif;
+  color: rgb(21, 101, 192);
+}
