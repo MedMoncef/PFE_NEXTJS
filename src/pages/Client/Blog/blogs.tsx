@@ -67,7 +67,7 @@ export default function Blog() {
             <Card sx={{ maxWidth: 350, margin: '2% 2%' }} key={blog.ID_Blog}>
               <CardMedia
                 sx={{ height: 200 }}
-                image={`/images/Images/${blog.Image}`}
+                image={`/images/Blog/${blog.Image}`}
                 title="green iguana"
               />
               <CardContent>

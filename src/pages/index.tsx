@@ -559,7 +559,7 @@ export default function Home() {
                     <CardMedia
                         component="img"
                         sx={{ height: 200 }}
-                        image={`/images/Images/${blog.Image}`}
+                        image={`/images/Blog/${blog.Image}`}
                         alt="Blog Image"
                       />
                       <CardContent>

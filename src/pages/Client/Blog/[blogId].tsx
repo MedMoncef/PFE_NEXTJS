@@ -1,73 +1,41 @@
-import * as React from 'react';
+// pages/blog/[id].js
+
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import Head from 'next/head';
-import { Typography, Link, Card, CardContent, Grid, createTheme, ThemeProvider, CardMedia, Button, Container, Box, CssBaseline, CardActions, FormControl, FormLabel, Input, Select } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import { styled } from '@mui/material/styles';
-import styles from '@/styles/Home.module.css';
 import { useRouter } from 'next/router';
 
-
-const hotelTheme = createTheme({
-  palette: {
-    primary: {
-      main: '#5A9', // A sophisticated dark green
-    },
-    secondary: {
-      main: '#FFA500', // A warm gold
-    },
-  },
-});
-
-
-const SearchInput = styled(Input)({
-  padding: '0.5rem',
-  border: 'none',
-  borderRadius: '0.25rem',
-});
-
-const defaultTheme = createTheme();
-
-export default function Blog() {
+const BlogPost = () => {
+  const [post, setPost] = useState(null);
   const router = useRouter();
+  const { id } = router.query; // get the dynamic part of the URL
+
+  useEffect(() => {
+    if (id) {
+      axios.get(`/api/posts/${id}`) // fetch the data for the specific blog post
+        .then((res) => {
+          setPost(res.data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }, [id]);
+
+  if (!post) return <div>Loading...</div>
+
   return (
-<>
+    <div className="px-4 md:px-10 py-5">
       <Head>
-        <title>Hotel Blog</title>
-        <meta name="description" content="Welcome to our Hotel Blog" />
-        <link rel="icon" href="/favicon.jpg" />
+        <title>{post.title}</title>
+        <meta name="description" content={post.description} />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <section className={styles.banner} style={{ height: '600px' }}>
-          <div
-            style={{
-              height: '600px',
-              backgroundImage: `url(/images/bg_3.jpg)`,
-              display: 'block',
-              backgroundRepeat: 'no-repeat',
-              backgroundSize: 'cover',
-            }}
-          >
-            <div className={styles.bannerContent}>
-              <h2><Link style={{ color: '#f5e4c3' }} href="/">Home</Link></h2>
-              <h1>Discover Luxury & Comfort</h1>
-              <Button variant="contained" color="secondary" onClick={() => router.push(`/Client/Room/${room._id}`)}>Book Now</Button>
-            </div>
-          </div>
-        </section>
-
-      <div className={styles.about}>
-        <h2>EXPLORE OUR STORIES</h2>
-      </div>
-
-      <ThemeProvider theme={hotelTheme}>
-        <CssBaseline />
-        <Container maxWidth="lg">
-          <Box sx={{ my: 2 }}>
-          </Box>
-          <main>
-            {/* ... rest of your components */}
-          </main>
-        </Container>
-      </ThemeProvider>
-    </>  );
+      <h1 className="text-4xl font-bold mb-5">{post.title}</h1>
+      <p>{post.content}</p>
+    </div>
+  );
 }
+
+export default BlogPost;

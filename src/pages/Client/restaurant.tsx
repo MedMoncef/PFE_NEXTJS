@@ -44,9 +44,9 @@ export default function Home() {
 
 
     const images = [
-      '/images/Resto/resto1.jpg',
-      '/images/Resto/resto2.jpg',
-      '/images/Resto/resto3.jpg',
+      '/images/Menu/resto1.jpg',
+      '/images/Menu/resto2.jpg',
+      '/images/Menu/resto3.jpg',
     ];
 
     const theme = useTheme();
