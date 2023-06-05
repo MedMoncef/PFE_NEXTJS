@@ -5,22 +5,21 @@ import axios from 'axios';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
+const API_URL = 'http://localhost:7000';
+const ROOMS_ENDPOINT = '/blogs';
+
 const BlogPost = () => {
   const [post, setPost] = useState(null);
   const router = useRouter();
-  const { id } = router.query; // get the dynamic part of the URL
+  const { blogId } = router.query; // get the dynamic part of the URL
 
   useEffect(() => {
-    if (id) {
-      axios.get(`/api/posts/${id}`) // fetch the data for the specific blog post
-        .then((res) => {
-          setPost(res.data);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+    if (blogId) {
+      axios.get(`${API_URL}${ROOMS_ENDPOINT}/${blogId}`).then((res) => {
+        setPost(res.data);
+      });
     }
-  }, [id]);
+  }, [blogId]);
 
   if (!post) return <div>Loading...</div>
 
@@ -32,28 +31,32 @@ const BlogPost = () => {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.jpg" />
   </Head>
+          {post && (
+            <>
+              <section className={styles.banner} style={{ height: '600px' }}>
+              <div
+                  style={{
+                  height: '600px',
+                  backgroundImage: `url(/images/Blog/${post.Image})`,
+                  display: 'block',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: 'cover',
+                  }}
+              >
+                  <div className={styles.bannerContent}>
+                  <h2><Link style={{ color: '#f5e4c3' }} href="/">Home</Link></h2>
+                    <h1>{post.Titre}</h1>
+                  </div>
+              </div>
+              </section>
 
-        <section className={styles.banner} style={{ height: '600px' }}>
-        <div
-            style={{
-            height: '600px',
-            backgroundImage: `url(/images/bg_3.jpg)`,
-            display: 'block',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover',
-            }}
-        >
-            <div className={styles.bannerContent}>
-            <h2><Link style={{ color: '#f5e4c3' }} href="/">Home</Link></h2>
-            <h1>Blog Details</h1>
-            </div>
-        </div>
-        </section>
+              <div className={styles.about}>
+                  <h2>{post.Content}</h2>
+              </div>
+            </>
+            )}
 
 
-        <div className={styles.about}>
-            <h2>TEST</h2>
-        </div>
     </>
 );
 }
