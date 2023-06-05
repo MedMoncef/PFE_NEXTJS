@@ -93,7 +93,6 @@ const BlogPost = () => {
               </div>
             </div>
           </section>
-
           <Container>
             <Box className={styles.blog}>
               <h1 style={{margin: '25% 0'}}>{post.Titre}</h1>
