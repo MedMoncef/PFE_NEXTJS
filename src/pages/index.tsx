@@ -483,7 +483,7 @@ export default function Home() {
                 </Typography>
               </CardContent>
               <CardActions>
-              <Button size="small" onClick={() => router.push(`/Client/${room._id}`)}>Reserver</Button>
+              <Button size="small" onClick={() => router.push(`/Client/Room/${room._id}`)}>Reserver</Button>
             </CardActions>
             </Card>
           ))}
@@ -571,7 +571,7 @@ export default function Home() {
                         </Typography>
                       </CardContent>
                       <CardActions>
-                        <Button size="small">Learn More</Button>
+                        <Button size="small" onClick={() => router.push(`/Client/Blog/${blog._id}`)}>Learn More</Button>
                       </CardActions>
                     </Card>
                 ))}
