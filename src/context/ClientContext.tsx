@@ -39,12 +39,14 @@ interface AuthContextType {
   submitContactForm: (nom: string, email: string, sujet: string, message: string) => void;
   submitReservationForm: (formData: ReservationFormData) => void;
   submitBlogForm: (formData: BlogFormData) => void;
+  submitPaymentForm: (formData: PaymentFormData) => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
   submitContactForm: () => {},
   submitReservationForm: () => {},
-  submitBlogForm: () => {}
+  submitBlogForm: () => {},
+  submitPaymentForm: () => {}
 });
 
 export const useClient = () => useContext(AuthContext);
@@ -108,7 +110,7 @@ export const ClientProvider: React.FC = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ submitContactForm, submitReservationForm, submitBlogForm }}>
+    <AuthContext.Provider value={{ submitContactForm, submitReservationForm, submitBlogForm, submitPaymentForm }}>
       {children}
     </AuthContext.Provider>
   );

@@ -21,10 +21,18 @@ const ReservationSchema = z.object({
   Date_Fin: z.string().nonempty('Check-out date is required'),
 });
 
+const PaymentSchema = z.object({
+  cardNumber: z.string().nonempty('Card number is required'),
+  expiryDate: z.string().nonempty('Expiry date is required'),
+  cvv: z.string().nonempty('CVV is required'),
+  nameOnCard: z.string().nonempty('Name on card is required'),
+});
+
+
 export default function Room() {
   const router = useRouter();
   const { roomId } = router.query;
-  const { submitReservationForm } = useClient();
+  const { submitReservationForm, submitPaymentForm } = useClient();
   const [room, setRoom] = useState(null);
   const [availableRooms, setAvailableRooms] = useState(null);
   const [firstName, setFirstName] = useState('');
@@ -40,6 +48,17 @@ export default function Room() {
   const [unsuccessful, setUnsuccessful] = useState(false);
   const [errorMessageTitle, setErrorMessageTitle] = useState('');
   const [errorMessageText, setErrorMessageText] = useState('');
+
+  const [cardNumber, setCardNumber] = useState('');
+  const [expiryDate, setExpiryDate] = useState('');
+  const [cvv, setCvv] = useState('');
+  const [name, setName] = useState('');
+  const [nameOnCard, setNameOnCard] = useState('');
+  const [amount, setAmount] = useState('');
+  const [dayPrice, setDayPrice] = useState('');
+  const [time, setTime] = useState('');
+
+
   
   const resetForm = (event) => {
     event.preventDefault();
@@ -50,6 +69,39 @@ export default function Room() {
     setCheckinDate('');
     setCheckoutDate('');
   };
+
+  const handlePayment = (event) => {
+    event.preventDefault();
+    try {
+      PaymentSchema.parse({
+        cardNumber,
+        expiryDate,
+        cvv,
+        nameOnCard,
+        amount,
+      });
+      setErrors({});
+
+      const calculatedAmount = Number(dayPrice) * Number(time); // Calculate the amount based on dayPrice and time
+
+      const formData = {
+        cardNumber,
+        expiryDate,
+        cvv,
+        nameOnCard,
+        amount: calculatedAmount, // Assign the calculated amount
+      };
+      console.log(calculatedAmount);
+      console.log(dayPrice);
+      console.log(time);
+
+      submitPaymentForm(formData);
+      // Optional: Show success message or redirect to a success page
+    } catch (error) {
+      console.log("error submit");
+    }
+  };
+
 
   const handleReservation = async (event) => {
     event.preventDefault();
@@ -64,7 +116,7 @@ export default function Room() {
         Date_Debut,
         Date_Fin,
       });
-      setErrors({}); // Clear out any previous errors
+      setErrors({});
   
       const formData = {
         firstName,
@@ -80,14 +132,18 @@ export default function Room() {
         params: { ID_Rooms: ID_Rooms },
       });
       const reservations = response.data;
-      
+  
       let hasOverlap = false;
       for (let reservation of reservations) {
+        if (reservation.ID_Rooms !== ID_Rooms) {
+          continue; // Skip checking if the roomId is different
+        }
+  
         const existingStartDate = new Date(reservation.Date_Debut);
         const existingEndDate = new Date(reservation.Date_Fin);
         const newStartDate = new Date(Date_Debut);
         const newEndDate = new Date(Date_Fin);
-      
+  
         if (
           (newStartDate >= existingStartDate && newStartDate <= existingEndDate) ||
           (newEndDate >= existingStartDate && newEndDate <= existingEndDate) ||
@@ -96,8 +152,8 @@ export default function Room() {
           hasOverlap = true;
           break;
         }
-      }      
-
+      }
+  
       if (availableRooms <= 0) {
         if (hasOverlap) {
           setErrorMessageTitle("No Rooms available at that time!");
@@ -121,20 +177,20 @@ export default function Room() {
         );
         await setSuccess(true);
       }
-
     } catch (error) {
       if (error instanceof z.ZodError) {
-        setErrors(error.errors.reduce((acc, curr) => {
-          acc[curr.path[0]] = curr.message;
-          return acc;
-        }, {}));
+        setErrors(
+          error.errors.reduce((acc, curr) => {
+            acc[curr.path[0]] = curr.message;
+            return acc;
+          }, {})
+        );
       } else {
-        console.log('error submit');
+        console.log("error submit");
       }
     }
     setIsSubmitting(false);
-  };
-        
+  };          
 
 
   useEffect(() => {
@@ -142,9 +198,13 @@ export default function Room() {
       axios.get(`${API_URL}${ROOMS_ENDPOINT}/${roomId}`).then((res) => {
         setRoom(res.data);
         setIdRooms(Array.isArray(roomId) ? roomId.join(", ") : roomId);
+        if (res.data && res.data.Price) {
+          setDayPrice(res.data.Price);
+        }
       });
     }
   }, [roomId]);
+
 
   useEffect(() => {
     if (room) {
@@ -166,17 +226,6 @@ export default function Room() {
     }
   }, [room]);
   
-  const [cardNumber, setCardNumber] = useState('');
-  const [expiryDate, setExpiryDate] = useState('');
-  const [cvv, setCvv] = useState('');
-  const [name, setName] = useState('');
-
-  const handlePayment = (event) => {
-    event.preventDefault();
-    // Perform payment processing logic here
-    // You can use a payment gateway library or make an API request to handle the payment
-    console.log('Processing payment...');
-  };
  return (
     <>
       <Head>
@@ -318,6 +367,16 @@ export default function Room() {
                       onChange={(event) => setCardNumber(event.target.value)}
                     />
                   </Grid>
+
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="Name On Card"
+                      variant="outlined"
+                      fullWidth
+                      value={nameOnCard}
+                      onChange={(event) => setNameOnCard(event.target.value)}
+                    />
+                  </Grid>
                   <Grid item xs={12} sm={6}>
                     <TextField
                       label="Expiry Date"
@@ -341,8 +400,7 @@ export default function Room() {
                       label="Name on Card"
                       variant="outlined"
                       fullWidth
-                      value={name}
-                      onChange={(event) => setName(event.target.value)}
+                      disabled
                     />
                   </Grid>
                 </Grid>
@@ -367,18 +425,20 @@ export default function Room() {
                   {isSubmitting ? <CircularProgress size={24}/> : "Payez Maintenant"}
                 </Button>
 
+                <center>
                 <Button
                   onClick={resetForm}
                   variant="contained"
                   color="primary"
                   sx={{
-                    width: '100%',
+                    width: '40%',
                     flex: '1 0 auto',
                     fontSize: '16px',
                     fontFamily: 'Nunito Sans, Arial, sans-serif',
                     position: 'relative',
                     letterSpacing: '4px',
                     color: '#f5e4c3',
+                    margin: '0 10%',
                     textTransform: 'uppercase',
                     mt: 2
                   }}
@@ -388,17 +448,18 @@ export default function Room() {
                 </Button>
 
                 <Button
+                  onClick={resetForm}
                   variant="contained"
                   color="primary"
-                  type="submit"
                   sx={{
-                    width: '100%',
+                    width: '40%',
                     flex: '1 0 auto',
                     fontSize: '16px',
                     fontFamily: 'Nunito Sans, Arial, sans-serif',
                     position: 'relative',
                     letterSpacing: '4px',
                     color: '#f5e4c3',
+                    margin: '0 10%',
                     textTransform: 'uppercase',
                     mt: 2
                   }}
@@ -406,6 +467,7 @@ export default function Room() {
                 >
                   {isSubmitting ? <CircularProgress size={24}/> : "Payer Plus Tard"}
                 </Button>
+                </center>
               </form>
         </Grid>
 
