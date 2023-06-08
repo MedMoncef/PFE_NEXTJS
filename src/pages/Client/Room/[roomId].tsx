@@ -11,7 +11,6 @@ import { z } from 'zod';
 const API_URL = 'http://localhost:7000';
 const ROOMS_ENDPOINT = '/rooms';
 const RESERVATIONS_ENDPOINT = '/reservation';
-const PAYMENT_ENDPOINT = '/create_payment';
 
 const ReservationSchema = z.object({
   firstName: z.string().nonempty('First name is required'),
@@ -38,6 +37,7 @@ export default function Room() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
+  const [unsuccessful, setUnsuccessful] = useState(false);
   const [errorMessageTitle, setErrorMessageTitle] = useState('');
   const [errorMessageText, setErrorMessageText] = useState('');
   
@@ -104,12 +104,14 @@ export default function Room() {
           setErrorMessageText(
             "We are sorry for the inconvenience, please choose a different room or come back again another time."
           );
+          await setUnsuccessful(true);
         } else {
           await submitReservationForm(formData);
           setErrorMessageTitle("Reservation Successful!");
           setErrorMessageText(
             "We have received your reservation. You will get an email confirmation soon."
           );
+          await setSuccess(true);
         }
       } else {
         await submitReservationForm(formData);
@@ -117,9 +119,9 @@ export default function Room() {
         setErrorMessageText(
           "We have received your reservation. You will get an email confirmation soon."
         );
+        await setSuccess(true);
       }
 
-      setSuccess(true);
     } catch (error) {
       if (error instanceof z.ZodError) {
         setErrors(error.errors.reduce((acc, curr) => {
@@ -264,8 +266,46 @@ export default function Room() {
             <h2>Reserve this room</h2>
           </div>
 
-          {success ? (
-          <Grid item xs={12} md={6} style={{margin: '5%'}}>
+          { unsuccessful? (
+            <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" style={{margin: '5% 0'}}>
+              <Typography variant="h4" color="primary" gutterBottom>
+                {errorMessageTitle}
+              </Typography>
+              <Typography variant="subtitle1">
+                {errorMessageText}
+              </Typography>
+
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{
+                      flex: '1 0 auto',
+                      fontSize: '16px',
+                      fontFamily: 'Nunito Sans, Arial, sans-serif',
+                      position: 'relative',
+                      letterSpacing: '4px',
+                      color: '#f5e4c3',
+                      textTransform: 'uppercase',
+                      mt: 2
+                    }}
+                    onClick={() => setUnsuccessful(false)} // Add the onClick event handler
+                  >
+                    Try again
+                  </Button>
+                  
+            </Box>
+          ) :success ? (
+
+            <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" style={{margin: '5% 0'}}>
+            <Typography variant="h4" color="primary" gutterBottom>
+              {errorMessageTitle}
+            </Typography>
+            <Typography variant="subtitle1">
+              {errorMessageText}
+            </Typography>
+
+
+            <Grid item xs={12} md={6} style={{margin: '5%'}}>
               <h2>Payment</h2>
               <form onSubmit={handlePayment}>
                 <Grid container spacing={2}>
@@ -368,6 +408,9 @@ export default function Room() {
                 </Button>
               </form>
         </Grid>
+
+          </Box>
+
           ) : (
 
           <Grid item xs={12} md={6} style={{margin: '5% 0'}}>

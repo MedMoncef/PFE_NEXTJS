@@ -317,7 +317,7 @@ export default function Home() {
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '40px' }}>
-              <Grid container spacing={2} style={{ justifyContent: 'center' }}>
+              <Grid container style={{ justifyContent: 'center' }}>
                 <Grid item xs={6} sm={4} md={2}>
                   <Card>
                     <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -374,7 +374,7 @@ export default function Home() {
             
             <ThemeProvider theme={theme}>
           <section style={{ padding: '50px' }}>
-            <Grid container spacing={2}>
+            <Grid container>
 
               <CssBaseline />
               <Container maxWidth="sm" style={{ marginBottom: '40px' }}>
@@ -465,7 +465,7 @@ export default function Home() {
                   </div>
         </div>
 
-        <Grid container spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
+        <Grid container style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
         {getDisplayedRooms().map((room: Room, index) => (
           <Card sx={{ maxWidth: 350, margin: '2% 2%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} key={room.ID_Rooms}>
             <CardMedia
@@ -510,7 +510,7 @@ export default function Home() {
 
           <Carousel sx={{ marginTop: '2%' }}>
         {menuSets.map((menuSet, index) => (
-        <Grid container key={index} spacing={2} style={{ margin: '0 0', display: 'flex', justifyContent: 'center' }}>
+        <Grid container key={index} style={{ margin: '0 0', display: 'flex', justifyContent: 'center' }}>
           {menuSet.map((menu: Menu) => (
             <Card sx={{ maxWidth: 350, margin: '0 2%' }} key={menu.ID_Menu} style={{ alignSelf: 'flex' }}>
               <CardMedia
@@ -553,7 +553,7 @@ export default function Home() {
 
           <Carousel sx={{ margin: '3% 2%' }}>
             {blogSets.map((blogSet, index) => (
-            <Grid container key={index} spacing={2} style={{ margin: '0 0', display: 'flex', justifyContent: 'center' }}>
+            <Grid container key={index} style={{ margin: '0 0', display: 'flex', justifyContent: 'center' }}>
               {blogSet.map((blog: Blog) => (
                 <Card sx={{ maxWidth: 350, margin: '0 2%' }} key={blog.ID_Blog} style={{ alignSelf: 'flex' }}>
                     <CardMedia
@@ -588,7 +588,7 @@ export default function Home() {
                   <h1>Instagram</h1>
               </div>
 
-            <Stack direction="row" spacing={0}>
+            <Stack direction="row">
               <CardMedia
                 component="img"
                 sx={{ height: 200 }}
