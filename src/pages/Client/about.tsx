@@ -16,7 +16,7 @@ const API_URL = 'http://localhost:7000/testimony';
 
 const stylesD = {
   card: {
-    backgroundImage: `url(/images/Images/image_6.jpg)`,
+    backgroundImage: `url(/images/Blog/image_6.jpg)`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     padding: '2rem',

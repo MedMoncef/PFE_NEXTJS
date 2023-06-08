@@ -63,8 +63,8 @@ export default function Blog() {
 
      
         <Grid container spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
-            {blogs.map((blog: Blog, index) => (
-            <Card sx={{ maxWidth: 350, margin: '2% 2%' }} key={blog.ID_Blog}>
+          {blogs.map((blog: Blog, index) => (
+            <Card sx={{ maxWidth: 350, margin: '2% 2%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} key={blog.ID_Blog}>
               <CardMedia
                 sx={{ height: 200 }}
                 image={`/images/Blog/${blog.Image}`}
@@ -78,13 +78,12 @@ export default function Blog() {
                   {blog.Content}
                 </Typography>
               </CardContent>
-              <CardActions>
+              <CardActions style={{ marginTop: 'auto' }}>
                 <Button size="small" onClick={() => router.push(`/Client/Blog/${blog._id}`)}>Learn More</Button>
               </CardActions>
             </Card>
-            ))}
+          ))}
         </Grid>
-
       </div>
     </>
   );

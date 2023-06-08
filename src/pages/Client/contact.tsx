@@ -17,7 +17,7 @@ const contactSchema = z.object({
 
 const stylesD = {
   card: {
-    backgroundImage: `url(/images/Images/image_6.jpg)`,
+    backgroundImage: `url(/images/Blog/image_6.jpg)`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     padding: '2rem',

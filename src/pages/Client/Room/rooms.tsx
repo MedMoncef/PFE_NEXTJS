@@ -203,9 +203,9 @@ export default function Blog() {
       </section>
 
 
-            <Grid container spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
+      <Grid container spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
           {getDisplayedRooms().map((room: Room, index) => (
-            <Card sx={{ maxWidth: 350, margin: '2% 2%' }} key={room.ID_Rooms}>
+            <Card sx={{ maxWidth: 350, margin: '2% 2%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} key={room.ID_Rooms}>
               <CardMedia
                 sx={{ height: 250 }}
                 image={`/images/Rooms/${room.Image}`}
@@ -220,9 +220,9 @@ export default function Blog() {
                   {room.Description}
                 </Typography>
               </CardContent>
-              <CardActions>
-              <Button size="small" onClick={() => router.push(`/Client/Room/${room._id}`)}>Reserver</Button>
-            </CardActions>
+              <CardActions style={{ marginTop: 'auto' }}>
+                <Button size="small" onClick={() => router.push(`/Client/Room/${room._id}`)}>Reserver</Button>
+              </CardActions>
             </Card>
           ))}
         </Grid>

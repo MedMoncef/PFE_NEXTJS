@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import axios, { all } from 'axios';
-import { Card, CardContent, CardMedia, Typography, Button, Grid, Link, FormControl, FormLabel, Input, Container, CircularProgress, Box, FormHelperText } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Button, Grid, Link, FormControl, FormLabel, Input, Container, CircularProgress, Box, FormHelperText, TextField } from '@mui/material';
 import 'tailwindcss/tailwind.css';
 import styles from '@/styles/Home.module.css';
 import Head from 'next/head';
@@ -11,6 +11,7 @@ import { z } from 'zod';
 const API_URL = 'http://localhost:7000';
 const ROOMS_ENDPOINT = '/rooms';
 const RESERVATIONS_ENDPOINT = '/reservation';
+const PAYMENT_ENDPOINT = '/create_payment';
 
 const ReservationSchema = z.object({
   firstName: z.string().nonempty('First name is required'),
@@ -163,7 +164,17 @@ export default function Room() {
     }
   }, [room]);
   
-  
+  const [cardNumber, setCardNumber] = useState('');
+  const [expiryDate, setExpiryDate] = useState('');
+  const [cvv, setCvv] = useState('');
+  const [name, setName] = useState('');
+
+  const handlePayment = (event) => {
+    event.preventDefault();
+    // Perform payment processing logic here
+    // You can use a payment gateway library or make an API request to handle the payment
+    console.log('Processing payment...');
+  };
  return (
     <>
       <Head>
@@ -197,90 +208,166 @@ export default function Room() {
             
         <>
         <Grid>
-        <Grid container spacing={0} className="bg-blue-50" sx={{ maxWidth: 2000, margin: '2% auto' }}>
-  <Grid item xs={12} md={6}>
-    <Card>
-      {room && (
-        <CardMedia sx={{ height: 450 }} image={`/images/Rooms/${room.Image}`} title={room.Name} />
-      )}
-    </Card>
-  </Grid>
+          <Grid container spacing={0} className="bg-blue-50" sx={{ maxWidth: 2000, margin: '2% auto' }}>
+          <Grid item xs={12} md={6}>
+            <Card>
+              {room && (
+                <CardMedia sx={{ height: 450 }} image={`/images/Rooms/${room.Image}`} title={room.Name} />
+              )}
+            </Card>
+          </Grid>
 
-  <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column' }}>
-    <Card sx={{ height: '100%' }}>
-      <CardContent sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
-        {room && (
-          <>
-            <div>
-              <Typography gutterBottom variant="h5" component="div" className="text-blue-700" sx={{ marginBottom: '1rem' }}>
-                {room.Name}
-              </Typography>
+            <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Card sx={{ height: '100%' }}>
+                <CardContent sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+                  {room && (
+                    <>
+                      <div>
+                        <Typography gutterBottom variant="h5" component="div" className="text-blue-700" sx={{ marginBottom: '1rem' }}>
+                          {room.Name}
+                        </Typography>
 
-              <Typography variant="body2" color="text.secondary" sx={{ marginBottom: '1.5rem' }}>
-                {room.Description}
-              </Typography>
-            </div>
+                        <Typography variant="body2" color="text.secondary" sx={{ marginBottom: '1.5rem' }}>
+                          {room.Description}
+                        </Typography>
+                      </div>
 
-            <div>
-              <Typography variant="body1" color="text.primary" sx={{ marginBottom: '2rem' }}>
-                <strong>Max:</strong> {room.Max} people
-              </Typography>
+                      <div>
+                        <Typography variant="body1" color="text.primary" sx={{ marginBottom: '2rem' }}>
+                          <strong>Max:</strong> {room.Max} people
+                        </Typography>
 
-              <Typography variant="body1" color="text.primary" sx={{ marginBottom: '2rem' }}>
-                <strong>Size:</strong> {room.Size} sqm
-              </Typography>
+                        <Typography variant="body1" color="text.primary" sx={{ marginBottom: '2rem' }}>
+                          <strong>Size:</strong> {room.Size} sqm
+                        </Typography>
 
-              <Typography variant="body1" color="text.primary" sx={{ marginBottom: '2rem' }}>
-                <strong>Bed Number:</strong> {room.Bed_Number}
-              </Typography>
+                        <Typography variant="body1" color="text.primary" sx={{ marginBottom: '2rem' }}>
+                          <strong>Bed Number:</strong> {room.Bed_Number}
+                        </Typography>
 
-              <Typography variant="body1" color="text.primary" sx={{ marginBottom: '2rem' }}>
-                <strong>Price:</strong> ${room.Price} per night
-              </Typography>
+                        <Typography variant="body1" color="text.primary" sx={{ marginBottom: '2rem' }}>
+                          <strong>Price:</strong> ${room.Price} per night
+                        </Typography>
 
-              <Typography variant="body1" color="text.primary" sx={{ marginBottom: '2rem' }}>
-                <strong>View:</strong> {room.View}
-              </Typography>
-            </div>
-          </>
-        )}
-      </CardContent>
-    </Card>
-  </Grid>
-</Grid>
+                        <Typography variant="body1" color="text.primary" sx={{ marginBottom: '2rem' }}>
+                          <strong>View:</strong> {room.View}
+                        </Typography>
+                      </div>
+                    </>
+                  )}
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
 
           <div className={styles.about}>
             <h2>Reserve this room</h2>
           </div>
 
           {success ? (
-            <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" style={{margin: '5% 0'}}>
-              <Typography variant="h4" color="primary" gutterBottom>
-                {errorMessageTitle}
-              </Typography>
-              <Typography variant="subtitle1">
-                {errorMessageText}
-              </Typography>
+          <Grid item xs={12} md={6} style={{margin: '5%'}}>
+              <h2>Payment</h2>
+              <form onSubmit={handlePayment}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="Card Number"
+                      variant="outlined"
+                      fullWidth
+                      value={cardNumber}
+                      onChange={(event) => setCardNumber(event.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="Expiry Date"
+                      variant="outlined"
+                      fullWidth
+                      value={expiryDate}
+                      onChange={(event) => setExpiryDate(event.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="CVV"
+                      variant="outlined"
+                      fullWidth
+                      value={cvv}
+                      onChange={(event) => setCvv(event.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="Name on Card"
+                      variant="outlined"
+                      fullWidth
+                      value={name}
+                      onChange={(event) => setName(event.target.value)}
+                    />
+                  </Grid>
+                </Grid>
+                
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  sx={{
+                    width: '100%',
+                    flex: '1 0 auto',
+                    fontSize: '16px',
+                    fontFamily: 'Nunito Sans, Arial, sans-serif',
+                    position: 'relative',
+                    letterSpacing: '4px',
+                    color: '#f5e4c3',
+                    textTransform: 'uppercase',
+                    mt: 2
+                  }}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? <CircularProgress size={24}/> : "Payez Maintenant"}
+                </Button>
 
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    sx={{
-                      flex: '1 0 auto',
-                      fontSize: '16px',
-                      fontFamily: 'Nunito Sans, Arial, sans-serif',
-                      position: 'relative',
-                      letterSpacing: '4px',
-                      color: '#f5e4c3',
-                      textTransform: 'uppercase',
-                      mt: 2
-                    }}
-                    onClick={() => setSuccess(false)} // Add the onClick event handler
-                  >
-                    Try again
-                  </Button>
-                  
-            </Box>
+                <Button
+                  onClick={resetForm}
+                  variant="contained"
+                  color="primary"
+                  sx={{
+                    width: '100%',
+                    flex: '1 0 auto',
+                    fontSize: '16px',
+                    fontFamily: 'Nunito Sans, Arial, sans-serif',
+                    position: 'relative',
+                    letterSpacing: '4px',
+                    color: '#f5e4c3',
+                    textTransform: 'uppercase',
+                    mt: 2
+                  }}
+                  disabled={isSubmitting}
+                >
+                  Reset
+                </Button>
+
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  sx={{
+                    width: '100%',
+                    flex: '1 0 auto',
+                    fontSize: '16px',
+                    fontFamily: 'Nunito Sans, Arial, sans-serif',
+                    position: 'relative',
+                    letterSpacing: '4px',
+                    color: '#f5e4c3',
+                    textTransform: 'uppercase',
+                    mt: 2
+                  }}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? <CircularProgress size={24}/> : "Payer Plus Tard"}
+                </Button>
+              </form>
+        </Grid>
           ) : (
 
           <Grid item xs={12} md={6} style={{margin: '5% 0'}}>
@@ -411,7 +498,7 @@ export default function Room() {
               </form>
             </Grid>
           )}
-          </Grid>
+        </Grid>
         </>
     </>
   );

@@ -466,28 +466,28 @@ export default function Home() {
         </div>
 
         <Grid container spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
-          {getDisplayedRooms().map((room: Room, index) => (
-            <Card sx={{ maxWidth: 350, margin: '2% 2%' }} key={room.ID_Rooms} style={{ alignSelf: 'flex' }}>
-              <CardMedia
-                sx={{ height: 250 }}
-                image={`/images/Rooms/${room.Image}`}
-                title="Room image"
-              />
-              <CardContent>
-                <div className={styles.rooms}>
-                  <h1>{room.Name}</h1>
-                  <h2>{room.Price}$ per night</h2>
-                </div>
-                <Typography variant="body2" color="text.secondary">
-                  {room.Description}
-                </Typography>
-              </CardContent>
-              <CardActions>
+        {getDisplayedRooms().map((room: Room, index) => (
+          <Card sx={{ maxWidth: 350, margin: '2% 2%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} key={room.ID_Rooms}>
+            <CardMedia
+              sx={{ height: 250 }}
+              image={`/images/Rooms/${room.Image}`}
+              title="Room image"
+            />
+            <CardContent>
+              <div className={styles.rooms}>
+                <h1>{room.Name}</h1>
+                <h2>{room.Price}$ per night</h2>
+              </div>
+              <Typography variant="body2" color="text.secondary">
+                {room.Description}
+              </Typography>
+            </CardContent>
+            <CardActions style={{ marginTop: 'auto' }}>
               <Button size="small" onClick={() => router.push(`/Client/Room/${room._id}`)}>Reserver</Button>
             </CardActions>
-            </Card>
-          ))}
-        </Grid>
+          </Card>
+        ))}
+      </Grid>
 
         <Box display="flex" justifyContent="center" marginBottom={5}>
           <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} />

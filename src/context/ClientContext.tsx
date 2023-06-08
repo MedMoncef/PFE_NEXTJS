@@ -27,6 +27,14 @@ interface BlogFormData {
   DateU: string;
 }
 
+interface PaymentFormData {
+  cardNumber: String;
+  expiryDate: String;
+  cvv: String;
+  nameOnCard: String;
+  amount: Number;
+}
+
 interface AuthContextType {
   submitContactForm: (nom: string, email: string, sujet: string, message: string) => void;
   submitReservationForm: (formData: ReservationFormData) => void;
@@ -83,6 +91,18 @@ export const ClientProvider: React.FC = ({ children }) => {
       // Handle success, show confirmation message, etc.
     } catch (error) {
       console.error('Blog form submission failed:', error);
+      // Handle submission failure, show error message, etc.
+    }
+  };
+
+  const submitPaymentForm = async (formData: PaymentFormData) => {
+    try {
+      // Make an HTTP request to submit the blog form data
+      await axios.post('http://localhost:7000/create_payment', formData);
+      console.log('Payment form submitted successfully');
+      // Handle success, show confirmation message, etc.
+    } catch (error) {
+      console.error('Payment form submission failed:', error);
       // Handle submission failure, show error message, etc.
     }
   };
