@@ -1,8 +1,8 @@
 import { useContext,useState,useEffect } from 'react';
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import Navbar from '@/components/Partials/Navbar';
+import Footer from '@/components/Partials/Footer';
 import Banner from '@/components/Payment';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
