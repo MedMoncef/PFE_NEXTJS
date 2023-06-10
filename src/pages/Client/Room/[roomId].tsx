@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import axios, { all } from 'axios';
-import { Card, CardContent, CardMedia, Typography, Button, Grid, Link, FormControl, FormLabel, Input, Container, CircularProgress, Box, FormHelperText, TextField } from '@mui/material';
+import { Typography, Button, Grid, Link, Box } from '@mui/material';
 import 'tailwindcss/tailwind.css';
 import styles from '@/styles/Home.module.css';
 import Head from 'next/head';

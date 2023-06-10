@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import axios, { all } from 'axios';
-import { Card, CardContent, CardMedia, Typography, Button, Grid, Link, FormControl, FormLabel, Input, Container, CircularProgress, Box, FormHelperText, TextField } from '@mui/material';
+import axios from 'axios';
+import { Card, CardContent, CardMedia, Typography, Grid } from '@mui/material';
 import 'tailwindcss/tailwind.css';
-import styles from '@/styles/Home.module.css';
 
 const API_URL = 'http://localhost:7000';
 const ROOMS_ENDPOINT = '/rooms';
