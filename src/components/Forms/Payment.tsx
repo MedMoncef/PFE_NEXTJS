@@ -28,7 +28,7 @@ function Payment({Price, reservationId, setUnsuccessful, setSuccess}) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
   const { submitPaymentForm } = useClient();
-  const [showExtraFields, setShowExtraFields] = useState(true);
+  const [showExtraFields, setShowExtraFields] = useState(false);
 
 
   const handlePayment = (event) => {
@@ -77,7 +77,6 @@ function Payment({Price, reservationId, setUnsuccessful, setSuccess}) {
 
   return (
     <>
-    {showExtraFields && (
       <Grid item xs={12} md={6} style={{margin: '5%'}}>
           <h2>Payment : {Price}$</h2>
           <form onSubmit={handlePayment}>
@@ -139,7 +138,7 @@ function Payment({Price, reservationId, setUnsuccessful, setSuccess}) {
                 }}
                 disabled={isSubmitting}
                 onClick={async () => {
-                  setShowExtraFields(false);
+                  setShowExtraFields(true);
                 }}
               >
                 {isSubmitting ? <CircularProgress size={24} /> : "Payez Maintenant"}
@@ -194,6 +193,32 @@ function Payment({Price, reservationId, setUnsuccessful, setSuccess}) {
             </center>
           </form>
       </Grid>
+    
+    {showExtraFields && (
+
+      <Button
+      onClick={async () => {
+        router.push('/');
+      }}
+        variant="contained"
+        color="primary"
+        sx={{
+          width: '40%',
+          flex: '1 0 auto',
+          fontSize: '16px',
+          fontFamily: 'Nunito Sans, Arial, sans-serif',
+          position: 'relative',
+          letterSpacing: '4px',
+          color: '#f5e4c3',
+          margin: '0 10%',
+          textTransform: 'uppercase',
+          mt: 2
+        }}
+        disabled={isSubmitting}
+      >
+        Go Back Home
+      </Button>    
+
     )}
     </>
 );
