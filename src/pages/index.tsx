@@ -268,7 +268,7 @@ export default function Home() {
 
 				{/* ========================================================== */}
 
-        <div style={{marginBottom: '5%'}}>
+      <div style={{marginBottom: '5%'}}>
         <div className={styles.about}>
           <h2>HARBOR LIGHTS ROOMS</h2>
           <h1>Hotel Master's Rooms</h1>
@@ -322,11 +322,11 @@ export default function Home() {
           </div>
 
 
-          <Carousel sx={{ marginTop: '2%' }}>
+      <Carousel sx={{ marginTop: '2%' }}>
         {menuSets.map((menuSet, index) => (
         <Grid container key={index} style={{ margin: '0 0', display: 'flex', justifyContent: 'center' }}>
           {menuSet.map((menu: Menu) => (
-            <Card sx={{ maxWidth: 350, margin: '0 2%' }} key={menu.ID_Menu} style={{ alignSelf: 'flex' }}>
+            <Card sx={{ maxWidth: 350, margin: '2% 2%' }} key={menu.ID_Menu} style={{ alignSelf: 'flex' }}>
               <CardMedia
                   component="img"
                   sx={{ height: 200 }}
@@ -365,11 +365,11 @@ export default function Home() {
                   </div>
           </div>
 
-          <Carousel sx={{ margin: '3% 2%' }}>
+          <Carousel sx={{ marginTop: '2%' }}>
             {blogSets.map((blogSet, index) => (
             <Grid container key={index} style={{ margin: '0 0', display: 'flex', justifyContent: 'center' }}>
               {blogSet.map((blog: Blog) => (
-                <Card sx={{ maxWidth: 350, margin: '0 2%' }} key={blog.ID_Blog} style={{ alignSelf: 'flex' }}>
+                <Card sx={{ maxWidth: 350, margin: '2% 2%' }} key={blog.ID_Blog} style={{ alignSelf: 'flex' }}>
                     <CardMedia
                         component="img"
                         sx={{ height: 200 }}
