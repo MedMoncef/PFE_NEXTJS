@@ -1,7 +1,6 @@
-import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Typography, Link, Card, CardContent, Grid, createTheme, ThemeProvider, CardMedia, Button, Container, Box, CssBaseline, CardActions, FormControl, FormLabel, Input, Select } from '@mui/material';
+import { Typography, Link, Card, CardContent, Grid, CardMedia, Button, Box, CardActions, FormControl, FormLabel, Input, Select } from '@mui/material';
 import styles from '@/styles/Home.module.css';
 import Pagination from '@mui/material/Pagination';
 import { useRouter } from 'next/router';

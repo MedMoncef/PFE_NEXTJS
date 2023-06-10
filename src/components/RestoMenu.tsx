@@ -1,12 +1,9 @@
-import Head from 'next/head';
-import { CardActions, Typography, Link, Card, CardContent, Grid, createTheme, ThemeProvider, CardMedia, Button, Container, Box, CssBaseline } from '@mui/material';
-import styles from '@/styles/Home.module.css';
+import { Typography, Card, CardContent, Grid, CardMedia, Box } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import 'tailwindcss/tailwind.css';
 import axios from 'axios';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import RestoArticle from '@/components/Tools/RestoArticle';
 
 const API_URL = 'http://localhost:7000/menus';
 

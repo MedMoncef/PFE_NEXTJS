@@ -1,4 +1,4 @@
-import { CardActions, Typography, Link, Card, CardContent, Grid, createTheme, ThemeProvider, CardMedia, Button, Container, Box, CssBaseline } from '@mui/material';
+import { Typography, Grid, ThemeProvider, Button, Container, CssBaseline } from '@mui/material';
 import styles from '@/styles/Home.module.css';
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';

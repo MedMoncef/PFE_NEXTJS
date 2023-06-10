@@ -1,4 +1,4 @@
-import { Typography, Link, Card, CardContent, Grid, createTheme, ThemeProvider, CardMedia, Button, Container, Box, CssBaseline } from '@mui/material';
+import { Typography, Card, CardContent, Grid, createTheme, ThemeProvider, CardMedia, Button, Container, Box, CssBaseline } from '@mui/material';
 import styles from '@/styles/Home.module.css';
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
