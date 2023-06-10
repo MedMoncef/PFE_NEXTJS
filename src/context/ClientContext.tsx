@@ -17,6 +17,7 @@ interface ReservationFormData {
   ID_Rooms: string;
   Date_Debut: string;
   Date_Fin: string;
+  Duree: Number;
 }
 
 interface BlogFormData {
@@ -28,6 +29,7 @@ interface BlogFormData {
 }
 
 interface PaymentFormData {
+  idReservation: String;
   cardNumber: String;
   expiryDate: String;
   cvv: String;
@@ -76,11 +78,13 @@ export const ClientProvider: React.FC = ({ children }) => {
   const submitReservationForm = async (formData: ReservationFormData) => {
     try {
       // Make an HTTP request to submit the reservation form data
-      await axios.post('http://localhost:7000/create_reservation', formData);
+      const response = await axios.post('http://localhost:7000/create_reservation', formData);
       console.log('Reservation form submitted successfully');
+      return response;
       // Handle success, show confirmation message, etc.
     } catch (error) {
       console.error('Reservation form submission failed:', error);
+      return null;
       // Handle submission failure, show error message, etc.
     }
   };

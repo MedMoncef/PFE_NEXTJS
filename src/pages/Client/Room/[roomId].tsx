@@ -5,192 +5,26 @@ import { Card, CardContent, CardMedia, Typography, Button, Grid, Link, FormContr
 import 'tailwindcss/tailwind.css';
 import styles from '@/styles/Home.module.css';
 import Head from 'next/head';
-import { useClient } from '@/context/ClientContext';
-import { z } from 'zod';
+import Payment from '@/components/Payment';
+import Reservation from '@/components/Reservation';
 
 const API_URL = 'http://localhost:7000';
 const ROOMS_ENDPOINT = '/rooms';
-const RESERVATIONS_ENDPOINT = '/reservation';
-
-const ReservationSchema = z.object({
-  firstName: z.string().nonempty('First name is required'),
-  lastName: z.string().nonempty('Last name is required'),
-  Email: z.string().email('Invalid email address').nonempty('Email is required'),
-  CIN: z.string().nonempty('CIN is required'),
-  Date_Debut: z.string().nonempty('Check-in date is required'),
-  Date_Fin: z.string().nonempty('Check-out date is required'),
-});
-
-const PaymentSchema = z.object({
-  cardNumber: z.string().nonempty('Card number is required'),
-  expiryDate: z.string().nonempty('Expiry date is required'),
-  cvv: z.string().nonempty('CVV is required'),
-  nameOnCard: z.string().nonempty('Name on card is required'),
-});
 
 
 export default function Room() {
   const router = useRouter();
   const { roomId } = router.query;
-  const { submitReservationForm, submitPaymentForm } = useClient();
   const [room, setRoom] = useState(null);
-  const [availableRooms, setAvailableRooms] = useState(null);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [Email, setEmail] = useState('');
-  const [CIN, setCIN] = useState('');
   const [ID_Rooms, setIdRooms] = useState('');
-  const [Date_Debut, setCheckinDate] = useState('');
-  const [Date_Fin, setCheckoutDate] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
   const [unsuccessful, setUnsuccessful] = useState(false);
   const [errorMessageTitle, setErrorMessageTitle] = useState('');
   const [errorMessageText, setErrorMessageText] = useState('');
-
-  const [cardNumber, setCardNumber] = useState('');
-  const [expiryDate, setExpiryDate] = useState('');
-  const [cvv, setCvv] = useState('');
-  const [name, setName] = useState('');
-  const [nameOnCard, setNameOnCard] = useState('');
-  const [amount, setAmount] = useState('');
+  const [priceMessageText, setPriceMessageText] = useState('');
   const [dayPrice, setDayPrice] = useState('');
-  const [time, setTime] = useState('');
-
-
+  const [reservationID, setReservationID] = useState('');
   
-  const resetForm = (event) => {
-    event.preventDefault();
-    setFirstName('');
-    setLastName('');
-    setEmail('');
-    setCIN('');
-    setCheckinDate('');
-    setCheckoutDate('');
-  };
-
-  const handlePayment = (event) => {
-    event.preventDefault();
-    try {
-      PaymentSchema.parse({
-        cardNumber,
-        expiryDate,
-        cvv,
-        nameOnCard,
-        amount,
-      });
-      setErrors({});
-
-      const calculatedAmount = Number(dayPrice) * Number(time); // Calculate the amount based on dayPrice and time
-
-      const formData = {
-        cardNumber,
-        expiryDate,
-        cvv,
-        nameOnCard,
-        amount: calculatedAmount, // Assign the calculated amount
-      };
-      console.log(calculatedAmount);
-      console.log(dayPrice);
-      console.log(time);
-
-      submitPaymentForm(formData);
-      // Optional: Show success message or redirect to a success page
-    } catch (error) {
-      console.log("error submit");
-    }
-  };
-
-
-  const handleReservation = async (event) => {
-    event.preventDefault();
-    setIsSubmitting(true);
-    try {
-      ReservationSchema.parse({
-        firstName,
-        lastName,
-        Email,
-        CIN,
-        ID_Rooms,
-        Date_Debut,
-        Date_Fin,
-      });
-      setErrors({});
-  
-      const formData = {
-        firstName,
-        lastName,
-        Email,
-        CIN,
-        ID_Rooms,
-        Date_Debut,
-        Date_Fin,
-      };
-  
-      const response = await axios.get(`${API_URL}${RESERVATIONS_ENDPOINT}`, {
-        params: { ID_Rooms: ID_Rooms },
-      });
-      const reservations = response.data;
-  
-      let hasOverlap = false;
-      for (let reservation of reservations) {
-        if (reservation.ID_Rooms !== ID_Rooms) {
-          continue; // Skip checking if the roomId is different
-        }
-  
-        const existingStartDate = new Date(reservation.Date_Debut);
-        const existingEndDate = new Date(reservation.Date_Fin);
-        const newStartDate = new Date(Date_Debut);
-        const newEndDate = new Date(Date_Fin);
-  
-        if (
-          (newStartDate >= existingStartDate && newStartDate <= existingEndDate) ||
-          (newEndDate >= existingStartDate && newEndDate <= existingEndDate) ||
-          (newStartDate <= existingStartDate && newEndDate >= existingEndDate)
-        ) {
-          hasOverlap = true;
-          break;
-        }
-      }
-  
-      if (availableRooms <= 0) {
-        if (hasOverlap) {
-          setErrorMessageTitle("No Rooms available at that time!");
-          setErrorMessageText(
-            "We are sorry for the inconvenience, please choose a different room or come back again another time."
-          );
-          await setUnsuccessful(true);
-        } else {
-          await submitReservationForm(formData);
-          setErrorMessageTitle("Reservation Successful!");
-          setErrorMessageText(
-            "We have received your reservation. You will get an email confirmation soon."
-          );
-          await setSuccess(true);
-        }
-      } else {
-        await submitReservationForm(formData);
-        setErrorMessageTitle("Reservation Successful!");
-        setErrorMessageText(
-          "We have received your reservation. You will get an email confirmation soon."
-        );
-        await setSuccess(true);
-      }
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        setErrors(
-          error.errors.reduce((acc, curr) => {
-            acc[curr.path[0]] = curr.message;
-            return acc;
-          }, {})
-        );
-      } else {
-        console.log("error submit");
-      }
-    }
-    setIsSubmitting(false);
-  };          
 
 
   useEffect(() => {
@@ -203,28 +37,8 @@ export default function Room() {
         }
       });
     }
+
   }, [roomId]);
-
-
-  useEffect(() => {
-    if (room) {
-      const fetchAvailableRooms = async () => {
-        try {
-          const response = await axios.get(`${API_URL}${RESERVATIONS_ENDPOINT}`, {
-            params: { type: room.Type },
-          });
-          const reservations = response.data;
-          const reservedRoomIds = reservations.map((reservation) => reservation.roomId);
-          const availableRooms = room.Max - reservedRoomIds.length;
-          setAvailableRooms(availableRooms);
-        } catch (error) {
-          console.error('Error fetching available rooms:', error);
-        }
-      };
-
-      fetchAvailableRooms();
-    }
-  }, [room]);
   
  return (
     <>
@@ -344,264 +158,37 @@ export default function Room() {
                   
             </Box>
           ) :success ? (
+              <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" style={{margin: '5% 0'}}>
+                <Typography variant="h4" color="primary" gutterBottom>
+                {errorMessageTitle}
+                </Typography>
+                <Typography variant="subtitle1">
+                  {errorMessageText}
+                </Typography>
 
-            <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" style={{margin: '5% 0'}}>
-            <Typography variant="h4" color="primary" gutterBottom>
-              {errorMessageTitle}
-            </Typography>
-            <Typography variant="subtitle1">
-              {errorMessageText}
-            </Typography>
 
-
-            <Grid item xs={12} md={6} style={{margin: '5%'}}>
-              <h2>Payment</h2>
-              <form onSubmit={handlePayment}>
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      label="Card Number"
-                      variant="outlined"
-                      fullWidth
-                      value={cardNumber}
-                      onChange={(event) => setCardNumber(event.target.value)}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      label="Name On Card"
-                      variant="outlined"
-                      fullWidth
-                      value={nameOnCard}
-                      onChange={(event) => setNameOnCard(event.target.value)}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      label="Expiry Date"
-                      variant="outlined"
-                      fullWidth
-                      value={expiryDate}
-                      onChange={(event) => setExpiryDate(event.target.value)}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      label="CVV"
-                      variant="outlined"
-                      fullWidth
-                      value={cvv}
-                      onChange={(event) => setCvv(event.target.value)}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      label="Name on Card"
-                      variant="outlined"
-                      fullWidth
-                      disabled
-                    />
-                  </Grid>
-                </Grid>
-                
-                <Button
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                  sx={{
-                    width: '100%',
-                    flex: '1 0 auto',
-                    fontSize: '16px',
-                    fontFamily: 'Nunito Sans, Arial, sans-serif',
-                    position: 'relative',
-                    letterSpacing: '4px',
-                    color: '#f5e4c3',
-                    textTransform: 'uppercase',
-                    mt: 2
-                  }}
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? <CircularProgress size={24}/> : "Payez Maintenant"}
-                </Button>
-
-                <center>
-                <Button
-                  onClick={resetForm}
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    width: '40%',
-                    flex: '1 0 auto',
-                    fontSize: '16px',
-                    fontFamily: 'Nunito Sans, Arial, sans-serif',
-                    position: 'relative',
-                    letterSpacing: '4px',
-                    color: '#f5e4c3',
-                    margin: '0 10%',
-                    textTransform: 'uppercase',
-                    mt: 2
-                  }}
-                  disabled={isSubmitting}
-                >
-                  Reset
-                </Button>
-
-                <Button
-                  onClick={resetForm}
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    width: '40%',
-                    flex: '1 0 auto',
-                    fontSize: '16px',
-                    fontFamily: 'Nunito Sans, Arial, sans-serif',
-                    position: 'relative',
-                    letterSpacing: '4px',
-                    color: '#f5e4c3',
-                    margin: '0 10%',
-                    textTransform: 'uppercase',
-                    mt: 2
-                  }}
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? <CircularProgress size={24}/> : "Payer Plus Tard"}
-                </Button>
-                </center>
-              </form>
-        </Grid>
-
-          </Box>
-
+                <Payment 
+                Price={priceMessageText}
+                reservationId={reservationID}
+                />
+              </Box>
           ) : (
 
-          <Grid item xs={12} md={6} style={{margin: '5% 0'}}>
-            <form onSubmit={handleReservation} style={{ padding: '40px', backgroundColor: '#f9f9f9', textAlign: 'center' }}>            
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '25px',
-              }}
-              >
-                <FormControl fullWidth>
-                  <FormLabel htmlFor="first_name">First Name</FormLabel>
-                  <Input
-                    id="first_name"
-                    type="text"
-                    placeholder="First Name"
-                    value={firstName}
-                    onChange={(event) => setFirstName(event.target.value)}
-                  />
-                </FormControl>
-
-                <FormControl fullWidth>
-                  <FormLabel htmlFor="last_name">Last Name</FormLabel>
-                  <Input
-                    id="last_name"
-                    type="text"
-                    placeholder="Last Name"
-                    value={lastName}
-                    onChange={(event) => setLastName(event.target.value)}
-                  />
-                </FormControl>
-
-                <FormControl fullWidth>
-                  <FormLabel htmlFor="email">Email (Optional)</FormLabel>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="Email"
-                    value={Email}
-                    onChange={(event) => setEmail(event.target.value)}
-                  />
-                </FormControl>
-
-                <FormControl fullWidth>
-                  <FormLabel htmlFor="cin">CIN</FormLabel>
-                  <Input
-                    id="cin"
-                    type="text"
-                    placeholder="CIN"
-                    value={CIN}
-                    onChange={(event) => setCIN(event.target.value)}
-                  />
-                </FormControl>
-
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    margin: '0 20px',
-                    gap: '25px',
-                  }}
-                >
-                  <FormControl fullWidth>
-                    <FormLabel htmlFor="checkin_date">Check-in Date</FormLabel>
-                    <Input
-                      id="checkin_date"
-                      type="date"
-                      placeholder="Check-in date"
-                      value={Date_Debut}
-                      onChange={(event) => setCheckinDate(event.target.value)}
-                    />
-                  </FormControl>
-
-                  <FormControl fullWidth>
-                    <FormLabel htmlFor="checkout_date">Check-out Date</FormLabel>
-                    <Input
-                      id="checkout_date"
-                      type="date"
-                      placeholder="Check-out date"
-                      value={Date_Fin}
-                      onChange={(event) => setCheckoutDate(event.target.value)}
-                    />
-                  </FormControl>
-                </div>
-
-                <Button
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                  sx={{
-                    width: '100%',
-                    flex: '1 0 auto',
-                    fontSize: '16px',
-                    fontFamily: 'Nunito Sans, Arial, sans-serif',
-                    position: 'relative',
-                    letterSpacing: '4px',
-                    color: '#f5e4c3',
-                    textTransform: 'uppercase',
-                    mt: 2
-                  }}
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? <CircularProgress size={24}/> : "Reserve"}
-                </Button>
-
-                <Button
-                  onClick={resetForm}
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    width: '100%',
-                    flex: '1 0 auto',
-                    fontSize: '16px',
-                    fontFamily: 'Nunito Sans, Arial, sans-serif',
-                    position: 'relative',
-                    letterSpacing: '4px',
-                    color: '#f5e4c3',
-                    textTransform: 'uppercase',
-                    mt: 2
-                  }}
-                  disabled={isSubmitting}
-                >
-                  Reset
-                </Button>
-                </div>
-              </form>
-            </Grid>
+            <Reservation
+            room={room}
+            setRoom={setRoom}
+            ID_Rooms={ID_Rooms}
+            setIdRooms={setIdRooms}
+            setSuccess={setSuccess}
+            setUnsuccessful={setUnsuccessful}
+            setErrorMessageTitle={setErrorMessageTitle}
+            setErrorMessageText={setErrorMessageText}
+            setPriceMessageText={setPriceMessageText}
+            dayPrice={dayPrice}
+            setResID={setReservationID}
+            roomId={roomId}
+            />
+            
           )}
         </Grid>
         </>
