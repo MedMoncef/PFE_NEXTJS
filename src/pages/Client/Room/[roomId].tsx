@@ -170,6 +170,8 @@ export default function Room() {
                 <Payment 
                 Price={priceMessageText}
                 reservationId={reservationID}
+                setUnsuccessful={setUnsuccessful}
+                setSuccess={setSuccess}
                 />
               </Box>
           ) : (

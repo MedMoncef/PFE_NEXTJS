@@ -190,7 +190,7 @@ function Reservation({
   return (
     <>
 
-<Grid item xs={12} md={6} style={{margin: '5% 0'}}>
+          <Grid item xs={12} md={6} style={{margin: '5% 0'}}>
             <form onSubmit={handleReservation} style={{ padding: '40px', backgroundColor: '#f9f9f9', textAlign: 'center' }}>            
             <div
               style={{

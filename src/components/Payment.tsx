@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import axios, { all } from 'axios';
 import { Card, CardContent, CardMedia, Typography, Button, Grid, Link, FormControl, FormLabel, Input, Container, CircularProgress, Box, FormHelperText, TextField } from '@mui/material';
 import 'tailwindcss/tailwind.css';
-import styles from '@/styles/Home.module.css';
-import Head from 'next/head';
 import { useClient } from '@/context/ClientContext';
 import { z } from 'zod';
 
@@ -16,21 +13,20 @@ const PaymentSchema = z.object({
 });
 
 
-function Payment({Price, reservationId}) {
+function Payment({Price, reservationId, setUnsuccessful, setSuccess}) {
+  const router = useRouter();
   const [cardNumber, setCardNumber] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
   const [cvv, setCvv] = useState('');
-  const [name, setName] = useState('');
   const [nameOnCard, setNameOnCard] = useState('');
   const [amount, setAmount] = useState(Price);
   const [idReservation, setIDReservation] = useState(reservationId);  
-  const [dayPrice, setDayPrice] = useState('');
-  const [time, setTime] = useState('');
   const [errorMessageTitle, setErrorMessageTitle] = useState('');
   const [errorMessageText, setErrorMessageText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
   const { submitPaymentForm } = useClient();
+  const [showExtraFields, setShowExtraFields] = useState(true);
 
 
   const handlePayment = (event) => {
@@ -71,14 +67,14 @@ function Payment({Price, reservationId}) {
 
   return (
     <>
-
+    {showExtraFields && (
       <Grid item xs={12} md={6} style={{margin: '5%'}}>
           <h2>Payment : {Price}$</h2>
           <form onSubmit={handlePayment}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  label="Card Number"
+                  label="Card Number (Numbers Only)"
                   variant="outlined"
                   fullWidth
                   value={cardNumber}
@@ -117,24 +113,28 @@ function Payment({Price, reservationId}) {
             </Grid>
             
             <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              sx={{
-                width: '100%',
-                flex: '1 0 auto',
-                fontSize: '16px',
-                fontFamily: 'Nunito Sans, Arial, sans-serif',
-                position: 'relative',
-                letterSpacing: '4px',
-                color: '#f5e4c3',
-                textTransform: 'uppercase',
-                mt: 2
-              }}
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? <CircularProgress size={24}/> : "Payez Maintenant"}
-            </Button>
+                variant="contained"
+                color="primary"
+                type="submit"
+                sx={{
+                  width: '100%',
+                  flex: '1 0 auto',
+                  fontSize: '16px',
+                  fontFamily: 'Nunito Sans, Arial, sans-serif',
+                  position: 'relative',
+                  letterSpacing: '4px',
+                  color: '#f5e4c3',
+                  textTransform: 'uppercase',
+                  mt: 2
+                }}
+                disabled={isSubmitting}
+                onClick={async () => {
+                  setShowExtraFields(false);
+                }}
+              >
+                {isSubmitting ? <CircularProgress size={24} /> : "Payez Maintenant"}
+              </Button>
+
 
             <center>
             <Button
@@ -159,28 +159,32 @@ function Payment({Price, reservationId}) {
             </Button>
 
             <Button
-              onClick={resetForm}
-              variant="contained"
-              color="primary"
-              sx={{
-                width: '40%',
-                flex: '1 0 auto',
-                fontSize: '16px',
-                fontFamily: 'Nunito Sans, Arial, sans-serif',
-                position: 'relative',
-                letterSpacing: '4px',
-                color: '#f5e4c3',
-                margin: '0 10%',
-                textTransform: 'uppercase',
-                mt: 2
-              }}
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? <CircularProgress size={24}/> : "Payer Plus Tard"}
-            </Button>
+                variant="contained"
+                color="primary"
+                sx={{
+                  width: '40%',
+                  flex: '1 0 auto',
+                  fontSize: '16px',
+                  fontFamily: 'Nunito Sans, Arial, sans-serif',
+                  position: 'relative',
+                  letterSpacing: '4px',
+                  color: '#f5e4c3',
+                  margin: '0 10%',
+                  textTransform: 'uppercase',
+                  mt: 2
+                }}
+                disabled={isSubmitting}
+                onClick={async () => {
+                  router.push('/');
+                }}
+              >
+                {isSubmitting ? <CircularProgress size={24}/> : "Pay Later"}
+              </Button>
+
             </center>
           </form>
-    </Grid>
+      </Grid>
+    )}
     </>
 );
 }

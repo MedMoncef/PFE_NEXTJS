@@ -30,7 +30,7 @@ interface BlogFormData {
 
 interface PaymentFormData {
   idReservation: String;
-  cardNumber: String;
+  cardNumber: Number;
   expiryDate: String;
   cvv: String;
   nameOnCard: String;
