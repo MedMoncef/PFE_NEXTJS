@@ -3,8 +3,6 @@ import { Link, createTheme } from '@mui/material';
 import styles from '@/styles/Home.module.css';
 import React, { useState, useEffect } from 'react';
 import 'tailwindcss/tailwind.css';
-import axios from 'axios';
-import { useRouter } from 'next/router';
 import ListService from '@/components/Tools/ListService';
 import AboutContent from '@/components/AboutContent';
 import ContactInfo from '@/components/Tools/ContactInfo';
