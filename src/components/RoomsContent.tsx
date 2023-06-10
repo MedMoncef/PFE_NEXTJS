@@ -19,6 +19,7 @@ function RoomsContent() {
   const [selectedPrice, setSelectedPrice] = useState('');
   const [selectedRoomType, setSelectedRoomType] = useState('');
   const [selectedView, setSelectedView] = useState('');
+  const [selectedNumberOfBeds, setSelectedNumberOfBeds] = useState('');
 
   const router = useRouter();
 
@@ -57,7 +58,15 @@ function RoomsContent() {
 
   useEffect(() => {
     filterRooms();
-  }, [rooms, searchValue, selectedPrice, selectedRoomType, selectedView]);
+  }, [rooms, searchValue, selectedPrice, selectedRoomType, selectedNumberOfBeds, selectedView]);
+  
+  const handleViewChange = (event) => {
+    setSelectedView(event.target.value);
+  };  
+  
+  const handleNumberOfBedsChange = (event) => {
+    setSelectedNumberOfBeds(event.target.value);
+  };
 
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
@@ -77,25 +86,35 @@ function RoomsContent() {
 
 
   const filterRooms = () => {
-    let filtered = rooms;
+    let filtered = [...rooms];
 
     // Filter by search value
-    if (searchValue) {
-      filtered = filtered.filter((room: Room) =>
-        room.Name.toLowerCase().includes(searchValue.toLowerCase())
-      );
+  if (searchValue) {
+    filtered = filtered.filter((room) =>
+      room.Name.toLowerCase().includes(searchValue.toLowerCase())
+    );
+  }
+
+    // Filter by number of beds
+    if (selectedNumberOfBeds) {
+      filtered = filtered.filter((room) => room.Bed_Number === selectedNumberOfBeds);
     }
 
-    // Filter by price
-    if (selectedPrice === 'lowest') {
-      filtered = filtered.sort((a: Room, b: Room) => a.Price - b.Price);
-    } else if (selectedPrice === 'highest') {
-      filtered = filtered.sort((a: Room, b: Room) => b.Price - a.Price);
+    // Filter by view
+    if (selectedView) {
+      filtered = filtered.filter((room) => room.View === selectedView);
     }
 
     // Filter by room type
     if (selectedRoomType) {
-      filtered = filtered.filter((room: Room) => room.Type === selectedRoomType);
+      filtered = filtered.filter((room) => room.Type === selectedRoomType);
+    }
+
+    // Sorting by price should be separated from filtering
+    if (selectedPrice === 'lowest') {
+      filtered = filtered.slice().sort((a, b) => a.Price - b.Price); // creating a new array for sorting
+    } else if (selectedPrice === 'highest') {
+      filtered = filtered.slice().sort((a, b) => b.Price - a.Price); // creating a new array for sorting
     }
 
     setTotalPages(Math.ceil(filtered.length / ITEMS_PER_PAGE));
@@ -168,9 +187,9 @@ function RoomsContent() {
               value={selectedPrice}
               onChange={handlePriceChange}
             >
-              <option value="">...</option>
-              <option value="highest">Le moins cher</option>
-              <option value="lowest">Le plus cher</option>
+              <option value="">All</option>
+              <option value="lowest">Le moins cher</option>
+              <option value="highest">Le plus cher</option>
             </Select>
           </FormControl>
 
@@ -182,7 +201,7 @@ function RoomsContent() {
               value={selectedRoomType}
               onChange={handleRoomTypeChange}
             >
-              <option value="">Any</option>
+              <option value="">All</option>
               {roomTypes.map((roomType: RoomType) => (
                 <option key={roomType.ID_RoomType} value={roomType.Name}>
                   {roomType.Name}
@@ -190,6 +209,36 @@ function RoomsContent() {
               ))}
             </Select>
           </FormControl>
+
+          <FormControl fullWidth>
+              <FormLabel htmlFor="beds">Number of Beds</FormLabel>
+              <Select
+                native
+                id="beds"
+                value={selectedNumberOfBeds}
+                onChange={handleNumberOfBedsChange}
+              >
+                <option value="">All</option>
+                <option value="1-2 Beds">1-2 Beds</option>
+                <option value="2-4 Beds">2-4 Beds</option>
+                <option value="3-5 Beds">3-5 Beds</option>
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth>
+              <FormLabel htmlFor="view">View</FormLabel>
+              <Select
+                native
+                id="view"
+                value={selectedView}
+                onChange={handleViewChange}
+              >
+                <option value="">All</option>
+                <option value="Beach">Beach</option>
+                <option value="Garden">Garden</option>
+                <option value="Pool">Pool</option>
+              </Select>
+            </FormControl>
 
         </div>
       </section>
@@ -207,6 +256,8 @@ function RoomsContent() {
                 <div className={styles.rooms}>
                   <h1>{room.Name}</h1>
                   <h2>{room.Price}$ per night</h2>
+                  <h4>{room.Bed_Number}</h4>
+                  <h4>{room.View} View</h4>
                 </div>
                 <Typography variant="body2" color="text.secondary">
                   {room.Description}
