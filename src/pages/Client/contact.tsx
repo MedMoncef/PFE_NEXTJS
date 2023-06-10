@@ -3,7 +3,7 @@ import { Link } from '@mui/material';
 import styles from '@/styles/Home.module.css';
 import React, { useState, useEffect } from 'react';
 import ContactInfo from '@/components/Tools/ContactInfo';
-import ContactContent from '@/components/ContactContent';
+import ContactContent from '@/components/Forms/ContactContent';
 
 export default function Home() {
 

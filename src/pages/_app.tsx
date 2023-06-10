@@ -3,7 +3,7 @@ import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import Navbar from '@/components/Partials/Navbar';
 import Footer from '@/components/Partials/Footer';
-import Banner from '@/components/Payment';
+import Banner from '@/components/Forms/Payment';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';

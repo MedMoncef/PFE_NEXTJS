@@ -5,8 +5,8 @@ import { Card, CardContent, CardMedia, Typography, Button, Grid, Link, FormContr
 import 'tailwindcss/tailwind.css';
 import styles from '@/styles/Home.module.css';
 import Head from 'next/head';
-import Payment from '@/components/Payment';
-import Reservation from '@/components/Reservation';
+import Payment from '@/components/Forms/Payment';
+import Reservation from '@/components/Forms/Reservation';
 
 const API_URL = 'http://localhost:7000';
 const ROOMS_ENDPOINT = '/rooms';
