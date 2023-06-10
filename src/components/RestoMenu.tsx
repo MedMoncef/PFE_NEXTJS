@@ -6,7 +6,7 @@ import { useTheme } from '@mui/material/styles';
 import 'tailwindcss/tailwind.css';
 import axios from 'axios';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import RestoArticle from '@/components/RestoArticle';
+import RestoArticle from '@/components/Tools/RestoArticle';
 
 const API_URL = 'http://localhost:7000/menus';
 

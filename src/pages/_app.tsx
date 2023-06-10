@@ -10,7 +10,6 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { AuthProvider } from '@/context/AuthContext';
 import { ClientProvider } from '@/context/ClientContext';
-
 const theme = createTheme();
 
 //create context api instance
@@ -23,9 +22,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <ClientProvider>
         <CssBaseline />
         <Navbar />
+        <ToastContainer />
           <Component {...pageProps} />
         <Footer />
-        <ToastContainer />
       </ClientProvider>
       </AuthProvider>
     </ThemeProvider>

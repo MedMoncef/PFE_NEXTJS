@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import axios, { all } from 'axios';
-import { Card, CardContent, CardMedia, Typography, Button, Grid, Link, FormControl, FormLabel, Input, Container, CircularProgress, Box, FormHelperText, TextField } from '@mui/material';
-import 'tailwindcss/tailwind.css';
-import styles from '@/styles/Home.module.css';
-import Head from 'next/head';
+import { Button, Grid, FormControl, FormLabel, Input, CircularProgress } from '@mui/material';
 import { useClient } from '@/context/ClientContext';
 import { z } from 'zod';
+import { toast } from 'react-toastify';
+import 'tailwindcss/tailwind.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 const API_URL = 'http://localhost:7000';
 const RESERVATIONS_ENDPOINT = '/reservation';
@@ -144,6 +144,7 @@ function Reservation({
           setErrorMessageText(
             "We are sorry for the inconvenience, please choose a different room or come back again another time."
           );
+          toast.error("No Rooms available at that time!");
           await setUnsuccessful(true);
         } else {
           const reservationResponse = await submitReservationForm(formData);
@@ -156,6 +157,7 @@ function Reservation({
             "We have received your reservation. You will get an email confirmation soon."
           );
           setPriceMessageText(fullPrice);
+          toast.success("Reservation Successful!");
           await setSuccess(true);
         }
       } else {
@@ -169,6 +171,7 @@ function Reservation({
           "We have received your reservation. You will get an email confirmation soon."
         );
         setPriceMessageText(fullPrice);
+        toast.success("Reservation Successful!");
         await setSuccess(true);
       }
     } catch (error) {
@@ -180,7 +183,7 @@ function Reservation({
           }, {})
         );
       } else {
-        console.log("error submit");
+        toast.error("Error in reservation submission.");
       }
     }
     setIsSubmitting(false);

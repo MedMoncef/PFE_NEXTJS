@@ -4,7 +4,7 @@ import styles from '@/styles/Home.module.css';
 import React, { useState, useEffect } from 'react';
 import 'tailwindcss/tailwind.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import RestoArticle from '@/components/RestoArticle';
+import RestoArticle from '@/components/Tools/RestoArticle';
 import RestoMenu from '@/components/RestoMenu';
 
 

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { Card, CardContent, CardMedia, Typography, Button, Grid, Link, FormControl, FormLabel, Input, Container, CircularProgress, Box, FormHelperText, TextField } from '@mui/material';
+import { Button, Grid, FormLabel, Input, CircularProgress, TextField } from '@mui/material';
 import 'tailwindcss/tailwind.css';
 import { useClient } from '@/context/ClientContext';
 import { z } from 'zod';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const PaymentSchema = z.object({
   cardNumber: z.string().nonempty('Card number is required'),
@@ -51,8 +53,16 @@ function Payment({Price, reservationId, setUnsuccessful, setSuccess}) {
 
       submitPaymentForm(formData);
       // Optional: Show success message or redirect to a success page
+      toast.success("Payment successful!", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+
     } catch (error) {
-      console.log("error submit");
+        // Show error toast
+        toast.error("Payment failed!", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        console.log("error submit");
     }
   };
 
