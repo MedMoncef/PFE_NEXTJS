@@ -12,13 +12,7 @@ const router = useRouter();
 const { roomId } = router.query;
 const [room, setRoom] = useState(null);
 const [ID_Rooms, setIdRooms] = useState('');
-const [success, setSuccess] = useState(false);
-const [unsuccessful, setUnsuccessful] = useState(false);
-const [errorMessageTitle, setErrorMessageTitle] = useState('');
-const [errorMessageText, setErrorMessageText] = useState('');
-const [priceMessageText, setPriceMessageText] = useState('');
 const [dayPrice, setDayPrice] = useState('');
-const [reservationID, setReservationID] = useState('');
 
 useEffect(() => {
     if (roomId) {
