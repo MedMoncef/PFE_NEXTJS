@@ -4,8 +4,33 @@ import styles from '@/styles/Home.module.css';
 import React, { useState, useEffect } from 'react';
 import ContactInfo from '@/components/Tools/ContactInfo';
 import ContactContent from '@/components/Forms/ContactContent';
+import jwt_decode from 'jwt-decode';
 
 export default function Home() {
+  const [formData, setFormData] = useState({
+    nom: '',
+    prenom: '',
+    dateN: '',
+    email: '',
+    image: '',
+    id_post: ''
+  });
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decoded: { email?: string;  nom?:string } = jwt_decode(token);
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          email: decoded.email || '',
+          nom: decoded.nom || ''
+        }));
+      } catch (error) {
+        console.error('Invalid token', error); 
+      }
+    }
+  }, []);
 
   return (
     <>

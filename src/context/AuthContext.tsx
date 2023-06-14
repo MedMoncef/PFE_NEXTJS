@@ -1,6 +1,9 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
+import jwt from 'jsonwebtoken';
 
+const TOKEN_KEY = 'Altair123456';
 interface AuthContextType {
   isLoggedIn: boolean;
   token: string | null;
@@ -8,10 +11,11 @@ interface AuthContextType {
   register: (
     nom: string,
     prenom: string,
-    dateN: string, // Update the type to string
+    dateN: string,
     email: string,
     password: string,
     confirmPassword: string,
+    image: string,
     id_post: string
   ) => void;
   logout: () => void;
@@ -60,7 +64,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     }
   };
 
-  const register = async (nom: string, prenom: string, dateN: string, email: string, password: string, confirmPassword: string, id_post: string) => {
+  const register = async (nom: string, prenom: string, dateN: string, email: string, password: string, confirmPassword: string, image: string, id_post: string) => {
     try {
       const response = await axios.post('http://localhost:7000/create_user', {
         nom,
@@ -69,6 +73,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         email,
         password,
         confirmPassword,
+        image,
         id_post
       });
       console.log('Registration successful:', response.data);

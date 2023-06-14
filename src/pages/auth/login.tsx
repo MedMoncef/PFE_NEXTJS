@@ -9,6 +9,9 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { useAuth } from '@/context/AuthContext';
 import { z } from 'zod';
+import SliderIndex from '@/components/IndexParts/SliderIndex';
+import styles from '@/styles/Home.module.css';
+import { Link } from '@mui/material';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address').nonempty('Email is required'),
@@ -64,6 +67,26 @@ export default function Login() {
         <link rel="icon" href="/favicon.jpg" />
       </Head>
       <main>
+      
+
+      <section className={styles.banner} style={{ height: '600px' }}>
+          <div
+            style={{
+              height: '600px',
+              backgroundImage: `url(/images/bg_3.jpg)`,
+              display: 'block',
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: 'cover',
+            }}
+          >
+            <div className={styles.bannerContent}>
+              <h2><Link style={{ color: '#f5e4c3' }} href="/">Home</Link></h2>
+              <h1>Login</h1>
+            </div>
+          </div>
+        </section>
+
+
         <Grid container justifyContent="center" alignItems="center" sx={{ height: '100vh' }}>
           <Grid item xs={12} sm={6} md={4}>
             <Paper elevation={6} sx={{ p: 4 }}>
@@ -108,18 +131,13 @@ export default function Login() {
                       Reset
                     </Button>
                   </Grid>
+                  <Grid item xs={12}>
+                    <Button fullWidth variant="outlined" onClick={() => router.push('/auth/Register')}>
+                      Register
+                    </Button>
+                  </Grid>
                 </Grid>
               </form>
-              <Grid container justifyContent="center" alignItems="center" sx={{ mt: 2 }}>
-                <Grid item xs={12}>
-                  <Typography variant="body2">
-                    your email is: {email}
-                  </Typography>
-                  <Typography variant="body2">
-                    your password is: {password}
-                  </Typography>
-                </Grid>
-              </Grid>
             </Paper>
           </Grid>
         </Grid>
