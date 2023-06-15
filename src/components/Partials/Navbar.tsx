@@ -188,13 +188,13 @@ function Navbar() {
                 </MenuItem>
 
                 {isLoggedIn ? (
-                  <>
+                  <div style={{border: '1', borderRadius: '1'}}>
                     <MenuItem sx={menuItemStyles}>{formData.prenom}</MenuItem>
                     <MenuItem onClick={() => {
                       handleMenuClose();
                       handleLogoutClick();
                     }} sx={menuItemStyles}>Logout</MenuItem>
-                  </>
+                  </div>
                 ) : (
                   <>
                     <MenuItem onClick={() => {

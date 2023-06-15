@@ -41,6 +41,7 @@ function RoomsContent() {
   }
 
   interface RoomType {
+    _id: string;
     ID_RoomType: string;
     Name: string;
   }
@@ -107,7 +108,7 @@ function RoomsContent() {
 
     // Filter by room type
     if (selectedRoomType) {
-      filtered = filtered.filter((room) => room.Type === selectedRoomType);
+      filtered = filtered.filter((room) => room.Type._id === selectedRoomType);
     }
 
     // Sorting by price should be separated from filtering
@@ -203,7 +204,7 @@ function RoomsContent() {
             >
               <option value="">All</option>
               {roomTypes.map((roomType: RoomType) => (
-                <option key={roomType.ID_RoomType} value={roomType.Name}>
+                <option key={roomType._id} value={roomType._id}>
                   {roomType.Name}
                 </option>
               ))}
