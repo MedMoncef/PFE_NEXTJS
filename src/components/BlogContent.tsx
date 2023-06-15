@@ -50,7 +50,6 @@ const router = useRouter();
             </Card>
           ))}
         </Grid>
-
     </>
   );
 }

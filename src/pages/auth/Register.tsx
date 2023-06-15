@@ -32,6 +32,18 @@ export default function Register() {
   const [id_post, setPost] = useState('');
   const [errors, setErrors] = useState({ email: '', password: '' });
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        // reader.result contains the base64 string
+        setImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const resetForm = (event) => {
     event.preventDefault();
     setNom('');
@@ -73,7 +85,7 @@ export default function Register() {
         }
       }
     };
-  
+
   
   useEffect(() => {
     if (isLoggedIn) {
@@ -200,10 +212,8 @@ export default function Register() {
                   </Grid>
                   <Grid item xs={12}>
                     <input
-                      accept="image/*"
                       type="file"
-                      value={image}
-                      onChange={(event) => setImage(event.target.value)}
+                      onChange={handleImageChange}
                     />
                   </Grid>
                   <Grid item xs={12}>

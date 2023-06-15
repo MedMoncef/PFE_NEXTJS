@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useMediaQuery } from '@mui/material';
+import { useMediaQuery, Avatar } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useAuth } from '@/context/AuthContext';
@@ -81,17 +81,8 @@ function Navbar() {
   const handleLoginClick = () => {
     router.push('/auth/login');
   };
-
-  const handleRegisterClick = () => {
-    router.push('/clients/create');
-  };
-
   const handleRegisterUserClick = () => {
     router.push('/auth/Register');
-  };
-
-  const handleReservationClick = () => {
-    router.push('/Client/reservation');
   };
 
   const handleLogoutClick = () => {
@@ -232,7 +223,10 @@ function Navbar() {
               <Button color="inherit" onClick={handleBlogClick} sx={buttonStyles}>Blog</Button>
               <Button color="inherit" onClick={handleContactClick} sx={buttonStyles}>Contact</Button>
               {isLoggedIn ? (
-                <Button color="inherit" onClick={handleLogoutClick} sx={buttonStyles}>Logout</Button>
+                <>
+                  <Button color="inherit" onClick={handleLogoutClick} sx={buttonStyles}>Logout</Button>
+                  <Avatar alt="Remy Sharp" src={formData.image} />
+                </>
               ) : (
                 <>
                   <Button color="inherit" onClick={handleLoginClick} sx={buttonStyles}>Login</Button>
