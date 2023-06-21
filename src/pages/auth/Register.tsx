@@ -7,6 +7,8 @@ import { z } from 'zod';
 import { Button, Grid, Input, TextField, Paper, Typography, FormLabel } from '@mui/material';
 import { Link } from '@mui/material';
 import styles from '@/styles/Home.module.css';
+import { CldUploadWidget, CldUploadButton } from 'next-cloudinary';
+
 
 const registerSchema = z.object({
   nom: z.string().nonempty('Nom is required'),
@@ -216,6 +218,9 @@ export default function Register() {
                       onChange={handleImageChange}
                     />
                   </Grid>
+
+                    
+
                   <Grid item xs={12}>
                     <Button fullWidth variant="contained" color="primary" type="submit">
                       Register

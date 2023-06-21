@@ -11,6 +11,8 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useAuth } from '@/context/AuthContext';
 import jwt_decode from 'jwt-decode';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+
 
 function Navbar() {
   const router = useRouter();
@@ -229,7 +231,7 @@ function Navbar() {
                 </>
               ) : (
                 <>
-                  <Button color="inherit" onClick={handleLoginClick} sx={buttonStyles}>Login</Button>
+                  <Button color="inherit" onClick={handleLoginClick} sx={buttonStyles} startIcon={<LockOutlinedIcon />}>Login</Button>
                   <Button color="inherit" onClick={handleRegisterUserClick} sx={buttonStyles}>Register</Button>
                 </>
               )}

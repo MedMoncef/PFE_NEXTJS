@@ -45,7 +45,6 @@ const router = useRouter();
                 </Typography>
               </CardContent>
               <CardActions style={{ marginTop: 'auto' }}>
-                <Button size="small" onClick={() => router.push(`/Client/Blog/${blog._id}`)}>Learn More</Button>
               </CardActions>
             </Card>
           ))}
