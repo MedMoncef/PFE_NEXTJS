@@ -293,7 +293,6 @@ export default function Home() {
                         </Typography>
                       </CardContent>
                       <CardActions>
-                        <Button size="small" onClick={() => router.push(`/Client/Blog/${blog._id}`)}>Learn More</Button>
                       </CardActions>
                     </Card>
                 ))}

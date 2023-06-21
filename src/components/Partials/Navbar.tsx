@@ -206,7 +206,7 @@ function Navbar() {
                     <MenuItem onClick={() => {
                       handleMenuClose();
                       handleLoginClick();
-                    }} sx={menuItemStyles}>Login</MenuItem>
+                    }} sx={menuItemStyles}>{<LockOutlinedIcon />} Login</MenuItem>
                   </>
                 )}
               </Menu>
