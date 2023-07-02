@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { Card, CardContent, CardMedia, Typography, Grid } from '@mui/material';
 import 'tailwindcss/tailwind.css';
+import { useClient } from '@/context/ClientContext';
 
 const API_URL = 'http://localhost:7000';
 const ROOMS_ENDPOINT = '/rooms';
@@ -12,7 +13,7 @@ const router = useRouter();
 const { roomId } = router.query;
 const [room, setRoom] = useState(null);
 const [ID_Rooms, setIdRooms] = useState('');
-const [dayPrice, setDayPrice] = useState('');
+const { setDayPrice } = useClient();
 
 useEffect(() => {
     if (roomId) {
@@ -24,10 +25,8 @@ useEffect(() => {
         }
       });
     }
-
-  }, [roomId]);
-
-  
+   }, [roomId, setDayPrice]);
+ 
   return (
     <>
     <Grid container spacing={0} className="bg-blue-50" sx={{ maxWidth: 2000, margin: '2% auto' }}>

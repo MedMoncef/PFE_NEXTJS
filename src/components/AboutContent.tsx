@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:7000/testimony';
+const API_URL = 'http://localhost:7000/testimonies';
 
 const theme = createTheme({
     palette: {

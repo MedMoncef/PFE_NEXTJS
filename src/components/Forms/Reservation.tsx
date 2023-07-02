@@ -9,7 +9,7 @@ import 'tailwindcss/tailwind.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 const API_URL = 'http://localhost:7000';
-const RESERVATIONS_ENDPOINT = '/reservation';
+const RESERVATIONS_ENDPOINT = '/reservations';
 
 
 const ReservationSchema = z.object({
@@ -32,7 +32,6 @@ function Reservation({
   setErrorMessageTitle,
   setErrorMessageText,
   setPriceMessageText,
-  dayPrice,
   setResID,
   roomId,
 }) {
@@ -47,6 +46,8 @@ function Reservation({
   const [Date_Fin, setCheckoutDate] = useState('');
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { dayPrice } = useClient();
+
 
   const resetForm = (event) => {
     event.preventDefault();
@@ -75,6 +76,7 @@ function Reservation({
       };
 
       fetchAvailableRooms();
+
     }
   }, [room]);
 
@@ -96,10 +98,14 @@ function Reservation({
       const startDate = new Date(Date_Debut);
       const endDate = new Date(Date_Fin);
       const durationMs = endDate.getTime() - startDate.getTime();
+      console.log(durationMs);
       const durationDays = Math.ceil(durationMs / (1000 * 60 * 60 * 24));
+      console.log(durationDays);
       const Duree = durationDays;
+      console.log(Duree);
       const fullPrice = Duree*dayPrice
       console.log(fullPrice);
+      const Prix = fullPrice
       
       const formData = {
         firstName,
@@ -109,7 +115,8 @@ function Reservation({
         ID_Rooms,
         Date_Debut,
         Date_Fin,
-        Duree
+        Duree,
+        Prix
       };
   
       const response = await axios.get(`${API_URL}${RESERVATIONS_ENDPOINT}`, {
@@ -163,7 +170,7 @@ function Reservation({
       } else {
         const reservationResponse = await submitReservationForm(formData);
         if (reservationResponse) {
-          const reservationId = reservationResponse.data.id; // Adjust this based on the actual response structure
+          const reservationId = reservationResponse.data._id; // Adjust this based on the actual response structure
           setResID(reservationId);
       }
         setErrorMessageTitle("Reservation Successful!");

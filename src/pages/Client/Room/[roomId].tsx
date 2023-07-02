@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Typography, Button, Grid, Link, Box } from '@mui/material';
 import 'tailwindcss/tailwind.css';
@@ -18,8 +18,8 @@ export default function Room() {
   const [errorMessageTitle, setErrorMessageTitle] = useState('');
   const [errorMessageText, setErrorMessageText] = useState('');
   const [priceMessageText, setPriceMessageText] = useState('');
-  const [dayPrice, setDayPrice] = useState('');
   const [reservationID, setReservationID] = useState('');
+
   
  return (
     <>
@@ -111,14 +111,13 @@ export default function Room() {
             <Reservation
             room={room}
             setRoom={setRoom}
-            ID_Rooms={ID_Rooms}
+            ID_Rooms={roomId}
             setIdRooms={setIdRooms}
             setSuccess={setSuccess}
             setUnsuccessful={setUnsuccessful}
             setErrorMessageTitle={setErrorMessageTitle}
             setErrorMessageText={setErrorMessageText}
             setPriceMessageText={setPriceMessageText}
-            dayPrice={dayPrice}
             setResID={setReservationID}
             roomId={roomId}
             />

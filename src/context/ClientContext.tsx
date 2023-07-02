@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useState } from 'react';
 import axios from 'axios';
 
 interface ContactFormData {
@@ -18,6 +18,7 @@ interface ReservationFormData {
   Date_Debut: string;
   Date_Fin: string;
   Duree: Number;
+  Prix: Number;
 }
 
 interface BlogFormData {
@@ -42,18 +43,26 @@ interface AuthContextType {
   submitReservationForm: (formData: ReservationFormData) => void;
   submitBlogForm: (formData: BlogFormData) => void;
   submitPaymentForm: (formData: PaymentFormData) => void;
+  updateReservation: (id: string, updateData: {Paid: string}) => void;
+  dayPrice: number;
+  setDayPrice: (price: number) => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
   submitContactForm: () => {},
   submitReservationForm: () => {},
   submitBlogForm: () => {},
-  submitPaymentForm: () => {}
+  submitPaymentForm: () => {},
+  updateReservation: () => {},
+  dayPrice: 0,
+  setDayPrice: () => {}
 });
 
 export const useClient = () => useContext(AuthContext);
 
 export const ClientProvider: React.FC = ({ children }) => {
+
+  const [dayPrice, setDayPrice] = useState<number>(0);
 
   const submitContactForm = async (nom: string, email: string, sujet: string, message: string) => {
     const formData: ContactFormData = {
@@ -113,8 +122,28 @@ export const ClientProvider: React.FC = ({ children }) => {
     }
   };
 
+  const updateReservation = async (idReservation: string, updateData: {Paid: string}) => {
+    try {
+      // Make an HTTP request to update the reservation data
+      await axios.patch(`http://localhost:7000/reservations/${idReservation}`, updateData);
+      console.log('Reservation updated successfully');
+      // Handle success, show confirmation message, etc.
+    } catch (error) {
+      console.error('Reservation update failed:', error);
+      // Handle submission failure, show error message, etc.
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ submitContactForm, submitReservationForm, submitBlogForm, submitPaymentForm }}>
+    <AuthContext.Provider value={{ 
+        submitContactForm, 
+        submitReservationForm, 
+        submitBlogForm, 
+        submitPaymentForm, 
+        updateReservation, 
+        dayPrice, 
+        setDayPrice 
+      }}>
       {children}
     </AuthContext.Provider>
   );

@@ -131,10 +131,21 @@ export default function Login() {
                       Reset
                     </Button>
                   </Grid>
-                  <Grid item xs={12}>
-                    <Button fullWidth variant="outlined" onClick={() => router.push('/auth/Register')}>
-                      Register
-                    </Button>
+                  <Grid container spacing={2} justifyContent="center" alignItems="center" mt={1}>
+                    <Grid item xs={3}>
+                      <Link fullWidth onClick={() => router.push('/auth/Register')}>
+                        <Typography variant="body2" align="center" color="primary">
+                          Register
+                        </Typography>
+                      </Link>
+                    </Grid>
+                    <Grid item xs={5}>
+                      <Link href="/auth/ForgotPassword" passHref>
+                        <Typography variant="body2" align="center" color="primary">
+                          Forgot Password?
+                        </Typography>
+                      </Link>
+                    </Grid>
                   </Grid>
                 </Grid>
               </form>

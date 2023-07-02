@@ -83,6 +83,7 @@ function Navbar() {
   const handleLoginClick = () => {
     router.push('/auth/login');
   };
+  
   const handleRegisterUserClick = () => {
     router.push('/auth/Register');
   };

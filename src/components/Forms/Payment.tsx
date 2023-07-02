@@ -27,11 +27,11 @@ function Payment({Price, reservationId, setUnsuccessful, setSuccess}) {
   const [errorMessageText, setErrorMessageText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
-  const { submitPaymentForm } = useClient();
+  const { submitPaymentForm, updateReservation } = useClient();
   const [showExtraFields, setShowExtraFields] = useState(false);
 
 
-  const handlePayment = (event) => {
+  const handlePayment = async (event) => {
     event.preventDefault();
     try {
       PaymentSchema.parse({
@@ -51,21 +51,29 @@ function Payment({Price, reservationId, setUnsuccessful, setSuccess}) {
         amount,
       };
 
-      submitPaymentForm(formData);
-      // Optional: Show success message or redirect to a success page
-      toast.success("Payment successful!", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-
-    } catch (error) {
-        // Show error toast
-        toast.error("Payment failed!", {
+      const updateData = {
+        Paid: "Valid",
+      }
+  
+      // assuming submitPaymentForm returns true if payment is successful
+        await submitPaymentForm(formData);
+  
+        // Call updateReservation to update the "Paid" status of reservation
+        await updateReservation(idReservation, updateData);
+  
+        // Optional: Show success message or redirect to a success page
+        toast.success("Payment successful! Reservation updated.", {
           position: toast.POSITION.TOP_RIGHT,
         });
-        console.log("error submit");
+    } catch (error) {
+      // Show error toast
+      toast.error("Payment failed!", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      console.log(error);
     }
   };
-
+  
   const resetForm = (event) => {
     event.preventDefault();
     setCardNumber('');

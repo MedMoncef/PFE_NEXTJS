@@ -12,7 +12,7 @@ import AboutContent from '@/components/AboutContent';
 import InstagramDisplay from '@/components/Tools/InstagramDisplay';
 
 const API_URL1 = 'http://localhost:7000/menus';
-const API_URL2 = 'http://localhost:7000/testimony';
+const API_URL2 = 'http://localhost:7000/testimonies';
 const API_URL3 = 'http://localhost:7000/rooms';
 const API_URL4 = 'http://localhost:7000/blogs';
 const API_URL5 = 'http://localhost:7000/roomTypes';
