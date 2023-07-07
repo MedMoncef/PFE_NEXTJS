@@ -44,7 +44,7 @@ interface Slider {
               key={slider.ID_Slider}
               style={{
                 height: '700px',
-                backgroundImage: `url(/images/${slider.Image})`,
+                backgroundImage: `url(https://res.cloudinary.com/dv5o7w2aw/image/upload/v1688153476/Background/${slider.Image})`,
                 display: index === currentImage ? 'block' : 'none',
               }}
             >

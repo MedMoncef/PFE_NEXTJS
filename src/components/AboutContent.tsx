@@ -90,8 +90,8 @@ function AboutContent() {
                 </Container>
                 <Container maxWidth="sm">
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <img src="/images/About/about-1.jpg" alt="Image 1" style={{ width: '50%', height: 'auto' }} />
-                    <img src="/images/About/about-2.jpg" alt="Image 2" style={{ width: '50%', height: 'auto' }} />
+                    <img src="https://res.cloudinary.com/dv5o7w2aw/image/upload/v1688154995/About/about-1.jpg" alt="Image 1" style={{ width: '50%', height: 'auto' }} />
+                    <img src="https://res.cloudinary.com/dv5o7w2aw/image/upload/v1688154990/About/about-2.jpg" alt="Image 2" style={{ width: '50%', height: 'auto' }} />
                     </div>
                 </Container>
                 </React.Fragment>
@@ -100,7 +100,7 @@ function AboutContent() {
                 <CssBaseline />
                 <Container maxWidth="sm" style={{ marginTop: '40px', marginBottom: '40px' }}>
                     <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', backgroundColor: '#2f89fc' }}>
-                    <img src="/images/About/testimony-img.jpg" alt="Image 3" style={{ width: '70%', height: 'auto' }} />
+                    <img src="https://res.cloudinary.com/dv5o7w2aw/image/upload/v1688154995/About/testimony-img.jpg" alt="Image 3" style={{ width: '70%', height: 'auto' }} />
                     </div>
                 </Container>
                 <Container maxWidth="sm">

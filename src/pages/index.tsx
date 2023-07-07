@@ -10,6 +10,7 @@ import SliderIndex from '@/components/IndexParts/SliderIndex';
 import ListService from '@/components/Tools/ListService';
 import AboutContent from '@/components/AboutContent';
 import InstagramDisplay from '@/components/Tools/InstagramDisplay';
+import { CldImage } from 'next-cloudinary';
 
 const API_URL1 = 'http://localhost:7000/menus';
 const API_URL2 = 'http://localhost:7000/testimonies';
@@ -190,11 +191,7 @@ export default function Home() {
         <Grid container style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
         {getDisplayedRooms().map((room: Room, index) => (
           <Card sx={{ maxWidth: 350, margin: '2% 2%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} key={room.ID_Rooms}>
-            <CardMedia
-              sx={{ height: 250 }}
-              image={`/images/Rooms/${room.Image}`}
-              title="Room image"
-            />
+            <CldImage width="350" height="250" src={`/Rooms/${room.Image}`} alt={room.Image}/>
             <CardContent>
               <div className={styles.rooms}>
                 <h1>{room.Name}</h1>
@@ -235,12 +232,7 @@ export default function Home() {
         <Grid container key={index} style={{ margin: '0 0', display: 'flex', justifyContent: 'center' }}>
           {menuSet.map((menu: Menu) => (
             <Card sx={{ maxWidth: 350, margin: '2% 2%' }} key={menu.ID_Menu} style={{ alignSelf: 'flex' }}>
-              <CardMedia
-                  component="img"
-                  sx={{ height: 200 }}
-                  image={`/images/Menu/${menu.Image}`}
-                  alt="Menu Item"
-                />
+                <CldImage width="350" height="250" src={`/Menu/${menu.Image}`} alt={menu.Image}/>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                   <CardContent sx={{ flex: '1 0 auto' }}>
                     <Typography component="div" variant="h5">
@@ -278,12 +270,7 @@ export default function Home() {
             <Grid container key={index} style={{ margin: '0 0', display: 'flex', justifyContent: 'center' }}>
               {blogSet.map((blog: Blog) => (
                 <Card sx={{ maxWidth: 350, margin: '2% 2%' }} key={blog.ID_Blog} style={{ alignSelf: 'flex' }}>
-                    <CardMedia
-                        component="img"
-                        sx={{ height: 200 }}
-                        image={`/images/Blog/${blog.Image}`}
-                        alt="Blog Image"
-                      />
+                      <CldImage width="400" height="250" src={`/Blog/${blog.Image_B}`} alt={blog.Image_B}/>
                       <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                           {blog.Titre}

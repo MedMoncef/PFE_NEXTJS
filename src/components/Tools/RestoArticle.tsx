@@ -20,9 +20,9 @@ function RestoArticle() {
 
 
     const images = [
-      '/images/Blog/resto1.jpg',
-      '/images/Blog/resto2.jpg',
-      '/images/Blog/resto3.jpg',
+      'https://res.cloudinary.com/dv5o7w2aw/image/upload/v1688154469/Blog/resto1.jpg',
+      'https://res.cloudinary.com/dv5o7w2aw/image/upload/v1688154483/Blog/resto2.jpg',
+      'https://res.cloudinary.com/dv5o7w2aw/image/upload/v1688154472/Blog/resto3.jpg',
     ];
 
     const theme = useTheme();

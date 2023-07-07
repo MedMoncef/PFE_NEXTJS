@@ -4,6 +4,7 @@ import { useTheme } from '@mui/material/styles';
 import 'tailwindcss/tailwind.css';
 import axios from 'axios';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { CldImage } from 'next-cloudinary';
 
 const API_URL = 'http://localhost:7000/menus';
 
@@ -36,12 +37,7 @@ function RestoMenu() {
 
             {menus.map((menu: Menu, index) => (
             <Card sx={{ maxWidth: 350, margin: '2% 2%' }} key={menu.ID_Menu} style={{ alignSelf: 'flex' }}>
-            <CardMedia
-                component="img"
-                sx={{ height: 200 }}
-                image={`/images/Menu/${menu.Image}`}
-                alt="Menu Item"
-                />
+            <CldImage width="350" height="250" src={`/Menu/${menu.Image}`} alt={menu.Image}/>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     <CardContent sx={{ flex: '1 0 auto' }}>
                     <Typography component="div" variant="h5">

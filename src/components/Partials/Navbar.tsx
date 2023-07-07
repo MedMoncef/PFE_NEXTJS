@@ -9,53 +9,17 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useMediaQuery, Avatar } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { useAuth } from '@/context/AuthContext';
 import jwt_decode from 'jwt-decode';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { CldImage } from 'next-cloudinary';
+import axios from 'axios';
 
 
 function Navbar() {
   const router = useRouter();
-  const { isLoggedIn, logout } = useAuth();
   const [hasScrolled, setHasScrolled] = useState(false);
-  const [formData, setFormData] = useState({
-    nom: '',
-    prenom: '',
-    dateN: '',
-    email: '',
-    image: '',
-    id_post: ''
-  });
+  const [image, setImage] = useState("");
   
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      try {
-        const decoded: {
-          email?: string;
-          nom?: string;
-          image?: string;
-          dateN?: string;
-          prenom?: string;
-          id_post?: string;
-        } = jwt_decode(token);
-        setFormData((prevFormData) => ({
-          ...prevFormData,
-          email: decoded.email || '',
-          nom: decoded.nom || '',
-          image: decoded.image || '',
-          dateN: decoded.dateN || '',
-          prenom: decoded.prenom || '',
-          id_post: decoded.id_post || ''
-        }));
-      } catch (error) {
-        console.error('Invalid token', error);
-      }
-    }
-  }, [isLoggedIn]);
-
-  console.log(formData.nom);
-
   const handleHomeClick = () => {
     router.push('/');
   };
@@ -78,19 +42,6 @@ function Navbar() {
 
   const handleContactClick = () => {
     router.push('/Client/contact');
-  };
-
-  const handleLoginClick = () => {
-    router.push('/auth/login');
-  };
-  
-  const handleRegisterUserClick = () => {
-    router.push('/auth/Register');
-  };
-
-  const handleLogoutClick = () => {
-    logout();
-    router.push('/auth/login');
   };
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -189,27 +140,6 @@ function Navbar() {
                 >
                   Contact
                 </MenuItem>
-
-                {isLoggedIn ? (
-                  <div style={{border: '1', borderRadius: '1'}}>
-                    <MenuItem sx={menuItemStyles}>{formData.prenom}</MenuItem>
-                    <MenuItem onClick={() => {
-                      handleMenuClose();
-                      handleLogoutClick();
-                    }} sx={menuItemStyles}>Logout</MenuItem>
-                  </div>
-                ) : (
-                  <>
-                    <MenuItem onClick={() => {
-                      handleMenuClose();
-                      handleRegisterUserClick();
-                    }} sx={menuItemStyles}>Register</MenuItem>
-                    <MenuItem onClick={() => {
-                      handleMenuClose();
-                      handleLoginClick();
-                    }} sx={menuItemStyles}>{<LockOutlinedIcon />} Login</MenuItem>
-                  </>
-                )}
               </Menu>
             </>
           ) : (
@@ -225,17 +155,6 @@ function Navbar() {
               <Button color="inherit" onClick={handleAboutClick} sx={buttonStyles}>About Us</Button>
               <Button color="inherit" onClick={handleBlogClick} sx={buttonStyles}>Blog</Button>
               <Button color="inherit" onClick={handleContactClick} sx={buttonStyles}>Contact</Button>
-              {isLoggedIn ? (
-                <>
-                  <Button color="inherit" onClick={handleLogoutClick} sx={buttonStyles}>Logout</Button>
-                  <Avatar alt="Remy Sharp" src={formData.image} />
-                </>
-              ) : (
-                <>
-                  <Button color="inherit" onClick={handleLoginClick} sx={buttonStyles} startIcon={<LockOutlinedIcon />}>Login</Button>
-                  <Button color="inherit" onClick={handleRegisterUserClick} sx={buttonStyles}>Register</Button>
-                </>
-              )}
             </>
           )}
         </Toolbar>

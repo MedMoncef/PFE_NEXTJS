@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Card, CardContent, CardMedia, Typography, Grid } from '@mui/material';
 import 'tailwindcss/tailwind.css';
 import { useClient } from '@/context/ClientContext';
+import { CldImage } from 'next-cloudinary';
 
 const API_URL = 'http://localhost:7000';
 const ROOMS_ENDPOINT = '/rooms';
@@ -33,7 +34,7 @@ useEffect(() => {
         <Grid item xs={12} md={6}>
         <Card>
             {room && (
-            <CardMedia sx={{ height: 450 }} image={`/images/Rooms/${room.Image}`} title={room.Name} />
+            <CldImage width="750" height="450" src={`/Rooms/${room.Image}`} alt={room.Image}/>
             )}
         </Card>
         </Grid>

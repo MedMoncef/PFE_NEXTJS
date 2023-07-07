@@ -8,7 +8,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { AuthProvider } from '@/context/AuthContext';
 import { ClientProvider } from '@/context/ClientContext';
 const theme = createTheme();
 
@@ -18,7 +17,6 @@ const theme = createTheme();
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
-      <AuthProvider>
       <ClientProvider>
         <CssBaseline />
         <Navbar />
@@ -26,7 +24,6 @@ export default function App({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         <Footer />
       </ClientProvider>
-      </AuthProvider>
     </ThemeProvider>
   );
 }

@@ -4,6 +4,7 @@ import { Typography, Link, Card, CardContent, Grid, CardMedia, Button, Box, Card
 import styles from '@/styles/Home.module.css';
 import Pagination from '@mui/material/Pagination';
 import { useRouter } from 'next/router';
+import { CldImage } from 'next-cloudinary';
 
 const API_URL = 'http://localhost:7000/rooms';
 const API_URL1 = 'http://localhost:7000/roomTypes';
@@ -248,11 +249,7 @@ function RoomsContent() {
       <Grid container spacing={2} style={{ margin: '2% 0', display: 'flex', justifyContent: 'center' }}>
           {getDisplayedRooms().map((room: Room, index) => (
             <Card sx={{ maxWidth: 350, margin: '2% 2%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} key={room.ID_Rooms}>
-              <CardMedia
-                sx={{ height: 250 }}
-                image={`/images/Rooms/${room.Image}`}
-                title="Room image"
-              />
+              <CldImage width="350" height="250" src={`/Rooms/${room.Image}`} alt={room.Image}/>
               <CardContent>
                 <div className={styles.rooms}>
                   <h1>{room.Name}</h1>

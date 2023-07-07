@@ -1,10 +1,8 @@
 import { CardMedia, Stack } from '@mui/material';
-import { useRouter } from 'next/router';
 import React from 'react';
 
   
 function InstagramDisplay() {
-  const router = useRouter();
   
   return (
     <>
