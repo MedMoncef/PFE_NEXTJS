@@ -38,7 +38,7 @@ interface PaymentFormData {
   amount: Number;
 }
 
-interface AuthContextType {
+interface ClientContextType {
   submitContactForm: (nom: string, email: string, sujet: string, message: string) => void;
   submitReservationForm: (formData: ReservationFormData) => void;
   submitBlogForm: (formData: BlogFormData) => void;
@@ -48,7 +48,7 @@ interface AuthContextType {
   setDayPrice: (price: number) => void;
 }
 
-const AuthContext = createContext<AuthContextType>({
+const ClientContext = createContext<ClientContextType>({
   submitContactForm: () => {},
   submitReservationForm: () => {},
   submitBlogForm: () => {},
@@ -58,7 +58,7 @@ const AuthContext = createContext<AuthContextType>({
   setDayPrice: () => {}
 });
 
-export const useClient = () => useContext(AuthContext);
+export const useClient = () => useContext(ClientContext);
 
 export const ClientProvider: React.FC = ({ children }) => {
 
@@ -135,7 +135,7 @@ export const ClientProvider: React.FC = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ 
+    <ClientContext.Provider value={{ 
         submitContactForm, 
         submitReservationForm, 
         submitBlogForm, 
@@ -145,6 +145,6 @@ export const ClientProvider: React.FC = ({ children }) => {
         setDayPrice 
       }}>
       {children}
-    </AuthContext.Provider>
+    </ClientContext.Provider>
   );
 };

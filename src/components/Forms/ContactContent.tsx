@@ -13,16 +13,6 @@ const contactSchema = z.object({
     message: z.string().nonempty('message is required'),
   });
   
-  const stylesD = {
-    card: {
-      backgroundImage: `url(/images/Blog/image_6.jpg)`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      padding: '2rem',
-      color: 'white',
-    },
-  };
-  
 function ContactContent() {
     const { submitContactForm } = useClient();
     const router = useRouter();

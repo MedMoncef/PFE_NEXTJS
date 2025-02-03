@@ -62,9 +62,10 @@ function Payment({Price, reservationId, setUnsuccessful, setSuccess}) {
         await updateReservation(idReservation, updateData);
   
         // Optional: Show success message or redirect to a success page
-        toast.success("Payment successful! Reservation updated.", {
+        toast.success("Payment successful!", {
           position: toast.POSITION.TOP_RIGHT,
         });
+        router.push('/');
     } catch (error) {
       // Show error toast
       toast.error("Payment failed!", {
